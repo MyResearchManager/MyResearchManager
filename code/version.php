@@ -1,1 +1,1 @@
-MyResearchManager 0.1-alpha LICENSE AGPLv3 2012
+MyResearchManager 0.2-alpha LICENSE AGPLv3 2012

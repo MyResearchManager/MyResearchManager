@@ -13,8 +13,10 @@
 
 <body>
 
-<h1 align="left"> MyResearchManager </h1>
-<b>Inform your username and password</b>
+<br>
+<img src="myrm.jpg" width="350"><br>
+<br>
+<b>Inform your username and password</b><br>
 <br>
 
 <form name="frm_login" method="post" action="validate.php">

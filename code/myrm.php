@@ -34,7 +34,7 @@
  <title> MyResearchManager - Welcome! </title> </head>
 <body>
 
-<center> <h2> My Research Manager </h2> </center>
+<center> <img src="myrm.jpg" width="350"> </center>
 
 <center> <h3> Welcome <i><u><?php echo $fullname; ?></u></i> </h3> </center>
 
@@ -208,7 +208,7 @@
 <br>
 <br>
 
-<a href="version.php">Version 0.1-alpha</a><br>
+<a href="version.php">Version 0.2-alpha</a><br>
 <a href="http://www.gnu.org/licenses/agpl-3.0.html">License AGPLv3</a><br>
 <br>
 <br>
