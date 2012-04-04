@@ -1,0 +1,35 @@
+English:
+MyResearchManager is a web plataform for research data management. 
+
+Portuguese:
+MyResearchManager é uma plataforma web para gerenciamento de dados de pesquisas.
+
+Por esta plataforma voce pode cadastrar grupos de pesquisa (GRUPOS) e seus 
+membros. Em um determinado GRUPO voce pode cadastrar pesquisas (PESQUISA), informando os 
+membros com acesso a tal pesquisa pelo email de cada um. Devido a caracteristica distribuida 
+de MyResearchManager, nem todos membros precisam ter cadastro 
+no site, apenas o email de cada um e necessario.
+
+Cada instituicao pode ter o MyResearchManager instalado em seu proprio servidor, usufruindo 
+de sua propria infra-estrutura de seguranca (como politicas diferentes para 
+confidencialidade de dados) e recursos de rede proprios. Assim, a 
+politica de backup de dados tambem pode ser diferente em cada instituicao, de acordo com a 
+necessidade. Desta maneira, cada usuario pode ter tambem uma instancia de MyResearchManager 
+executando em seu proprio computador, para gerenciar pesquisas particulares.
+
+MyResearchManager prove uma interface para comunicacao entre outras instancias do 
+sistema. Basta informar seu endereco de email e confirmar sua identidade para obter a 
+permissao de copia para sua propria instancia de MyResearchManager todos os dados que tenha
+permissao de acesso.
+
+Para cada GRUPO cadastrado no MyResearchManager e gerada automaticamente uma pagina 
+(www.website.com/myrm/GRUPO) contendo informacoes publicas das pesquisas do grupo, sendo 
+assim um portfolio interessante para outros grupos de pesquisa visualizarem.
+
+A licenca de MyResearchManager e AGPLv3, visando garantir liberdades para o usuario.
+
+O projeto esta atualmente hospedado em github.com/MyResearchManager/MyResearchManager e a 
+ajuda de usuarios/desenvolvedores e de suma importancia para a melhoria constante e 
+evolucao do projeto. Assim, sinta-se a vontade para contribuir com ideias, codigo ou 
+simplesmente utilizar o produto :)
+
