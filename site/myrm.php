@@ -80,7 +80,9 @@
               echo "with ";
               $firstnocomma = 1;      
               
-              $sql = "SELECT U.idUser as uid, U.name as name, U.email as email, U.active as active FROM Users as U, ResearchMembers as RM WHERE RM.idResearch = $rid and U.idUser = RM.idUser";
+              $sql = "SELECT U.idUser as uid, U.name as name, U.email as email, U.active as 
+active FROM Users as U, ResearchMembers as RM WHERE RM.idResearch = $rid and U.idUser = 
+RM.idUser order by U.name, U.email";
               $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
               if($exe != null)
                  while($line2 = mysql_fetch_array($exe))
@@ -166,7 +168,9 @@
               // ========================================================================
          
 
-              echo "<br><br><b>Dynamic Tables</b><br>";
+              echo "<br><br><b>Dynamic Tables</b> (<a 
+href=\"https://github.com/MyResearchManager/MyResearchManager/blob/master/myrmtable/MyRMTable.java\">download 
+MyRMTable.java</a>) <br>";
               echo "<ul>";
               $sql = "SELECT `idDynamicTable`, `description`, `key`, `locked`, `idResearch` FROM DynamicTables WHERE idResearch = $rid";
               $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());

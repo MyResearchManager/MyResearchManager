@@ -19,15 +19,15 @@ CREATE TABLE IF NOT EXISTS `Conferences` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `Deadlines`
+-- Estrutura da tabela `ImportantDates`
 --
 
-CREATE TABLE IF NOT EXISTS `Deadlines` (
-  `idDeadline` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `ImportantDates` (
+  `idImportantDate` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `description` varchar(100) NOT NULL,
-  `deadlineDate` date NOT NULL,
+  `date` date NOT NULL,
   `idConference` int(11) NOT NULL,
-  PRIMARY KEY (`idDeadline`)
+  PRIMARY KEY (`idImportantDate`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `DynamicTables` (
 
 CREATE TABLE IF NOT EXISTS `Files` (
   `idFile` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `filename` varchar(30) NOT NULL,
+  `filename` varchar(150) NOT NULL,
   `uploadDateTime` datetime NOT NULL,
   `uploadUser` int(11) NOT NULL,
   `public` tinyint(1) NOT NULL,
@@ -176,7 +176,6 @@ CREATE TABLE IF NOT EXISTS `ResearchMembers` (
   `idResearchMember` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `idResearch` int(11) NOT NULL,
   `idUser` int(11) NOT NULL,
-  `author` tinyint(1) NOT NULL,
   PRIMARY KEY (`idResearchMember`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
