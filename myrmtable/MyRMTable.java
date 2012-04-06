@@ -1,6 +1,6 @@
-// MyResearchManager 0.1-alpha - LICENSE AGPLv3 - 2012
+// MyResearchManager - LICENSE AGPLv3 - 2012
 
-// MyRMTable 0.1-alpha - LICENSE GPLv3
+// MyRMTable - LICENSE GPLv3
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -39,6 +39,8 @@ public class MyRMTable {
 		String hostname = "";
 		String key = "";
 		String filename = "";
+		
+		boolean automaticRowNumber = true;
 
 		for(int i=0; i<3; i++)
 			if((2*i+1)<args.length)
@@ -78,7 +80,10 @@ public class MyRMTable {
 		log.write("key: " + key+'\n');
 		System.out.println("filename: " + filename);
 		log.write("filename: " + filename+'\n');
-		
+
+		System.out.println("-------------------------------------------------------");
+		System.out.println("automatic row numbering = " + automaticRowNumber);
+		log.write("automatic row numbering = " + automaticRowNumber+'\n');
 		System.out.println("=======================================================");
 
 		Scanner table = new Scanner(new File(filename));
@@ -90,8 +95,10 @@ public class MyRMTable {
 			String line = table.nextLine();
 			Scanner scanLine = new Scanner(line);
 
-			String url = hostname+"dtableinsert.php?key="+key+"&row="+row;
-			
+			String url = hostname+"dtableinsert.php?key="+key;
+			if(!automaticRowNumber)
+				url += "&row="+row;
+
 			int col = 1;
 
 			while(scanLine.hasNext())
@@ -104,18 +111,18 @@ public class MyRMTable {
 
 			for(int i=1; i<=3; i++)
 			{
-				System.out.print("row "+row+" : ("+i+") Connecting to: "+url+" ...");
+				System.out.print("row "+(automaticRowNumber?"auto":row)+" : ("+i+") Connecting to: "+url+" ...");
 				String r = remote(url);
 				if(r.equals("OK"))
 				{
 					System.out.println("OK!");
-					log.write("row "+row+" : ("+i+") Connecting to: "+url+" ...OK!\n");
+					log.write("row "+(automaticRowNumber?"auto":row)+" : ("+i+") Connecting to: "+url+" ...OK!\n");
 					break;
 				}
 				else
 				{
 					System.out.println("failed! (with message: '"+r+"')");
-					log.write("row "+row+" : ("+i+") Connecting to: "+url+" ...failed! (with message: '"+r+"')\n");
+					log.write("row "+(automaticRowNumber?"auto":row)+" : ("+i+") Connecting to: "+url+" ...failed! (with message: '"+r+"')\n");
 
 					if(i==3)
 					{

@@ -18,10 +18,10 @@
    $sql = "SELECT `idDynamicTable`, `key`, `locked` FROM DynamicTables WHERE `key` = '$key'";
    $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
    if($exe != null)
-      if($linha = mysql_fetch_array($exe))
+      if($line = mysql_fetch_array($exe))
       {  
-         $idTable = $linha['idDynamicTable'];
-         $locked  = $linha['locked'];
+         $idTable = $line['idDynamicTable'];
+         $locked  = $line['locked'];
       }
 
    if($idTable < 1)
@@ -35,6 +35,12 @@
       echo "LOCKED_TABLE";
       return;
    }
+
+   if(isset($_GET["col"]))
+   {
+      echo "POPULATE_BY_COLUMN_NOT_SUPPORTED";
+      return;
+   }
   
    $row = -1;
 
@@ -43,6 +49,18 @@
       $row = $_GET["row"];
       $row++;
       $row--;
+   }
+   else // get last row number from database
+   {
+      $row = 1; // default is one (for empty tables)
+
+      $sql = "SELECT max(row) as mrow FROM DynamicCells WHERE `idDynamicTable` = '$idTable'";
+      $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+      if($exe != null)
+         if($line = mysql_fetch_array($exe))
+         {  
+            $row = $line['mrow'] + 1;
+         }
    }
 
    if($row < 1)
