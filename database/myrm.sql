@@ -79,20 +79,6 @@ CREATE TABLE IF NOT EXISTS `Files` (
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `GroupMembers`
---
-
-CREATE TABLE IF NOT EXISTS `GroupMembers` (
-  `idGroupMember` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `idGroup` int(11) NOT NULL,
-  `idUser` int(11) NOT NULL,
-  `owner` tinyint(1) NOT NULL,
-  PRIMARY KEY (`idGroupMember`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Estrutura da tabela `Groups`
 --
 
