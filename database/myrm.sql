@@ -3,6 +3,13 @@
 --
 
 -- --------------------------------------------------------
+--
+-- Criando o Banco de Dados
+--
+
+CREATE DATABASE IF NOT EXISTS `myrm`;
+
+USE `myrm`;
 
 --
 -- Estrutura da tabela `Conferences`
