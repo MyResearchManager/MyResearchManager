@@ -16,17 +16,27 @@
    $stitle = "";
    if(isset($_POST["stitle"]))
    {
-      $cname = $_POST["stitle"];
+      $stitle = $_POST["stitle"];
    }
 
-   // ========================================
-   // incluir varias checagens de seguranca!!!
-   // ========================================
+   include "util.php";
+
+   $gid    = getGroupIdByResearchId($rid);
+   $gsname = getGroupNameByGroupId($gid);
+
 
    include "connection.php";
 
    $sql = "INSERT INTO Sections (`idResearch`, `title`) VALUES ('$rid', '$stitle')";
    $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
+   $sid = mysql_insert_id();
+
+   $newdir = "./files/$gsname/r$rid/s$sid";
+   $allok = mkdir($newdir, 0777, true); 
+
+   if (!$allok) {
+      die("Error! Failed to create folder: $newdir");
 
    header("Location: myrm.php");
+}
 ?>
