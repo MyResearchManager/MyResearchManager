@@ -11,11 +11,8 @@
         header("Location: logout.php");
 
    $fid = -1;
-
    if(isset($_GET["fid"]))
-   {
       $fid = $_GET["fid"];
-   }
 
    if ($fid < 1)
         header("Location: myrm.php");
@@ -25,42 +22,35 @@
    // add more security checks!
    // =========================
 
-   include "connection.php";
+   include "util.php";
 
-   $gsname = "";
-
-   $sql = "SELECT smallName as gsname FROM Groups WHERE idGroup=$gid";
-   $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
-   if($exe != null)
-   {
-       if($line = mysql_fetch_array($exe))
-       {
-           $gsname = $line['gsname'];
-       }
-   }
+   $gsname = getGroupNameByGroupId($gid);
 
    if ($gsname == "")
         header("Location: myrm.php");
 
-   $filename = "";
-   $rid = -1;
+   include "connection.php";
 
-   $sql = "SELECT filename, idResearch as rid FROM Files WHERE idFile=$fid";
+   $filename = "";
+   $sid = -1;
+
+   $sql = "SELECT filename, idSection as sid FROM Files WHERE idFile=$fid";
    $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
    if($exe != null)
    {
        if($line = mysql_fetch_array($exe))
        {
            $filename = $line['filename'];
-           $rid      = $line['rid'];
+           $sid      = $line['sid'];
        }
    }
 
    if ($filename == "")
         header("Location: myrm.php");
 
+   $rid = getResearchIdBySectionId($sid);
 
-   $deletefile = "./$gsname/r$rid/$filename";
+   $deletefile = "./files/$gsname/r$rid/s$sid/$filename";
 
    $ok = unlink($deletefile);
      

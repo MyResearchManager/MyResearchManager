@@ -251,7 +251,7 @@ idSection = $sid";
 <br>
 <br>
 
-<a href="version.php">Version 0.2-alpha</a><br>
+<a href="version.php">Version 0.3-alpha</a><br>
 <a href="http://www.gnu.org/licenses/agpl-3.0.html">License AGPLv3</a><br>
 <br>
 <br>
