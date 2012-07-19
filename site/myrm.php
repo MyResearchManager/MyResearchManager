@@ -103,6 +103,31 @@ RM.idUser order by U.name, U.email";
                        echo "<a href=\"user.php?uid=$uid\">$name</a>";
                  }
 
+              // ========================================================================
+
+              echo "<br><br><b>Intended Conferences</b><br>";
+              echo "<ul>";
+              $sql = "SELECT `idConference`, `name`, `url`, `idResearch` FROM Conferences WHERE idResearch = $rid";
+              $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+              if($exe != null)
+                 while($linha2 = mysql_fetch_array($exe))
+                 { 
+                    $cid    = $linha2['idConference'];
+                    $name   = $linha2['name'];
+                    $url    = $linha2['url'];
+
+                    echo "<li> <a href=\"$url\">$name</a> (<a href=\"conference_delete.php?cid=$cid\">delete</a>)";
+                 }
+
+
+              echo "<form name=\"frm_conf_create\" method=\"post\" action=\"conference_create.php\">";
+              echo "<input type=\"submit\" value=\"Create conference\" name=\"bt_conf_create\">"; 
+              echo "<input type=\"hidden\" value=\"$rid\" name=\"rid\">";
+              echo "<input type=\"text\" value=\"Name\" name=\"cname\">";
+              echo "<input type=\"text\" value=\"http://...\" name=\"curl\">";
+              echo "</form>";
+
+              echo "</ul>"; // Conferences
 
               // ========================================================================
 
@@ -138,32 +163,6 @@ RM.idUser order by U.name, U.email";
 
               echo "</ul>"; // Files
 
-
-              // ========================================================================
-
-              echo "<br><br><b>Intended Conferences</b><br>";
-              echo "<ul>";
-              $sql = "SELECT `idConference`, `name`, `url`, `idResearch` FROM Conferences WHERE idResearch = $rid";
-              $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
-              if($exe != null)
-                 while($linha2 = mysql_fetch_array($exe))
-                 { 
-                    $cid    = $linha2['idConference'];
-                    $name   = $linha2['name'];
-                    $url    = $linha2['url'];
-
-                    echo "<li> <a href=\"$url\">$name</a> (<a href=\"conference_delete.php?cid=$cid\">delete</a>)";
-                 }
-
-
-              echo "<form name=\"frm_conf_create\" method=\"post\" action=\"conference_create.php\">";
-              echo "<input type=\"submit\" value=\"Create conference\" name=\"bt_conf_create\">"; 
-              echo "<input type=\"hidden\" value=\"$rid\" name=\"rid\">";
-              echo "<input type=\"text\" value=\"Name\" name=\"cname\">";
-              echo "<input type=\"text\" value=\"http://...\" name=\"curl\">";
-              echo "</form>";
-
-              echo "</ul>"; // Conferences
 
               // ========================================================================
          
