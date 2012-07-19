@@ -133,7 +133,7 @@ RM.idUser order by U.name, U.email";
               // begin sections
               // ========================================================================
 
-              $sql = "SELECT `idSection` as sid, `title` FROM Files WHERE idResearch = $rid";
+              $sql = "SELECT `idSection` as sid, `title` FROM Sections WHERE idResearch = $rid";
               $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
               if($exe != null)
                  while($line_sec = mysql_fetch_array($exe))
