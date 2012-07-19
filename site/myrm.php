@@ -76,7 +76,7 @@
           while($linha = mysql_fetch_array($exe))
           {
               $rid = $linha['rid'];
-              echo "<li> $linha[title] (<a href=\"research.php?rid=$rid\">read more</a>) <br>";
+              echo "<li> <b>$linha[title] (<a href=\"research.php?rid=$rid\">read more</a>) </b> <br>";
               echo "with ";
               $firstnocomma = 1;      
               
