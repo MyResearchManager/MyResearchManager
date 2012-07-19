@@ -130,10 +130,25 @@ RM.idUser order by U.name, U.email";
               echo "</ul>"; // Conferences
 
               // ========================================================================
+              // begin sections
+              // ========================================================================
+
+              $sql = "SELECT `idSection` as sid, `title` FROM Files WHERE idResearch = $rid";
+              $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+              if($exe != null)
+                 while($line_sec = mysql_fetch_array($exe))
+                 { 
+                    $sid    = $line_sec['sid'];
+                    $stitle = $line_sec['title'];
+
+                    echo "<hr>";
+                    echo "<br><br><b>Section: </b> $stitle <br>";
+
+              // ------------------------------------------------------------------------
 
               echo "<br><br><b>Files</b><br>";
               echo "<ul>";
-              $sql = "SELECT `idFile` as fid, `filename`, `uploadDateTime` as uploaddt, `uploadUser` as uploadu, `public` FROM Files WHERE idResearch = $rid";
+              $sql = "SELECT `idFile` as fid, `filename`, `uploadDateTime` as uploaddt, `uploadUser` as uploadu, `public` FROM Files WHERE idSection = $sid";
               $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
               if($exe != null)
                  while($linha2 = mysql_fetch_array($exe))
@@ -164,14 +179,14 @@ RM.idUser order by U.name, U.email";
               echo "</ul>"; // Files
 
 
-              // ========================================================================
+              // ------------------------------------------------------------------------
          
 
               echo "<br><br><b>Dynamic Tables</b> (<a 
 href=\"https://github.com/MyResearchManager/MyResearchManager/blob/master/myrmtable/MyRMTable.java\">download 
 MyRMTable.java</a>) <br>";
               echo "<ul>";
-              $sql = "SELECT `idDynamicTable`, `description`, `key`, `locked`, `idResearch` FROM DynamicTables WHERE idResearch = $rid";
+              $sql = "SELECT `idDynamicTable`, `description`, `key`, `locked`, `idResearch` FROM DynamicTables WHERE idSection = $sid";
               $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
               if($exe != null)
                  while($linha2 = mysql_fetch_array($exe))
@@ -196,6 +211,10 @@ MyRMTable.java</a>) <br>";
               echo "</form>";
 
               echo "</ul>"; // Dynamic Tables
+
+              // ------------------------------------------------------------------------
+
+                 } // end sections
 
               // ========================================================================
 
