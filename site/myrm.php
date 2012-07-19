@@ -1,3 +1,4 @@
+
 <?php
    ob_start();
    session_start();
@@ -162,7 +163,7 @@ RM.idUser order by U.name, U.email";
                     $uploadu  = $linha2['uploadu'];
                     $public   = $linha2['public'];
 
-                    echo "<li> <a href=\"./$gsname/r$rid/$filename\">$filename</a> - ";
+                    echo "<li> <a href=\"./files/$gsname/r$rid/s$sid/$filename\">$filename</a> - ";
                     echo "uploaded by user #$uploadu at $uploaddt (";
                     if($public==1)
                       echo "<b>public</b>";
@@ -174,7 +175,7 @@ RM.idUser order by U.name, U.email";
 
               echo "<form method=\"post\" action=\"upload_rfile.php\" enctype=\"multipart/form-data\">";
               echo "<label>Send File:</label>";
-              echo "<input type=\"hidden\" value=\"$rid\" name=\"rid\">";
+              echo "<input type=\"hidden\" value=\"$sid\" name=\"sid\">";
               echo "<input type=\"file\" name=\"arquivo\">";
               echo "<input type=\"submit\" value=\"Send file\" name=\"bt_send_file\">"; 
               echo "</form>";

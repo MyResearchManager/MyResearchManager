@@ -10,16 +10,17 @@
    if ($gid < 1)
         header("Location: logout.php");
 
-   $rid = -1;
+   $sid = -1;
 
-   if(isset($_POST["rid"]))
-   {
-      $rid = $_POST["rid"];
-   }
+   if(isset($_POST["sid"]))
+      $sid = $_POST["sid"];
 
-   if ($rid < 1)
+   if ($sid < 1)
         header("Location: myrm.php");
 
+   include "util.php";
+
+   $rid = getResearchIdBySectionId($sid);
 
    // =========================
    // add more security checks!
@@ -27,23 +28,13 @@
 
    include "connection.php";
 
-   $gsname = "";
-
-   $sql = "SELECT smallName as gsname FROM Groups WHERE idGroup=$gid";
-   $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
-   if($exe != null)
-   {
-       if($line = mysql_fetch_array($exe))
-       {
-           $gsname = $line['gsname'];
-       }
-   }
+   $gsname = getGroupNameByGroupId($gid);
 
    if ($gsname == "")
         header("Location: myrm.php");
 
    // Destination
-   $_UP['dir'] = "./$gsname/r$rid/";
+   $_UP['dir'] = "./files/$gsname/r$rid/s$sid/";
 
    // Max file size (Bytes)
    $_UP['size'] = 1024 * 1024 * 8; // 8 MB
@@ -96,7 +87,7 @@
       // check name
       $replace = 0;
 
-      $sql = "SELECT count(*) as total FROM Files WHERE idResearch='$rid' and filename='$finalname'";
+      $sql = "SELECT count(*) as total FROM Files WHERE idSection='$sid' and filename='$finalname'";
       $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
       if($exe != null)
       {
@@ -121,7 +112,8 @@
 
          include "connection.php";
 
-         $sql = "INSERT INTO Files (`filename`, `uploadDateTime`, `uploadUser`, `public`, `idResearch`) VALUES ('$finalname', NOW(), '$id', '0', '$rid')";
+         $sql = "INSERT INTO Files (`filename`, `uploadDateTime`, `uploadUser`, `public`, `idSection`) VALUES ('$finalname', NOW(), 
+'$id', '0', '$sid')";
          $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
 
       }

@@ -8,8 +8,8 @@
    $id = $_SESSION['id'];
 
    $sid = -1;
-   if(isset($_POST["sid"]))
-      $sid = $_POST["sid"];
+   if(isset($_GET["sid"]))
+      $sid = $_GET["sid"];
 
 
    include "util.php";
@@ -30,5 +30,4 @@
    $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
 
    header("Location: myrm.php");
-}
 ?>
