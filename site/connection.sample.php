@@ -1,4 +1,6 @@
 <?php
+   // rename this file to 'connection.php'
+
    $host = "localhost";
    $user = "user";
    $pass = "pwd";
