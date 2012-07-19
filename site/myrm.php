@@ -65,6 +65,8 @@
 
 <b>Researches</b><br>
 
+<?php echo "<hr>\n"; ?>
+
 <ul>
 
 <?php
@@ -142,11 +144,11 @@ RM.idUser order by U.name, U.email";
                     $stitle = $line_sec['title'];
 
                     echo "<hr>";
-                    echo "<br><br><b>Section: </b> $stitle <br>";
+                    echo "<b>Section: </b> $stitle <br>";
 
               // ------------------------------------------------------------------------
 
-              echo "<br><br><b>Files</b><br>";
+              echo "<br><b>Files</b><br>";
               echo "<ul>";
               $sql = "SELECT `idFile` as fid, `filename`, `uploadDateTime` as uploaddt, `uploadUser` as uploadu, `public` FROM Files WHERE idSection = $sid";
               $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
@@ -182,11 +184,12 @@ RM.idUser order by U.name, U.email";
               // ------------------------------------------------------------------------
          
 
-              echo "<br><br><b>Dynamic Tables</b> (<a 
+              echo "<br><b>Dynamic Tables</b> (<a 
 href=\"https://github.com/MyResearchManager/MyResearchManager/blob/master/myrmtable/MyRMTable.java\">download 
 MyRMTable.java</a>) <br>";
               echo "<ul>";
-              $sql = "SELECT `idDynamicTable`, `description`, `key`, `locked`, `idResearch` FROM DynamicTables WHERE idSection = $sid";
+              $sql = "SELECT `idDynamicTable`, `description`, `key`, `locked`, `idSection` FROM DynamicTables WHERE 
+idSection = $sid";
               $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
               if($exe != null)
                  while($linha2 = mysql_fetch_array($exe))
@@ -216,10 +219,27 @@ MyRMTable.java</a>) <br>";
 
                  } // end sections
 
+              echo "<br>\n";
+              echo "<form name=\"frm_sec_create\" method=\"post\" action=\"section_create.php\">";
+              echo "<input type=\"submit\" value=\"Create a new section\" name=\"bt_sec_create\">";
+              echo "<input type=\"hidden\" value=\"$rid\" name=\"rid\">";
+              echo "<input type=\"text\" value=\"Title\" name=\"stitle\">";
+              echo "</form>";
+
+              // end sections
               // ========================================================================
 
           }
+
       }
+
+      echo "</ul>\n";
+      echo "<br>";
+      echo "<form name=\"frm_res_create\" method=\"post\" action=\"research_create.php\">";
+      echo "<input type=\"submit\" value=\"Create a new research\" name=\"bt_res_create\">";
+      echo "<input type=\"hidden\" value=\"$gid\" name=\"gid\">";
+      echo "<input type=\"text\" value=\"Title\" name=\"rtitle\">";
+      echo "</form>";
 
 ?>
 
