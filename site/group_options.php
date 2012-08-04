@@ -15,11 +15,11 @@
  <title> MyResearchManager </title> </head>
 <body>
 
-<center> <h3> MyResearchManager - Group Options </h3> </center>
+<center> <h3> MyResearchManager - Research Area </h3> </center>
 
 <br>
 
-<h2 align="center"> Select your group </h2>
+<h2 align="center"> Select the research area </h2>
 <form name="frm_group_select" method="post" action="group_select.php">
 <SELECT NAME="idGroup">
 
@@ -45,11 +45,11 @@
 ?>
 
 </SELECT>
-<input type="submit" value="Select group" name="bt_select"> 
+<input type="submit" value="Select research area" name="bt_select"> 
 </form>
 
 <br>
-Or... <a href="group_create.php"> Create a new group </a>
+Or... <a href="group_create.php">Create a new research area</a> (In construction!)
 <br>
 
 <br><br>

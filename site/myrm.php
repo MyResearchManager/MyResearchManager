@@ -60,7 +60,7 @@
           }
       }
 
-      echo "<h2> $gname [<a href=\"./$gsname/\">$gsname</a>] (<a href=\"group_options.php\">Change group</a>) </h2>";
+      echo "<h2> $gname [<a href=\"./$gsname/\">$gsname</a>] (<a href=\"group_options.php\">Change area</a>) </h2>";
 ?>
 
 <b>Researches</b><br>
