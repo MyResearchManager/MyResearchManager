@@ -71,14 +71,18 @@
 
 <?php
 
-      $sql = "SELECT R.idResearch as rid, R.title as title FROM Users as U, Researches as R, ResearchMembers as RM WHERE U.idUser = $id and R.idGroup = $gid and RM.idUser = U.idUser and RM.idResearch = R.idResearch";
-      $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
-      if($exe != null)
+      $sql_research = "SELECT R.idResearch as rid, R.title as title FROM 
+Users 
+as U, Researches as R, ResearchMembers as RM WHERE U.idUser = $id and R.idGroup = $gid and RM.idUser = U.idUser and RM.idResearch = R.idResearch";
+      $exe_research = mysql_query( $sql_research, $myrmconn) or 
+print(mysql_error());
+      if($exe_research != null)
       {
-          while($linha = mysql_fetch_array($exe))
+          while($line_research = mysql_fetch_array($exe_research))
           {
-              $rid = $linha['rid'];
-              echo "<li> <b>$linha[title] (<a href=\"research.php?rid=$rid\">read more</a>) (#$rid) </b> <br>";
+              $rid = $line_research['rid'];
+              echo "<li> <b>$line_research[title] (<a 
+href=\"research.php?rid=$rid\">read more</a>) (#$rid) </b> <br>";
               echo "with ";
               $firstnocomma = 1;      
               
