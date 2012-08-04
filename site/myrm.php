@@ -89,7 +89,7 @@ function deletesection(sid)
 
 <b>Researches</b><br>
 
-<?php echo "<hr>\n"; ?>
+<hr><hr>
 
 <ul>
 
@@ -260,7 +260,7 @@ idSection = $sid";
               // end sections
               // ========================================================================
 
-              echo "\n</ul><hr><ul>\n"; // space for new research
+              echo "\n</ul><hr><hr><ul>\n"; // space for new research
           }
 
       }
