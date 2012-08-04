@@ -42,6 +42,16 @@ function deletefile(fid)
       window.location = "file_delete.php?fid="+fid;
 }
 //-->
+<!--
+function deletesection(sid)
+{
+   var answer = confirm("Deleting section. Are you sure?")
+   if(answer)
+      window.location = "section_delete.php?sid="+sid;
+}
+//-->
+
+
 </script>
 
 </head>
@@ -161,7 +171,8 @@ RM.idUser order by U.name, U.email";
                     $stitle = $line_sec['title'];
 
                     echo "<hr>";
-                    echo "<b>Section: </b> $stitle (<a href=\"section_delete.php?sid=$sid\">delete</a>) <br>";
+                    echo "<b>Section: </b> $stitle (<a href=\"#\" onclick=\"deletesection($sid)\">delete</a>) 
+<br>";
 
 
               // ------------------------------------------------------------------------
