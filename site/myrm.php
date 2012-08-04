@@ -31,7 +31,20 @@
 
 <html>
 <head>
- <title> MyResearchManager - Welcome! </title> </head>
+ <title> MyResearchManager - Welcome! </title>
+
+<script type="text/javascript">
+<!--
+function deletefile(fid)
+{
+   var answer = confirm("Deleting file. Are you sure?")
+   if(answer)
+      window.location = "file_delete.php?fid="+fid;
+}
+//-->
+</script>
+
+</head>
 <body>
 
 <center> <img src="myrm.jpg" width="350"> </center>
@@ -152,6 +165,8 @@ RM.idUser order by U.name, U.email";
 
 
               // ------------------------------------------------------------------------
+              // FILES
+              // ------------------------------------------------------------------------
 
               echo "<br><b>Files</b><br>";
               echo "<ul>";
@@ -172,7 +187,7 @@ RM.idUser order by U.name, U.email";
                       echo "<b>public</b>";
                     else
                       echo "<b>not public</b>";
-                    echo ") <a href=\"file_delete.php?fid=$fid\">delete</a><br>";
+                    echo ") <a href=\"#\" onclick=\"deletefile($fid)\">delete</a><br>";
                  }
 
 
