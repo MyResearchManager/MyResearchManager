@@ -40,7 +40,8 @@
    $_UP['size'] = 1024 * 1024 * 8; // 8 MB
 
    // Allowed extensions
-   $_UP['extensions'] = array('jpg', 'png', 'gif', 'pdf', 'zip', 'rar');
+   $_UP['extensions'] = array('jpg', 'png', 'gif', 'pdf', 'zip', 
+'rar', 'xls', 'doc', 'ppt', 'pps');
 
    // Rename file?
    $_UP['rename'] = false;
@@ -66,7 +67,8 @@
    $extension = strtolower(end(explode('.', $_FILES['arquivo']['name'])));
    if (array_search($extension, $_UP['extensions']) === false) // File extension verification
    {
-      echo "Allowed extensions: jpg, png, gif, pdf, rar or zip";
+      echo "Allowed extensions: jpg, png, gif, pdf, xls, doc, ppt, pps, 
+rar or zip";
    }
    else if ($_UP['size'] < $_FILES['arquivo']['size']) // File size verification
    {
