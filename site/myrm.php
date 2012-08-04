@@ -229,11 +229,11 @@ idSection = $sid";
               echo "<input type=\"submit\" value=\"Create a new section\" name=\"bt_sec_create\">";
               echo "<input type=\"hidden\" value=\"$rid\" name=\"rid\">";
               echo "<input type=\"text\" value=\"Title\" name=\"stitle\">";
-              echo "</form>";
-              echo "<hr>\n";
+              echo "</form>\n";
               // end sections
               // ========================================================================
 
+              echo "\n</ul><hr><ul>\n"; // space for new research
           }
 
       }
