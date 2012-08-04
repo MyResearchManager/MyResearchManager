@@ -57,7 +57,8 @@ function deletesection(sid)
 </head>
 <body>
 
-<center> <img src="myrm.jpg" width="350"> </center>
+<center> <a target="_blank" href="https://github.com/MyResearchManager/MyResearchManager"> <img src="myrm.jpg" width="350"> </a> 
+</center>
 
 <center> <h3> Welcome <i><u><?php echo $fullname; ?></u></i> </h3> </center>
 
