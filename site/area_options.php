@@ -7,7 +7,7 @@
 
    $id  = $_SESSION['id'];
 
-   $gid = $_SESSION['gid'];
+   $area_id = $_SESSION['gid'];
 ?>
 
 <html>
@@ -20,28 +20,29 @@
 <br>
 
 <h2 align="center"> Select the research area </h2>
-<form name="frm_group_select" method="post" action="group_select.php">
-<SELECT NAME="idGroup">
+<form name="frm_area_select" method="post" action="area_select.php">
+<SELECT NAME="idArea">
 
 <?php
 
       include "connection.php";
 
-      $groupoptions = "";
+      $areaoptions = "";
       $selecionado = "SELECTED"; // select first
  
-      $sql = "SELECT G.idGroup as gid, G.name as gname, G.smallName as gsname FROM Users as U, Groups as G, GroupMembers as GM WHERE U.idUser = $id and GM.idUser = U.idUser and GM.idGroup = G.idGroup";
+      $sql = "SELECT A.idArea as aid, A.name as gname, A.smallName as gsname FROM Users as U, Areas as A, AreaMembers as AM 
+WHERE U.idUser = $id and AM.idUser = U.idUser and AM.idArea = A.idArea";
       $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
       if($exe != null)
       {
           while($line = mysql_fetch_array($exe))
           {
-              $groupoptions = $groupoptions. "<OPTION VALUE=\"$line[gid]\" $selecionado >$line[gname] \n";
+              $areaoptions = $areaoptions. "<OPTION VALUE=\"$line[aid]\" $selecionado >$line[gname] \n";
               $selecionado = "";
           }
       }
 
-      echo $groupoptions;
+      echo $areaoptions;
 ?>
 
 </SELECT>

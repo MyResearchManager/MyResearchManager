@@ -7,10 +7,10 @@
 
    $id  = $_SESSION['id'];
 
-   $gid = $_SESSION['gid'];
+   $area_id = $_SESSION['gid'];
 
-   if ($_SESSION['gid'] < 1)
-        header("Location: group_options.php");
+   if ($area_id < 1)
+        header("Location: area_options.php");
 
    include "connection.php";
 
@@ -72,7 +72,7 @@ function deletesection(sid)
 
       // Security stuff!!! TODO Improve
 
-      $sql = "SELECT name as gname, smallName as gsname FROM Groups WHERE idGroup = $gid";
+      $sql = "SELECT name as gname, smallName as gsname FROM Areas WHERE idArea = $area_id";
   
       $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
       if($exe != null)
@@ -97,7 +97,8 @@ function deletesection(sid)
 
       $sql_research = "SELECT R.idResearch as rid, R.title as title FROM 
 Users 
-as U, Researches as R, ResearchMembers as RM WHERE U.idUser = $id and R.idGroup = $gid and RM.idUser = U.idUser and RM.idResearch = R.idResearch";
+as U, Researches as R, ResearchMembers as RM WHERE U.idUser = $id and R.idArea = $area_id and RM.idUser = U.idUser and 
+RM.idResearch = R.idResearch";
       $exe_research = mysql_query( $sql_research, $myrmconn) or 
 print(mysql_error());
       if($exe_research != null)

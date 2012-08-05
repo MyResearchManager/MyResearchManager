@@ -17,28 +17,28 @@ function getResearchIdBySectionId($sid)
 
 
 
-function getGroupIdByResearchId($rid)
+function getAreaIdByResearchId($rid)
 {
       include "connection.php"; 
 
-      $gid = -1;
-      $sql = "SELECT idGroup as gid FROM Researches WHERE idResearch = $rid";
+      $area_id = -1;
+      $sql = "SELECT idArea as aid FROM Researches WHERE idResearch = $rid";
       $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
       if($exe != null)
           if($line = mysql_fetch_array($exe))
-              $gid = $line['gid'];
+              $area_id = $line['aid'];
 
-      return $gid;
+      return $area_id;
 }
 
 
 
-function getGroupNameByGroupId($gid)
+function getAreaNameByAreaId($area_id)
 {
       include "connection.php";
 
       $gsname = "no-name";
-      $sql = "SELECT smallName as gsname FROM Groups WHERE idGroup = $gid";
+      $sql = "SELECT smallName as gsname FROM Areas WHERE idArea = $area_id";
       $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
       if($exe != null)
           if($line = mysql_fetch_array($exe))

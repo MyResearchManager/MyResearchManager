@@ -2,9 +2,10 @@
    ob_start();
    session_start();
 
-   $_SESSION['logado'] = 0;
-   $_SESSION['id'] = -1;
-   $_SESSION['gid'] = -1;
- 
+   //include 'functions.php';
+   //sec_session_start();
+
+   session_destroy();
+
    header("Location: index.php");
 ?>

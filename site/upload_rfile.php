@@ -6,8 +6,8 @@
         header("Location: login.php");
 
    $id  = $_SESSION['id'];
-   $gid = $_SESSION['gid'];
-   if ($gid < 1)
+   $area_id = $_SESSION['gid'];
+   if ($area_id < 1)
         header("Location: logout.php");
 
    $sid = -1;
@@ -28,7 +28,7 @@
 
    include "connection.php";
 
-   $gsname = getGroupNameByGroupId($gid);
+   $gsname = getAreaNameByAreaId($area_id);
 
    if ($gsname == "")
         header("Location: myrm.php");

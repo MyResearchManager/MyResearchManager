@@ -5,37 +5,37 @@
    if ($_SESSION['logado'] != 1)
         header("Location: login.php");
 
-   $idGroup = -1;
+   $idArea = -1;
 
-   if(isset($_POST["idGroup"]))
+   if(isset($_POST["idArea"]))
    {
-      $idGroup = $_POST["idGroup"];
+      $idArea = $_POST["idArea"];
    }
 
-   if($idGroup < 1)
+   if($idArea < 1)
         header("Location: logout.php");
 
    $id  = $_SESSION['id'];
-   $gid = -1;
+   $area_id = -1;
 
    // Security stuff!!
 
    include "connection.php";
 
-   $sql = "SELECT idGroup as gid FROM GroupMembers WHERE idUser=$id and idGroup=$idGroup";
+   $sql = "SELECT idArea as aid FROM AreaMembers WHERE idUser=$id and idArea=$idArea";
    $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
    if($exe != null)
    {
        if($line = mysql_fetch_array($exe))
        {
-           $gid = $line['gid'];
+           $area_id = $line['aid'];
        }
    }
 
-   if($gid < 1)
+   if($area_id < 1)
         header("Location: logout.php");
 
-   $_SESSION['gid'] = $gid;
+   $_SESSION['gid'] = $area_id;
 
    header("Location: myrm.php");
 ?>
