@@ -14,9 +14,9 @@
 
    include "util.php";
 
-   $rid    = getResearchIdBySectionId($sid);   
-   $gid    = getGroupIdByResearchId($rid);
-   $gsname = getGroupNameByGroupId($gid);
+   $rid     = getResearchIdBySectionId($sid);   
+   $area_id = getAreaIdByResearchId($rid);
+   $gsname  = getAreaNameByAreaId($area_id);
 
 
    include "connection.php";

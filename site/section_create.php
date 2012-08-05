@@ -21,8 +21,8 @@
 
    include "util.php";
 
-   $gid    = getGroupIdByResearchId($rid);
-   $gsname = getGroupNameByGroupId($gid);
+   $area_id = getAreaIdByResearchId($rid);
+   $gsname  = getAreaNameByAreaId($area_id);
 
 
    include "connection.php";
@@ -34,9 +34,8 @@
    $newdir = "./files/$gsname/r$rid/s$sid";
    $allok = mkdir($newdir, 0777, true); 
 
-   if (!$allok) {
+   if (!$allok)
       die("Error! Failed to create folder: $newdir");
 
    header("Location: myrm.php");
-}
 ?>
