@@ -1,15 +1,38 @@
 --
--- Banco de Dados: `myrm`
+-- Banco de Dados MyResearchManager
 --
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 -- --------------------------------------------------------
+
 --
--- Criando o Banco de Dados
+-- Estrutura da tabela `AreaMembers`
 --
 
-CREATE DATABASE IF NOT EXISTS `myrm`;
+CREATE TABLE IF NOT EXISTS `AreaMembers` (
+  `idAreaMember` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idArea` int(11) NOT NULL,
+  `idUser` int(11) NOT NULL,
+  `owner` tinyint(1) NOT NULL,
+  PRIMARY KEY (`idAreaMember`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
-USE `myrm`;
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `Areas`
+--
+
+CREATE TABLE IF NOT EXISTS `Areas` (
+  `idArea` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) NOT NULL,
+  `description` text NOT NULL,
+  `smallName` varchar(30) NOT NULL,
+  PRIMARY KEY (`idArea`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
 
 --
 -- Estrutura da tabela `Conferences`
@@ -22,20 +45,6 @@ CREATE TABLE IF NOT EXISTS `Conferences` (
   `idResearch` int(11) NOT NULL,
   PRIMARY KEY (`idConference`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `ImportantDates`
---
-
-CREATE TABLE IF NOT EXISTS `ImportantDates` (
-  `idImportantDate` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `description` varchar(100) NOT NULL,
-  `date` date NOT NULL,
-  `idConference` int(11) NOT NULL,
-  PRIMARY KEY (`idImportantDate`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -63,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `DynamicTables` (
   `description` varchar(100) NOT NULL,
   `key` varchar(32) NOT NULL,
   `locked` tinyint(1) NOT NULL,
-  `idResearch` int(10) unsigned NOT NULL,
+  `idSection` int(10) unsigned NOT NULL,
   PRIMARY KEY (`idDynamicTable`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
@@ -79,23 +88,23 @@ CREATE TABLE IF NOT EXISTS `Files` (
   `uploadDateTime` datetime NOT NULL,
   `uploadUser` int(11) NOT NULL,
   `public` tinyint(1) NOT NULL,
-  `idResearch` int(11) NOT NULL,
+  `idSection` int(11) NOT NULL,
   PRIMARY KEY (`idFile`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `Groups`
+-- Estrutura da tabela `ImportantDates`
 --
 
-CREATE TABLE IF NOT EXISTS `Groups` (
-  `idGroup` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) NOT NULL,
-  `description` text NOT NULL,
-  `smallName` varchar(30) NOT NULL,
-  PRIMARY KEY (`idGroup`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+CREATE TABLE IF NOT EXISTS `ImportantDates` (
+  `idImportantDate` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `description` varchar(100) NOT NULL,
+  `date` date NOT NULL,
+  `idConference` int(11) NOT NULL,
+  PRIMARY KEY (`idImportantDate`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -155,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `Researches` (
   `idResearch` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(200) NOT NULL,
   `abstract` text NOT NULL,
-  `idGroup` int(11) NOT NULL,
+  `idArea` int(11) NOT NULL,
   PRIMARY KEY (`idResearch`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
@@ -171,6 +180,19 @@ CREATE TABLE IF NOT EXISTS `ResearchMembers` (
   `idUser` int(11) NOT NULL,
   PRIMARY KEY (`idResearchMember`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `Sections`
+--
+
+CREATE TABLE IF NOT EXISTS `Sections` (
+  `idSection` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(250) NOT NULL,
+  `idResearch` int(11) NOT NULL,
+  PRIMARY KEY (`idSection`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
