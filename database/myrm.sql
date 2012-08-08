@@ -7,20 +7,6 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `AreaMembers`
---
-
-CREATE TABLE IF NOT EXISTS `AreaMembers` (
-  `idAreaMember` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `idArea` int(11) NOT NULL,
-  `idUser` int(11) NOT NULL,
-  `owner` tinyint(1) NOT NULL,
-  PRIMARY KEY (`idAreaMember`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Estrutura da tabela `Areas`
 --
 
