@@ -60,7 +60,7 @@ function deletesection(sid)
 <center> <a target="_blank" href="https://github.com/MyResearchManager/MyResearchManager"> <img src="myrm.jpg" width="350"> </a> 
 </center>
 
-<center> <h3> Welcome <i><u><?php echo $fullname; ?></u></i> </h3> </center>
+<center> <h3> Welcome <a href="profile.php"> <?php echo $fullname; ?></a> </h3> </center>
 
 <br>
 
