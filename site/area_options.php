@@ -12,7 +12,29 @@
 
 <html>
 <head>
- <title> MyResearchManager </title> </head>
+ <title> MyResearchManager </title>
+
+<script type='text/javascript'> 
+// JavaScript code is compatible to XHTML. <![CDATA[
+function checktext(box)
+{ 
+      var letters = /^[0-9a-zA-Z]+$/;
+      if(box.value.match(letters))
+      {
+         return true;
+      }
+      else
+      {
+         alert('Please do not input spaces or special chars!');
+         document.frm_area_create.sname.focus(); 
+         return false;
+      }
+}
+//]]>
+</script>
+
+</head>
+
 <body>
 
 <center> <h3> MyResearchManager - Research Area </h3> </center>
@@ -30,14 +52,14 @@
       $areaoptions = "";
       $selecionado = "SELECTED"; // select first
  
-      $sql = "SELECT A.idArea as aid, A.name as gname, A.smallName as gsname FROM Users as U, Areas as A, AreaMembers as AM 
-WHERE U.idUser = $id and AM.idUser = U.idUser and AM.idArea = A.idArea";
+      $sql = "SELECT DISTINCT A.idArea as aid, A.name as name FROM Areas as A, Researches as R, ResearchMembers as RM 
+WHERE R.idResearch = RM.idResearch and RM.idUser = $id and R.idArea = A.idArea ORDER BY name";
       $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
       if($exe != null)
       {
           while($line = mysql_fetch_array($exe))
           {
-              $areaoptions = $areaoptions. "<OPTION VALUE=\"$line[aid]\" $selecionado >$line[gname] \n";
+              $areaoptions = $areaoptions. "<OPTION VALUE=\"$line[aid]\" $selecionado >$line[name] \n";
               $selecionado = "";
           }
       }
@@ -49,9 +71,16 @@ WHERE U.idUser = $id and AM.idUser = U.idUser and AM.idArea = A.idArea";
 <input type="submit" value="Select research area" name="bt_select"> 
 </form>
 
+<br><br>
+Or... create a new research area:<br>
 <br>
-Or... <a href="group_create.php">Create a new research area</a> (In construction!)
-<br>
+
+<form name="frm_area_create" method="post" action="area_create.php" onSubmit="return checktext(document.frm_area_create.sname)">
+Title: <input type="text" value="Research Area" name="bname" size="60"><br>
+Small name (no spaces or special chars): <input type="text" value="researcharea" name="sname" size="24"><br>
+<input type="submit" value="Create research area" name="bt_area_create">
+</form>
+
 
 <br><br>
 

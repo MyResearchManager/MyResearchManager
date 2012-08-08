@@ -48,5 +48,19 @@ function getAreaNameByAreaId($area_id)
 }
 
 
+function getAreaIdByAreaName($area_sname)
+{
+      include "connection.php";
+
+      $area_id = -1;
+      $sql = "SELECT idArea FROM Areas WHERE smallName = '$area_sname'";
+      $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+      if($exe != null)
+          if($line = mysql_fetch_array($exe))
+              $area_id = $line['idArea'];
+
+      return $area_id;
+}
+
 
 ?>
