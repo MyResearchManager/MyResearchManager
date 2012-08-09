@@ -50,8 +50,14 @@ function deletesection(sid)
       window.location = "section_delete.php?sid="+sid;
 }
 //-->
-
-
+<!--
+function deleteresearch(rid)
+{
+   var answer = confirm("Deleting research. Are you sure?")
+   if(answer)
+      window.location = "research_delete.php?rid="+rid;
+}
+//-->
 </script>
 
 </head>
@@ -98,16 +104,20 @@ function deletesection(sid)
       $sql_research = "SELECT R.idResearch as rid, R.title as title FROM 
 Users 
 as U, Researches as R, ResearchMembers as RM WHERE U.idUser = $id and R.idArea = $area_id and RM.idUser = U.idUser and 
-RM.idResearch = R.idResearch";
+RM.idResearch = R.idResearch ORDER BY title";
       $exe_research = mysql_query( $sql_research, $myrmconn) or 
 print(mysql_error());
       if($exe_research != null)
       {
+          $num_research = mysql_num_rows($exe_research);
+
           while($line_research = mysql_fetch_array($exe_research))
           {
               $rid = $line_research['rid'];
-              echo "<li> <b>$line_research[title] (<a 
-href=\"research.php?rid=$rid\">read more</a>) (#$rid) </b> <br>";
+              echo "<li> <b>$line_research[title] (<a href=\"research.php?rid=$rid\">read more</a>) </b>";
+              if($num_research > 1)
+                 echo "(<a href=\"#\" onclick=\"deleteresearch($rid)\">delete</a>)";
+              echo "<br>\n";
               echo "with ";
               $firstnocomma = 1;      
               
@@ -271,7 +281,7 @@ idSection = $sid";
       echo "<form name=\"frm_res_create\" method=\"post\" action=\"research_create.php\">";
       echo "<input type=\"submit\" value=\"Create a new research\" name=\"bt_res_create\">";
       echo "<input type=\"hidden\" value=\"$gid\" name=\"gid\">";
-      echo "<input type=\"text\" value=\"Title\" name=\"rtitle\">";
+      echo "<input type=\"text\" value=\"Title\" name=\"rname\">";
       echo "</form>";
 
 ?>
