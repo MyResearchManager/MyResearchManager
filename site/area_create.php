@@ -23,7 +23,7 @@
    // check if research area already exists
    $area_id = getAreaIdByAreaName($sname);
    if($area_id > 0)
-      die("Error! A Research Area with this name already exists: $sname");
+      die("Error! A research area with name '$sname' already exists.");
    
 
    $sql = "INSERT INTO Areas (`name`, `smallName`) VALUES ('$bname', '$sname')";
