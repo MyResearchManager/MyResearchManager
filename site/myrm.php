@@ -227,9 +227,7 @@ RM.idUser order by U.name, U.email";
               // ------------------------------------------------------------------------
          
 
-              echo "<br><b>Dynamic Tables</b> (<a 
-href=\"https://github.com/MyResearchManager/MyResearchManager/blob/master/myrmtable/MyRMTable.java\">download 
-MyRMTable.java</a>) <br>";
+              echo "<br><b>Dynamic Tables</b><br>";
               echo "<ul>";
               $sql = "SELECT `idDynamicTable`, `description`, `key`, `locked`, `idSection` FROM DynamicTables WHERE 
 idSection = $sid";
@@ -293,6 +291,9 @@ idSection = $sid";
 <br>
 <br>
 
+<a href="https://github.com/MyResearchManager/MyResearchManager/blob/master/myrmtable/MyRMTable.java">Download 
+MyRMTable.java</a> (to work with dynamic tables)<br>
+<br>
 <a href="version.php">Version 0.3-alpha</a><br>
 <a href="http://www.gnu.org/licenses/agpl-3.0.html">License AGPLv3</a><br>
 <br>
