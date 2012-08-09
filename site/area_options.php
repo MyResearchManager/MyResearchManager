@@ -72,7 +72,7 @@ WHERE R.idResearch = RM.idResearch and RM.idUser = $id and R.idArea = A.idArea O
 </form>
 
 <br><br>
-Or... create a new research area:<br>
+<i>Or...</i> <b>create a new research area:</b><br>
 <br>
 
 <form name="frm_area_create" method="post" action="area_create.php" onSubmit="return checktext(document.frm_area_create.sname)">
