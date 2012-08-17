@@ -177,16 +177,34 @@ RM.idUser order by U.name, U.email";
                     $name   = $linha2['name'];
                     $url    = $linha2['url'];
 
-                    echo "<li> <a href=\"$url\">$name</a>";
+                    echo "<li> <a href=\"$url\">$name</a> ";
                     if($edit==1)
                        echo "(<a href=\"conference_delete.php?cid=$cid\">delete</a>)";
+
+                    // important dates
+
+                    echo "<ul>";
+                    $sql_imp = "SELECT * FROM ImportantDates WHERE idConference = $cid order by `datetime` ASC";
+                    $exe_imp = mysql_query( $sql_imp, $myrmconn) or print(mysql_error());
+                    if($exe_imp != null)
+                       while($line_imp = mysql_fetch_array($exe_imp))
+                       {
+                          $iid   = $line_imp['idImportantDate'];
+                          $desc  = $line_imp['description'];
+                          $dtime = $line_imp['datetime'];
+
+                          echo "<li>$desc ($dtime)";
+                          if($edit==1)
+                             echo "(<a href=\"important_delete.php?iid=$iid\">delete</a>)";
+                       }
+                    echo "</ul>";
 
                     if($edit==1)
                     {
                        echo "<form name=\"frm_impdate_create\" method=\"post\" action=\"important_create.php\">";
                        echo "<input type=\"submit\" value=\"Create important date\" name=\"bt_impdate_create\">";
                        echo "<input type=\"hidden\" value=\"$cid\" name=\"cid\">";
-                       echo "<input type=\"text\" value=\"Remember\" name=\"important\">";
+                       echo "<input type=\"text\" value=\"Remember\" name=\"description\">";
                        echo "Date: <input type=\"text\" value=\"".date("Y-m-d")."\"name=\"idate\" size='10'>";
                        echo "Time: <input type=\"text\" value=\"23:59:59\" name=\"itime\" size='8'>";
                        echo "</form>";
@@ -216,6 +234,7 @@ RM.idUser order by U.name, U.email";
                     $sid    = $line_sec['sid'];
                     $stitle = $line_sec['title'];
 
+                    echo "<br>";
                     echo "<hr>";
                     echo "<b>Section: </b> $stitle ";
                     if($edit==1)
