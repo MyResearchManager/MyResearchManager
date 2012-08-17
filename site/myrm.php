@@ -12,6 +12,12 @@
    if ($area_id < 1)
         header("Location: area_options.php");
 
+   $edit = $_SESSION['edit']; 
+
+   $edit = $edit + 1; // turn integer
+   $edit = $edit - 1; // turn integer
+
+
    include "connection.php";
 
    $fullname  = "*** no name ***";
@@ -93,7 +99,16 @@ function deleteresearch(rid)
       echo "<h2> $gname [<a href=\"./files/$gsname/\">$gsname</a>] (<a href=\"area_options.php\">Change area</a>) </h2>";
 ?>
 
-<b>Researches</b><br>
+<b>Researches</b><br><br>
+<?php
+   if($edit == 0)
+      echo "<i>In view mode</i> - <a href=\"go_edit.php\">go to edit 
+mode</a>";
+   else
+      echo "<a href=\"go_view.php\">go to view mode</a> - <i>In edit 
+mode</i>";
+?>
+<br><br>
 
 <hr><hr>
 
@@ -115,7 +130,7 @@ print(mysql_error());
           {
               $rid = $line_research['rid'];
               echo "<li> <b>$line_research[title] (<a href=\"research.php?rid=$rid\">read more</a>) </b>";
-              if($num_research > 1)
+              if(($num_research > 1) && ($edit==1))
                  echo "(<a href=\"#\" onclick=\"deleteresearch($rid)\">delete</a>)";
               echo "<br>\n";
               echo "with ";
@@ -150,6 +165,11 @@ RM.idUser order by U.name, U.email";
               echo "<ul>";
               $sql = "SELECT `idConference`, `name`, `url`, `idResearch` FROM Conferences WHERE idResearch = $rid";
               $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+
+              $num_conferences = mysql_num_rows($exe);
+       	      if($num_conferences==0)
+       	       	 echo "<i>Empty</i><br>";
+
               if($exe != null)
                  while($linha2 = mysql_fetch_array($exe))
                  { 
@@ -157,17 +177,31 @@ RM.idUser order by U.name, U.email";
                     $name   = $linha2['name'];
                     $url    = $linha2['url'];
 
-                    echo "<li> <a href=\"$url\">$name</a> (<a href=\"conference_delete.php?cid=$cid\">delete</a>)";
+                    echo "<li> <a href=\"$url\">$name</a>";
+                    if($edit==1)
+                       echo "(<a href=\"conference_delete.php?cid=$cid\">delete</a>)";
+
+                    if($edit==1)
+                    {
+                       echo "<form name=\"frm_impdate_create\" method=\"post\" action=\"important_create.php\">";
+                       echo "<input type=\"submit\" value=\"Create important date\" name=\"bt_impdate_create\">";
+                       echo "<input type=\"hidden\" value=\"$cid\" name=\"cid\">";
+                       echo "<input type=\"text\" value=\"Remember\" name=\"important\">";
+                       echo "Date: <input type=\"text\" value=\"".date("Y-m-d")."\"name=\"idate\" size='10'>";
+                       echo "Time: <input type=\"text\" value=\"23:59:59\" name=\"itime\" size='8'>";
+                       echo "</form>";
+                    }
                  }
 
-
-              echo "<form name=\"frm_conf_create\" method=\"post\" action=\"conference_create.php\">";
-              echo "<input type=\"submit\" value=\"Create conference\" name=\"bt_conf_create\">"; 
-              echo "<input type=\"hidden\" value=\"$rid\" name=\"rid\">";
-              echo "<input type=\"text\" value=\"Name\" name=\"cname\">";
-              echo "<input type=\"text\" value=\"http://...\" name=\"curl\">";
-              echo "</form>";
-
+              if($edit==1)
+              {
+                 echo "<form name=\"frm_conf_create\" method=\"post\" action=\"conference_create.php\">";
+                 echo "<input type=\"submit\" value=\"Create conference\" name=\"bt_conf_create\">"; 
+                 echo "<input type=\"hidden\" value=\"$rid\" name=\"rid\">";
+                 echo "<input type=\"text\" value=\"Name\" name=\"cname\">";
+                 echo "<input type=\"text\" value=\"http://...\" name=\"curl\">";
+                 echo "</form>";
+              }
               echo "</ul>"; // Conferences
 
               // ========================================================================
@@ -183,8 +217,10 @@ RM.idUser order by U.name, U.email";
                     $stitle = $line_sec['title'];
 
                     echo "<hr>";
-                    echo "<b>Section: </b> $stitle (<a href=\"#\" onclick=\"deletesection($sid)\">delete</a>) 
-<br>";
+                    echo "<b>Section: </b> $stitle ";
+                    if($edit==1)
+                       echo "(<a href=\"#\" onclick=\"deletesection($sid)\">delete</a>)"; 
+                    echo "<br>";
 
 
               // ------------------------------------------------------------------------
@@ -195,6 +231,11 @@ RM.idUser order by U.name, U.email";
               echo "<ul>";
               $sql = "SELECT `idFile` as fid, `filename`, `uploadDateTime` as uploaddt, `uploadUser` as uploadu, `public` FROM Files WHERE idSection = $sid";
               $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+
+              $num_files = mysql_num_rows($exe);
+       	      if($num_files==0)
+       	       	 echo "<i>Empty</i><br>";
+
               if($exe != null)
                  while($linha2 = mysql_fetch_array($exe))
                  { 
@@ -205,22 +246,26 @@ RM.idUser order by U.name, U.email";
                     $public   = $linha2['public'];
 
                     echo "<li> <a href=\"./files/$gsname/r$rid/s$sid/$filename\">$filename</a> - ";
-                    echo "uploaded by user #$uploadu at $uploaddt (";
+                    echo "<i>uploaded by user #$uploadu at $uploaddt</i> (";
                     if($public==1)
                       echo "<b>public</b>";
                     else
                       echo "<b>not public</b>";
-                    echo ") <a href=\"#\" onclick=\"deletefile($fid)\">delete</a><br>";
+                    echo ") ";
+                    if($edit==1)
+                       echo "<a href=\"#\" onclick=\"deletefile($fid)\">delete</a>";
+                    echo "<br>";
                  }
 
-
-              echo "<form method=\"post\" action=\"upload_rfile.php\" enctype=\"multipart/form-data\">";
-              echo "<label>Send File:</label>";
-              echo "<input type=\"hidden\" value=\"$sid\" name=\"sid\">";
-              echo "<input type=\"file\" name=\"arquivo\">";
-              echo "<input type=\"submit\" value=\"Send file\" name=\"bt_send_file\">"; 
-              echo "</form>";
-
+              if($edit==1)
+              {
+                 echo "<form method=\"post\" action=\"upload_rfile.php\" enctype=\"multipart/form-data\">";
+                 echo "<label>Send File:</label>";
+                 echo "<input type=\"hidden\" value=\"$sid\" name=\"sid\">";
+                 echo "<input type=\"file\" name=\"arquivo\">";
+                 echo "<input type=\"submit\" value=\"Send file\" name=\"bt_send_file\">"; 
+                 echo "</form>";
+              }
               echo "</ul>"; // Files
 
 
@@ -232,6 +277,11 @@ RM.idUser order by U.name, U.email";
               $sql = "SELECT `idDynamicTable`, `description`, `key`, `locked`, `idSection` FROM DynamicTables WHERE 
 idSection = $sid";
               $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+
+              $num_dyntables = mysql_num_rows($exe);
+              if($num_dyntables==0)
+                 echo "<i>Empty</i><br>";
+
               if($exe != null)
                  while($linha2 = mysql_fetch_array($exe))
                  { 
@@ -241,19 +291,24 @@ idSection = $sid";
                     $locked = $linha2['locked'];
 
                     echo "<li> <a href=\"dtableview.php?tid=$tid\">$desc</a> (key: $key)";
-                    if($locked!=0)
-                       echo " locked (<a href=\"dtablesafeunlock.php?tid=$tid\">unlock</a>) <br>"; // needs session security
-                    else
-                       echo " unlocked (<a href=\"dtablesafelock.php?tid=$tid\">lock</a>) <br>";   // needs only key value                                     
+                    if($edit==1)
+                    {
+                       if($locked!=0)
+                          echo " locked (<a href=\"dtablesafeunlock.php?tid=$tid\">unlock</a>)"; // needs session security
+                       else
+                          echo " unlocked (<a href=\"dtablesafelock.php?tid=$tid\">lock</a>)";   // needs only key value
+                    }
+                    echo "<br>";
                  }
 
-
-              echo "<form name=\"frm_dtable_create\" method=\"post\" action=\"dtablecreate.php\">";
-              echo "<input type=\"submit\" value=\"Create table\" name=\"bt_dtable_create\">"; 
-              echo "<input type=\"hidden\" value=\"$rid\" name=\"rid\">";
-              echo "<input type=\"text\" value=\"Description\" name=\"desc\">";
-              echo "</form>";
-
+              if($edit==1)
+              {
+                 echo "<form name=\"frm_dtable_create\" method=\"post\" action=\"dtablecreate.php\">";
+                 echo "<input type=\"submit\" value=\"Create table\" name=\"bt_dtable_create\">"; 
+                 echo "<input type=\"hidden\" value=\"$rid\" name=\"rid\">";
+                 echo "<input type=\"text\" value=\"Description\" name=\"desc\">";
+                 echo "</form>";
+              }
               echo "</ul>"; // Dynamic Tables
 
               // ------------------------------------------------------------------------
@@ -261,11 +316,14 @@ idSection = $sid";
                  } // end sections
 
               echo "<br>\n";
-              echo "<form name=\"frm_sec_create\" method=\"post\" action=\"section_create.php\">";
-              echo "<input type=\"submit\" value=\"Create a new section\" name=\"bt_sec_create\">";
-              echo "<input type=\"hidden\" value=\"$rid\" name=\"rid\">";
-              echo "<input type=\"text\" value=\"Title\" name=\"stitle\">";
-              echo "</form>\n";
+              if($edit==1)
+              {
+                 echo "<form name=\"frm_sec_create\" method=\"post\" action=\"section_create.php\">";
+                 echo "<input type=\"submit\" value=\"Create a new section\" name=\"bt_sec_create\">";
+                 echo "<input type=\"hidden\" value=\"$rid\" name=\"rid\">";
+                 echo "<input type=\"text\" value=\"Title\" name=\"stitle\">";
+                 echo "</form>\n";
+              }
               // end sections
               // ========================================================================
 
@@ -276,12 +334,14 @@ idSection = $sid";
 
       echo "</ul>\n";
       echo "<br>";
-      echo "<form name=\"frm_res_create\" method=\"post\" action=\"research_create.php\">";
-      echo "<input type=\"submit\" value=\"Create a new research\" name=\"bt_res_create\">";
-      echo "<input type=\"hidden\" value=\"$gid\" name=\"gid\">";
-      echo "<input type=\"text\" value=\"Title\" name=\"rname\">";
-      echo "</form>";
-
+      if($edit==1)
+      {
+         echo "<form name=\"frm_res_create\" method=\"post\" action=\"research_create.php\">";
+         echo "<input type=\"submit\" value=\"Create a new research\" name=\"bt_res_create\">";
+         echo "<input type=\"hidden\" value=\"$gid\" name=\"gid\">";
+         echo "<input type=\"text\" value=\"Title\" name=\"rname\">";
+         echo "</form>";
+      }
 ?>
 
 </ul>
