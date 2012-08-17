@@ -99,7 +99,30 @@ function deleteresearch(rid)
       echo "<h2> $gname [<a href=\"./files/$gsname/\">$gsname</a>] (<a href=\"area_options.php\">Change area</a>) </h2>";
 ?>
 
-<b>Researches</b><br><br>
+<br>
+
+<b>Things to remember</b><br>
+<ul>
+<?php
+
+      $sql = "SELECT I.`description` as description, C.`name` as confname, I.`datetime` as dt FROM Researches as R, ResearchMembers as RM, Conferences as C, ImportantDates as I  WHERE RM.idUser='$id' and R.idArea='$area_id' and RM.idResearch = R.idResearch and C.idResearch = R.idResearch and I.idConference = C.idConference and I.`datetime` > NOW() ORDER BY I.`datetime`";
+
+      $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+      if($exe != null)
+          while($line = mysql_fetch_array($exe)) // should be while!
+          {
+              $description = $line['description'];
+              $dt          = $line['dt'];
+              $confname    = $line['confname'];
+
+              echo "<li> <b>$confname</b> - $description (<i>$dt</i>)\n";
+          }
+?>
+</ul>
+
+<br>
+
+<b>Researches</b>
 <?php
    if($edit == 0)
       echo "<i>In view mode</i> - <a href=\"go_edit.php\">go to edit 
@@ -193,9 +216,13 @@ RM.idUser order by U.name, U.email";
                           $desc  = $line_imp['description'];
                           $dtime = $line_imp['datetime'];
 
-                          echo "<li>$desc ($dtime)";
+                          if($dtime < date('Y-m-d h:i:s', time()))
+                             echo "<li><s>$desc</s> ($dtime) ";
+                          else
+                             echo "<li>$desc ($dtime) ";
+
                           if($edit==1)
-                             echo "(<a href=\"important_delete.php?iid=$iid\">delete</a>)";
+                             echo "<a href=\"important_delete.php?iid=$iid\">delete</a>";
                        }
                     echo "</ul>";
 
