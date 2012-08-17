@@ -72,7 +72,17 @@ function deleteresearch(rid)
 <center> <a target="_blank" href="https://github.com/MyResearchManager/MyResearchManager"> <img src="myrm.jpg" width="350"> </a> 
 </center>
 
-<center> <h3> Welcome <a href="profile.php"> <?php echo $fullname; ?></a> </h3> </center>
+<center>
+   <h3> Welcome <a href="profile.php"> <?php echo $fullname; ?></a> </h3>
+
+<?php
+   if($edit == 0)
+      echo "<i>In view mode</i> - <a href=\"go_edit.php\">go to edit mode</a>";
+   else
+      echo "<a href=\"go_view.php\">go to view mode</a> - <i>In edit mode</i>";
+?>
+</center>
+
 
 <br>
 
@@ -123,14 +133,7 @@ function deleteresearch(rid)
 <br>
 
 <b>Researches</b>
-<?php
-   if($edit == 0)
-      echo "<i>In view mode</i> - <a href=\"go_edit.php\">go to edit 
-mode</a>";
-   else
-      echo "<a href=\"go_view.php\">go to view mode</a> - <i>In edit 
-mode</i>";
-?>
+
 <br><br>
 
 <hr><hr>
