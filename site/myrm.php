@@ -125,7 +125,16 @@ function deleteresearch(rid)
               $dt          = $line['dt'];
               $confname    = $line['confname'];
 
-              echo "<li> <b>$confname</b> - $description (<i>$dt</i>)\n";
+              $event = new DateTime("$dt");
+              $today = new DateTime();
+              $days = round(abs($event->format('U') - $today->format('U')) / (60*60*24));
+
+              echo "<li>";
+              if($days < 3)
+                 echo "<font color=\"#FF0000\">";
+              echo "<b>$confname</b> - $description (<i>$days days left</i>)";
+       	      if($days < 3)
+       	       	 echo "</font>";
           }
 ?>
 </ul>
