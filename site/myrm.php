@@ -228,13 +228,17 @@ RM.idUser order by U.name, U.email";
                           $desc  = $line_imp['description'];
                           $dtime = $line_imp['datetime'];
 
-                          if($dtime < date('Y-m-d h:i:s', time()))
-                             echo "<li><s>$desc</s> ($dtime) ";
+                          $numdatetime = strtotime($dtime);
+                          $fdtime = date("Y-m-d H:i", $numdatetime);
+
+
+                          if($fdtime < date('Y-m-d H:i', time()))
+                             echo "<li><s>$desc</s> - $fdtime ";
                           else
-                             echo "<li>$desc ($dtime) ";
+                             echo "<li>$desc - $fdtime ";
 
                           if($edit==1)
-                             echo "<a href=\"important_delete.php?iid=$iid\">delete</a>";
+                             echo "(<a href=\"important_delete.php?iid=$iid\">delete</a>)";
                        }
                     echo "</ul>";
 
@@ -245,7 +249,7 @@ RM.idUser order by U.name, U.email";
                        echo "<input type=\"hidden\" value=\"$cid\" name=\"cid\">";
                        echo "<input type=\"text\" value=\"Remember\" name=\"description\">";
                        echo "Date: <input type=\"text\" value=\"".date("Y-m-d")."\"name=\"idate\" size='10'>";
-                       echo "Time: <input type=\"text\" value=\"23:59:59\" name=\"itime\" size='8'>";
+                       echo "Time: <input type=\"text\" value=\"23:59\" name=\"itime\" size='8'>";
                        echo "</form>";
                     }
                  }
