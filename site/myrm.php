@@ -130,11 +130,12 @@ function deleteresearch(rid)
               $days = round(abs($event->format('U') - $today->format('U')) / (60*60*24));
 
               echo "<li>";
-              if($days < 3)
-                 echo "<font color=\"#FF0000\">";
-              echo "<b>$confname</b> - $description (<i>$days days left</i>)";
-       	      if($days < 3)
-       	       	 echo "</font>";
+              if($days == 0)
+                 echo "<font color=\"#FF0000\"><b>$confname</b> - $description (<i>Today!</i>)</font>\n";
+              else if($days == 1)
+                 echo "<font color=\"#FF0000\"><b>$confname</b> - $description (<i>Tomorrow</i>)</font>\n";
+              else
+                 echo "<b>$confname</b> - $description (<i>In $days days</i>)";
           }
 ?>
 </ul>
