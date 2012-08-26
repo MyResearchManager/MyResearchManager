@@ -17,6 +17,7 @@
    $edit = $edit + 1; // turn integer
    $edit = $edit - 1; // turn integer
 
+   include "util.php";
 
    include "connection.php";
 
@@ -306,16 +307,21 @@ RM.idUser order by U.name, U.email";
                     $uploadu  = $linha2['uploadu'];
                     $public   = $linha2['public'];
 
-                    echo "<li> <a href=\"./files/a$area_id/r$rid/s$sid/$filename\">$filename</a> - ";
-                    echo "<i>uploaded by user #$uploadu at $uploaddt</i> (";
+                    echo "<li> <a href=\"./files/a$area_id/r$rid/s$sid/$filename\">$filename</a> ";
+                    if($edit==1)
+                       echo "(<a href=\"#\" onclick=\"deletefile($fid)\">delete</a>)";
+                    echo "<br>";
+
+                    $numdatetime = strtotime($uploaddt);
+                    $fdtime = date("Y-m-d H:i", $numdatetime);
+
+                    echo "<i>Uploaded by <b>".getUserNameByUserId($uploadu)."</b> at <b>$fdtime</b></i> (";
                     if($public==1)
                       echo "<b>public</b>";
                     else
                       echo "<b>not public</b>";
                     echo ") ";
-                    if($edit==1)
-                       echo "<a href=\"#\" onclick=\"deletefile($fid)\">delete</a>";
-                    echo "<br>";
+                    echo "<br><br>";
                  }
 
               if($edit==1)
