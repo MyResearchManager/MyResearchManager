@@ -28,13 +28,8 @@
 
    include "connection.php";
 
-   $gsname = getAreaNameByAreaId($area_id);
-
-   if ($gsname == "")
-        header("Location: myrm.php");
-
    // Destination
-   $_UP['dir'] = "./files/$gsname/r$rid/s$sid/";
+   $_UP['dir'] = "./files/a$area_id/r$rid/s$sid/";
 
    // Max file size (Bytes)
    $_UP['size'] = 1024 * 1024 * 8; // 8 MB

@@ -89,24 +89,22 @@ function deleteresearch(rid)
 
 <?php
 
-      $gname  = "*** no name ***";
-      $gsname = "";
+      $areaname  = "*** no name ***";
 
       // Security stuff!!! TODO Improve
 
-      $sql = "SELECT name as gname, smallName as gsname FROM Areas WHERE idArea = $area_id";
+      $sql = "SELECT name FROM Areas WHERE idArea = $area_id";
   
       $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
       if($exe != null)
       {
           if($linha = mysql_fetch_array($exe)) // should be while!
           {
-              $gname  = $linha['gname'];
-              $gsname = $linha['gsname'];
+              $gname  = $linha['name'];
           }
       }
 
-      echo "<h2> $gname [<a href=\"./files/$gsname/\">$gsname</a>] (<a href=\"area_options.php\">Change area</a>) </h2>";
+      echo "<h2> $gname [<a href=\"./files/a$area_id/\">All files</a>] (<a href=\"area_options.php\">Change area</a>) </h2>";
 ?>
 
 <br>
@@ -308,7 +306,7 @@ RM.idUser order by U.name, U.email";
                     $uploadu  = $linha2['uploadu'];
                     $public   = $linha2['public'];
 
-                    echo "<li> <a href=\"./files/$gsname/r$rid/s$sid/$filename\">$filename</a> - ";
+                    echo "<li> <a href=\"./files/a$area_id/r$rid/s$sid/$filename\">$filename</a> - ";
                     echo "<i>uploaded by user #$uploadu at $uploaddt</i> (";
                     if($public==1)
                       echo "<b>public</b>";
