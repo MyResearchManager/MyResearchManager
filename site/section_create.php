@@ -22,8 +22,6 @@
    include "util.php";
 
    $area_id = getAreaIdByResearchId($rid);
-   $gsname  = getAreaNameByAreaId($area_id);
-
 
    include "connection.php";
 
@@ -31,7 +29,7 @@
    $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
    $sid = mysql_insert_id();
 
-   $newdir = "./files/$gsname/r$rid/s$sid";
+   $newdir = "./files/a$area_id/r$rid/s$sid";
    $allok = mkdir($newdir, 0777, true); 
 
    if (!$allok)
