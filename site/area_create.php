@@ -7,10 +7,6 @@
 
    $uid = $_SESSION['id'];
 
-   $sname = "";
-   if(isset($_POST["sname"]))
-      $sname = $_POST["sname"];
-
    $bname = "";
    if(isset($_POST["bname"]))
       $bname = $_POST["bname"];
@@ -20,13 +16,8 @@
 
    include "connection.php";
 
-   // check if research area already exists
-   $area_id = getAreaIdByAreaName($sname);
-   if($area_id > 0)
-      die("Error! A research area with name '$sname' already exists.");
-   
 
-   $sql = "INSERT INTO Areas (`name`, `smallName`) VALUES ('$bname', '$sname')";
+   $sql = "INSERT INTO Areas (`name`) VALUES ('$bname')";
    $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
    $aid = mysql_insert_id();
 

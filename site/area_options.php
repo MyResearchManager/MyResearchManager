@@ -13,26 +13,6 @@
 <html>
 <head>
  <title> MyResearchManager </title>
-
-<script type='text/javascript'> 
-// JavaScript code is compatible to XHTML. <![CDATA[
-function checktext(box)
-{ 
-      var letters = /^[0-9a-zA-Z]+$/;
-      if(box.value.match(letters))
-      {
-         return true;
-      }
-      else
-      {
-         alert('Please do not input spaces or special chars!');
-         document.frm_area_create.sname.focus(); 
-         return false;
-      }
-}
-//]]>
-</script>
-
 </head>
 
 <body>
@@ -75,9 +55,8 @@ WHERE R.idResearch = RM.idResearch and RM.idUser = $id and R.idArea = A.idArea O
 <i>Or...</i> <b>create a new research area:</b><br>
 <br>
 
-<form name="frm_area_create" method="post" action="area_create.php" onSubmit="return checktext(document.frm_area_create.sname)">
+<form name="frm_area_create" method="post" action="area_create.php">
 Title: <input type="text" value="Research Area" name="bname" size="60"><br>
-Small name (no spaces or special chars): <input type="text" value="researcharea" name="sname" size="24"><br>
 <input type="submit" value="Create research area" name="bt_area_create">
 </form>
 
