@@ -16,12 +16,10 @@
 
    $rid     = getResearchIdBySectionId($sid);   
    $area_id = getAreaIdByResearchId($rid);
-   $gsname  = getAreaNameByAreaId($area_id);
-
 
    include "connection.php";
 
-   $newdir = "./files/$gsname/r$rid/s$sid";
+   $newdir = "./files/a$area_id/r$rid/s$sid";
 
    if(!rmdir($newdir))
       die("Error! Failed to delete folder: $newdir");
