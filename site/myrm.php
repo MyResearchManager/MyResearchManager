@@ -269,7 +269,7 @@ RM.idUser order by U.name, U.email";
               // begin sections
               // ========================================================================
 
-              $sql_sec = "SELECT `idSection` as sid, `title` FROM Sections WHERE idResearch = $rid";
+              $sql_sec = "SELECT `idSection` as sid, `title` FROM Sections WHERE idResearch = $rid ORDER BY `title`";
               $exe_sec = mysql_query( $sql_sec, $myrmconn) or print(mysql_error());
               if($exe_sec != null)
                  while($line_sec = mysql_fetch_array($exe_sec))
@@ -291,9 +291,7 @@ RM.idUser order by U.name, U.email";
 
               echo "<br><b>Files</b><br>";
               echo "<ul>";
-              $sql = "SELECT `idFile` as fid, `filename`, `size`, `uploadDateTime` as uploaddt, `uploadUser` as uploadu, `public` 
-FROM 
-Files WHERE idSection = $sid";
+              $sql = "SELECT `idFile` as fid, `filename`, `size`, `uploadDateTime` as uploaddt, `uploadUser` as uploadu, `public` FROM Files WHERE idSection = $sid ORDER BY `filename`";
               $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
 
               $num_files = mysql_num_rows($exe);
