@@ -291,7 +291,9 @@ RM.idUser order by U.name, U.email";
 
               echo "<br><b>Files</b><br>";
               echo "<ul>";
-              $sql = "SELECT `idFile` as fid, `filename`, `uploadDateTime` as uploaddt, `uploadUser` as uploadu, `public` FROM Files WHERE idSection = $sid";
+              $sql = "SELECT `idFile` as fid, `filename`, `size`, `uploadDateTime` as uploaddt, `uploadUser` as uploadu, `public` 
+FROM 
+Files WHERE idSection = $sid";
               $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
 
               $num_files = mysql_num_rows($exe);
@@ -303,11 +305,12 @@ RM.idUser order by U.name, U.email";
                  { 
                     $fid      = $linha2['fid'];
                     $filename = $linha2['filename'];
+                    $filesize = $linha2['size'];
                     $uploaddt = $linha2['uploaddt'];
                     $uploadu  = $linha2['uploadu'];
                     $public   = $linha2['public'];
 
-                    echo "<li> <a href=\"./files/a$area_id/r$rid/s$sid/$filename\">$filename</a> ";
+                    echo "<li> <a href=\"./files/a$area_id/r$rid/s$sid/$filename\">$filename</a> - <i>$filesize bytes</i> ";
                     if($edit==1)
                        echo "(<a href=\"#\" onclick=\"deletefile($fid)\">delete</a>)";
                     echo "<br>";
@@ -315,7 +318,7 @@ RM.idUser order by U.name, U.email";
                     $numdatetime = strtotime($uploaddt);
                     $fdtime = date("Y-m-d H:i", $numdatetime);
 
-                    echo "<i>Uploaded by <b>".getUserNameByUserId($uploadu)."</b> at <b>$fdtime</b></i> (";
+                    echo "<i>Uploaded by <b>".getUserNameByUserId($uploadu)."</b> on <b>$fdtime</b></i> (";
                     if($public==1)
                       echo "<b>public</b>";
                     else

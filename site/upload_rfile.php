@@ -32,7 +32,7 @@
    $_UP['dir'] = "./files/a$area_id/r$rid/s$sid/";
 
    // Max file size (Bytes)
-   $_UP['size'] = 1024 * 1024 * 8; // 8 MB
+   $_UP['size'] = 1024 * 1024 * 12; // 12 MB
 
    // Allowed extensions
    $_UP['extensions'] = array('jpg', 'png', 'gif', 'pdf', 'zip', 
@@ -67,7 +67,7 @@ rar or zip";
    }
    else if ($_UP['size'] < $_FILES['arquivo']['size']) // File size verification
    {
-      echo "File too big! Limit is 8MB.";
+      echo "File too big! Limit is 12MB.";
    }
    else // file ok! check name and try to move!!
    {
@@ -109,8 +109,9 @@ rar or zip";
 
          include "connection.php";
 
-         $sql = "INSERT INTO Files (`filename`, `uploadDateTime`, `uploadUser`, `public`, `idSection`) VALUES ('$finalname', NOW(), 
-'$id', '0', '$sid')";
+         $filesize = $_UP['size']; 
+         $sql = "INSERT INTO Files (`filename`, `size`, `uploadDateTime`, `uploadUser`, `public`, `idSection`) VALUES ('$finalname', 
+'$filesize', NOW(), '$id', '0', '$sid')";
          $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
 
       }
