@@ -22,8 +22,9 @@
    include "connection.php";
 
    $fullname  = "*** no name ***";
+   $email     = "*** no email ***";
 
-   $sql = "SELECT name FROM Users WHERE idUser = $id";
+   $sql = "SELECT name, email FROM Users WHERE idUser = $id";
   
    $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
    if($exe != null)
@@ -31,6 +32,7 @@
        if($linha = mysql_fetch_array($exe)) // should be while!
        {
            $fullname  = $linha['name'];
+           $email     = strtolower(trim($linha['email']));
        }
    }
 
@@ -70,12 +72,23 @@ function deleteresearch(rid)
 </head>
 <body>
 
-<center> <a target="_blank" href="https://github.com/MyResearchManager/MyResearchManager"> <img src="myrm.jpg" width="350"> </a> 
-</center>
+<h3 align="right">
+  <?php echo $fullname; ?> 
+  <a href="http://www.gravatar.com" target=_blank >
+    <img height="40" src="http://www.gravatar.com/avatar/<?php echo md5($email);?>">
+  </a>&nbsp;<br>
+
+  <a href="profile.php">edit profile</a>
+  <a href="logout.php">logout</a>
+</h3>
+
 
 <center>
-   <h3> Welcome <a href="profile.php"> <?php echo $fullname; ?></a> </h3>
+  <a target="_blank" href="https://github.com/MyResearchManager/MyResearchManager"> <img src="myrm.jpg" width="350">
+</center>
 
+
+<center>
 <?php
    if($edit == 0)
       echo "<i>In view mode</i> - <a href=\"go_edit.php\">go to edit mode</a>";
@@ -414,20 +427,13 @@ idSection = $sid";
 
 </ul>
 
-<br>
-<br>
-<br>
-<br>
-
 <a href="https://github.com/MyResearchManager/MyResearchManager/blob/master/myrmtable/MyRMTable.java">Download 
 MyRMTable.java</a> (to work with dynamic tables)<br>
 <br>
-<a href="version.php"><?php include "version.php"; ?></a><br>
-<a href="http://www.gnu.org/licenses/agpl-3.0.html">License AGPLv3</a><br>
 <br>
-<br>
-<a href="logout.php">Logout</a><br>
-<br>
+<center>
+   <a href="version.php"><?php include "version.php"; ?></a><br>
+</center>
 
 </body>
 
