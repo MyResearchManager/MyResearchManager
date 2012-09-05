@@ -208,41 +208,6 @@ RM.idUser order by U.name, U.email";
                  }
 
               // ========================================================================
-
-              echo "<br><br><b>Links</b><br>";
-              echo "<ul>";
-              $sql = "SELECT `idLink`, `name`, `url`, `idResearch` FROM Links WHERE idResearch = $rid";
-              $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
-
-              $num_links = mysql_num_rows($exe);
-       	      if($num_links==0)
-       	       	 echo "<i>Empty</i><br>";
-
-              if($exe != null)
-                 while($linha2 = mysql_fetch_array($exe))
-                 { 
-                    $lid    = $linha2['idLink'];
-                    $name   = $linha2['name'];
-                    $url    = $linha2['url'];
-
-                    echo "<li> <a href=\"$url\">$name</a> ";
-                    if($edit==1)
-                       echo "(<a href=\"link_delete.php?lid=$lid\">delete</a>)";
-
-                 }
-
-              if($edit==1)
-              {
-                 echo "<form name=\"frm_link_create\" method=\"post\" action=\"link_create.php\">";
-                 echo "<input type=\"submit\" value=\"Create link\" name=\"bt_link_create\">"; 
-                 echo "<input type=\"hidden\" value=\"$rid\" name=\"rid\">";
-                 echo "<input type=\"text\" value=\"Name\" name=\"cname\">";
-                 echo "<input type=\"text\" value=\"http://...\" name=\"curl\">";
-                 echo "</form>";
-              }
-              echo "</ul>"; // Links
-
-              // ========================================================================
               // begin sections
               // ========================================================================
 
@@ -307,6 +272,44 @@ RM.idUser order by U.name, U.email";
                        echo "</form>";
                     }
 
+
+                    // ------------------------------------------------------------------------
+                    // LINKS
+                    // ------------------------------------------------------------------------
+
+                    echo "<br><b>Links</b><br>";
+                    echo "<ul>";
+                    $sql_links = "SELECT `idLink`, `name`, `url`, `idSection` FROM Links WHERE idSection = $sid";
+                    $exe_links = mysql_query( $sql_links, $myrmconn) or print(mysql_error());
+
+                    $num_links = mysql_num_rows($exe_links);
+                    if($num_links==0)
+                       echo "<i>Empty</i><br>";
+
+                    if($exe_links != null)
+                       while($line_links = mysql_fetch_array($exe_links))
+                       {
+                          $lid    = $line_links['idLink'];
+                          $name   = $line_links['name'];
+                          $url    = $line_links['url'];
+
+                          echo "<li> <a href=\"$url\">$name</a> ";
+                          if($edit==1)
+                             echo "(<a href=\"link_delete.php?lid=$lid\">delete</a>)";
+
+                       }
+
+                    if($edit==1)
+                    {
+                       echo "<form name=\"frm_link_create\" method=\"post\" action=\"link_create.php\">";
+                       echo "<input type=\"submit\" value=\"Create link\" name=\"bt_link_create\">";
+                       echo "<input type=\"hidden\" value=\"$sid\" name=\"sid\">";
+                       echo "<input type=\"text\" value=\"Name\" name=\"cname\">";
+                       echo "<input type=\"text\" value=\"http://...\" name=\"curl\">";
+                       echo "</form>";
+                    }
+
+                    echo "</ul>"; // Links
 
 
               // ------------------------------------------------------------------------

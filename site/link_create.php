@@ -7,11 +7,9 @@
 
    $id = $_SESSION['id'];
 
-   $rid = -1;
-   if(isset($_POST["rid"]))
-   {
-      $rid = $_POST["rid"];
-   }
+   $sid = -1;
+   if(isset($_POST["sid"]))
+      $sid = $_POST["sid"];
 
    $cname = "";
    if(isset($_POST["cname"]))
@@ -31,7 +29,7 @@
 
    include "connection.php";
 
-   $sql = "INSERT INTO Links (`idResearch`, `name`, `url`) VALUES ('$rid', '$cname', '$curl')";
+   $sql = "INSERT INTO Links (`idSection`, `name`, `url`) VALUES ('$sid', '$cname', '$curl')";
    $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
 
    header("Location: myrm.php");
