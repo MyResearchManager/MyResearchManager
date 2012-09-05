@@ -118,7 +118,7 @@ function deleteresearch(rid)
           }
       }
 
-      echo "<h2> $gname [<a href=\"./files/a$area_id/\">All files</a>] (<a href=\"area_options.php\">Change area</a>) </h2>";
+      echo "<h2> $gname (<a href=\"area_options.php\">Change area</a>) </h2>";
 ?>
 
 <br>
