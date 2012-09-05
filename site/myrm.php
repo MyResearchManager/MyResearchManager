@@ -293,7 +293,7 @@ RM.idUser order by U.name, U.email";
                           $name   = $line_links['name'];
                           $url    = $line_links['url'];
 
-                          echo "<li> <a href=\"$url\">$name</a> ";
+                          echo "<li> <a href=\"$url\" target=_blank>$name</a> ";
                           if($edit==1)
                              echo "(<a href=\"link_delete.php?lid=$lid\">delete</a>)";
 
