@@ -84,16 +84,16 @@ function deleteresearch(rid)
 
 
 <center>
-  <a target="_blank" href="https://github.com/MyResearchManager/MyResearchManager"> <img src="myrm.jpg" width="350">
+  <a target="_blank" href="https://github.com/MyResearchManager/MyResearchManager"><img src="myrm.jpg" width="350"></a><br><br>
 </center>
 
 
 <center>
 <?php
    if($edit == 0)
-      echo "<i>In view mode</i> - <a href=\"go_edit.php\">go to edit mode</a>";
+      echo "<b>In view mode</b> - <a href=\"go_edit.php\">go to edit mode</a>";
    else
-      echo "<a href=\"go_view.php\">go to view mode</a> - <i>In edit mode</i>";
+      echo "<b>In edit mode</b> - <a href=\"go_view.php\">go to view mode</a>";
 ?>
 </center>
 
