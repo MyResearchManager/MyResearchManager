@@ -323,7 +323,7 @@ RM.idUser order by U.name, U.email";
 
               $num_files = mysql_num_rows($exe);
        	      if($num_files==0)
-       	       	 echo "<i>Empty</i><br>";
+       	       	 echo "<i>Empty</i><br><br>";
 
               if($exe != null)
                  while($linha2 = mysql_fetch_array($exe))
@@ -367,7 +367,7 @@ RM.idUser order by U.name, U.email";
               // ------------------------------------------------------------------------
          
 
-              echo "<br><b>Dynamic Tables</b><br>";
+              echo "<b>Dynamic Tables</b><br>";
               echo "<ul>";
               $sql = "SELECT `idDynamicTable`, `description`, `key`, `locked`, `idSection` FROM DynamicTables WHERE 
 idSection = $sid";
