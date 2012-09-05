@@ -127,7 +127,7 @@ function deleteresearch(rid)
 <ul>
 <?php
 
-      $sql = "SELECT I.`description` as description, C.`name` as confname, I.`datetime` as dt FROM Researches as R, ResearchMembers as RM, Conferences as C, ImportantDates as I  WHERE RM.idUser='$id' and R.idArea='$area_id' and RM.idResearch = R.idResearch and C.idResearch = R.idResearch and I.idConference = C.idConference and I.`datetime` > NOW() ORDER BY I.`datetime`";
+      $sql = "SELECT I.`description` as description, S.`title` as title, I.`datetime` as dt FROM Researches as R, ResearchMembers as RM, Sections as S, ImportantDates as I  WHERE RM.idUser='$id' and R.idArea='$area_id' and RM.idResearch = R.idResearch and S.idResearch = R.idResearch and I.idSection = S.idSection and I.`datetime` > NOW() ORDER BY I.`datetime`";
 
       $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
       if($exe != null)
@@ -135,7 +135,7 @@ function deleteresearch(rid)
           {
               $description = $line['description'];
               $dt          = $line['dt'];
-              $confname    = $line['confname'];
+              $title       = $line['title'];
 
               $event = new DateTime("$dt");
               $today = new DateTime();
@@ -143,11 +143,11 @@ function deleteresearch(rid)
 
               echo "<li>";
               if($days == 0)
-                 echo "<font color=\"#FF0000\"><b>$confname</b> - $description (<i>Today!</i>)</font>\n";
+                 echo "<font color=\"#FF0000\"><b>$title</b> - $description (<i>Today!</i>)</font>\n";
               else if($days == 1)
-                 echo "<font color=\"#FF0000\"><b>$confname</b> - $description (<i>Tomorrow</i>)</font>\n";
+                 echo "<font color=\"#FF0000\"><b>$title</b> - $description (<i>Tomorrow</i>)</font>\n";
               else
-                 echo "<b>$confname</b> - $description (<i>In $days days</i>)";
+                 echo "<b>$title</b> - $description (<i>In $days days</i>)";
           }
 ?>
 </ul>
@@ -209,31 +209,72 @@ RM.idUser order by U.name, U.email";
 
               // ========================================================================
 
-              echo "<br><br><b>Intended Conferences</b><br>";
+              echo "<br><br><b>Links</b><br>";
               echo "<ul>";
-              $sql = "SELECT `idConference`, `name`, `url`, `idResearch` FROM Conferences WHERE idResearch = $rid";
+              $sql = "SELECT `idLink`, `name`, `url`, `idResearch` FROM Links WHERE idResearch = $rid";
               $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
 
-              $num_conferences = mysql_num_rows($exe);
-       	      if($num_conferences==0)
+              $num_links = mysql_num_rows($exe);
+       	      if($num_links==0)
        	       	 echo "<i>Empty</i><br>";
 
               if($exe != null)
                  while($linha2 = mysql_fetch_array($exe))
                  { 
-                    $cid    = $linha2['idConference'];
+                    $lid    = $linha2['idLink'];
                     $name   = $linha2['name'];
                     $url    = $linha2['url'];
 
                     echo "<li> <a href=\"$url\">$name</a> ";
                     if($edit==1)
-                       echo "(<a href=\"conference_delete.php?cid=$cid\">delete</a>)";
+                       echo "(<a href=\"link_delete.php?lid=$lid\">delete</a>)";
 
-                    // important dates
+                 }
 
+              if($edit==1)
+              {
+                 echo "<form name=\"frm_link_create\" method=\"post\" action=\"link_create.php\">";
+                 echo "<input type=\"submit\" value=\"Create link\" name=\"bt_link_create\">"; 
+                 echo "<input type=\"hidden\" value=\"$rid\" name=\"rid\">";
+                 echo "<input type=\"text\" value=\"Name\" name=\"cname\">";
+                 echo "<input type=\"text\" value=\"http://...\" name=\"curl\">";
+                 echo "</form>";
+              }
+              echo "</ul>"; // Links
+
+              // ========================================================================
+              // begin sections
+              // ========================================================================
+
+              $sql_sec = "SELECT `idSection` as sid, `title` FROM Sections WHERE idResearch = $rid ORDER BY `title`";
+              $exe_sec = mysql_query( $sql_sec, $myrmconn) or print(mysql_error());
+              if($exe_sec != null)
+                 while($line_sec = mysql_fetch_array($exe_sec))
+                 { 
+                    $sid    = $line_sec['sid'];
+                    $stitle = $line_sec['title'];
+
+                    echo "<br>";
+                    echo "<hr>";
+                    echo "<b>Section: </b> $stitle ";
+                    if($edit==1)
+                       echo "(<a href=\"#\" onclick=\"deletesection($sid)\">delete</a>)"; 
+                    echo "<br>";
+
+
+                    // ------------------------------------------------------------------------
+                    // IMPORTANT DATES
+                    // ------------------------------------------------------------------------
+
+                    echo "<br><b>Important Dates</b><br>";
                     echo "<ul>";
-                    $sql_imp = "SELECT * FROM ImportantDates WHERE idConference = $cid order by `datetime` ASC";
+                    $sql_imp = "SELECT * FROM ImportantDates WHERE idSection = $sid order by `datetime` ASC";
                     $exe_imp = mysql_query( $sql_imp, $myrmconn) or print(mysql_error());
+
+                    $num_impdates = mysql_num_rows($exe_imp);
+                    if($num_impdates==0)
+                       echo "<i>Empty</i><br>";
+
                     if($exe_imp != null)
                        while($line_imp = mysql_fetch_array($exe_imp))
                        {
@@ -259,43 +300,13 @@ RM.idUser order by U.name, U.email";
                     {
                        echo "<form name=\"frm_impdate_create\" method=\"post\" action=\"important_create.php\">";
                        echo "<input type=\"submit\" value=\"Create important date\" name=\"bt_impdate_create\">";
-                       echo "<input type=\"hidden\" value=\"$cid\" name=\"cid\">";
+                       echo "<input type=\"hidden\" value=\"$sid\" name=\"sid\">";
                        echo "<input type=\"text\" value=\"Remember\" name=\"description\">";
                        echo "Date: <input type=\"text\" value=\"".date("Y-m-d")."\"name=\"idate\" size='10'>";
                        echo "Time: <input type=\"text\" value=\"23:59\" name=\"itime\" size='8'>";
                        echo "</form>";
                     }
-                 }
 
-              if($edit==1)
-              {
-                 echo "<form name=\"frm_conf_create\" method=\"post\" action=\"conference_create.php\">";
-                 echo "<input type=\"submit\" value=\"Create conference\" name=\"bt_conf_create\">"; 
-                 echo "<input type=\"hidden\" value=\"$rid\" name=\"rid\">";
-                 echo "<input type=\"text\" value=\"Name\" name=\"cname\">";
-                 echo "<input type=\"text\" value=\"http://...\" name=\"curl\">";
-                 echo "</form>";
-              }
-              echo "</ul>"; // Conferences
-
-              // ========================================================================
-              // begin sections
-              // ========================================================================
-
-              $sql_sec = "SELECT `idSection` as sid, `title` FROM Sections WHERE idResearch = $rid ORDER BY `title`";
-              $exe_sec = mysql_query( $sql_sec, $myrmconn) or print(mysql_error());
-              if($exe_sec != null)
-                 while($line_sec = mysql_fetch_array($exe_sec))
-                 { 
-                    $sid    = $line_sec['sid'];
-                    $stitle = $line_sec['title'];
-
-                    echo "<br>";
-                    echo "<hr>";
-                    echo "<b>Section: </b> $stitle ";
-                    if($edit==1)
-                       echo "(<a href=\"#\" onclick=\"deletesection($sid)\">delete</a>)"; 
-                    echo "<br>";
 
 
               // ------------------------------------------------------------------------

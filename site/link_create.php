@@ -7,15 +7,23 @@
 
    $id = $_SESSION['id'];
 
-   $cid = -1;
-
-   if(isset($_GET["cid"]))
+   $rid = -1;
+   if(isset($_POST["rid"]))
    {
-      $cid = $_GET["cid"];
+      $rid = $_POST["rid"];
    }
 
-   if ($cid < 1)
-        header("Location: myrm.php");
+   $cname = "";
+   if(isset($_POST["cname"]))
+   {
+      $cname = $_POST["cname"];
+   }
+
+   $curl = "";
+   if(isset($_POST["curl"]))
+   {
+      $curl = $_POST["curl"];
+   }
 
    // ========================================
    // incluir varias checagens de seguranca!!!
@@ -23,7 +31,7 @@
 
    include "connection.php";
 
-   $sql = "DELETE FROM Conferences WHERE idConference = '$cid'";
+   $sql = "INSERT INTO Links (`idResearch`, `name`, `url`) VALUES ('$rid', '$cname', '$curl')";
    $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
 
    header("Location: myrm.php");

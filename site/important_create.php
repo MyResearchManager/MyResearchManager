@@ -7,9 +7,9 @@
 
    $id = $_SESSION['id'];
 
-   $cid = -1;
-   if(isset($_POST["cid"]))
-      $cid = $_POST["cid"];
+   $sid = -1;
+   if(isset($_POST["sid"]))
+      $sid = $_POST["sid"];
 
    $description = "";
    if(isset($_POST["description"]))
@@ -26,7 +26,7 @@
 
    include "connection.php";
 
-   $sql = "INSERT INTO ImportantDates (`idConference`, `description`, `datetime`) VALUES ('$cid', '$description', '$idate $itime')";
+   $sql = "INSERT INTO ImportantDates (`idSection`, `description`, `datetime`) VALUES ('$sid', '$description', '$idate $itime')";
    $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
 
    header("Location: myrm.php");
