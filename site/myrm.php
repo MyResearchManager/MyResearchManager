@@ -349,7 +349,7 @@ RM.idUser order by U.name, U.email";
                     else
                       echo "<b>not public</b>";
                     echo ") ";
-                    echo "<br><br>";
+                    echo "<br style=\"margin-bottom: 1em;\" />";
                  }
 
               if($edit==1)
