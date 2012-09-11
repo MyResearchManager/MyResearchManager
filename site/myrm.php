@@ -417,6 +417,7 @@ idSection = $sid";
                  echo "<input type=\"submit\" value=\"Create a new section\" name=\"bt_sec_create\">";
                  echo "<input type=\"hidden\" value=\"$rid\" name=\"rid\">";
                  echo "<input type=\"text\" value=\"Title\" name=\"stitle\">";
+                 echo "<i> (create a new section for a conference, journal or group of technical reports)</i>";
                  echo "</form>\n";
               }
               // end sections
@@ -435,6 +436,7 @@ idSection = $sid";
          echo "<input type=\"submit\" value=\"Create a new research\" name=\"bt_res_create\">";
          echo "<input type=\"hidden\" value=\"$gid\" name=\"gid\">";
          echo "<input type=\"text\" value=\"Title\" name=\"rname\">";
+         echo "<i> (create a new research related to this research area)</i>";
          echo "</form>";
       }
 ?>
