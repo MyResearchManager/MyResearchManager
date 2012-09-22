@@ -14,7 +14,7 @@
 
    include "connection.php";
 
-   $fullname = "*** no name ***";
+   $name     = "*** no name ***";
    $email    = "*** no email ***";
 
    $sql = "SELECT name, email FROM Users WHERE idUser = $id";
@@ -23,7 +23,7 @@
    if($exe != null)
        if($line = mysql_fetch_array($exe)) // should be while!
        {
-          $fullname  = $line['name'];
+          $name      = $line['name'];
           $email     = $line['email'];
        }
 ?>
@@ -37,7 +37,7 @@
 <center> <a target="_blank" href="https://github.com/MyResearchManager/MyResearchManager"> <img src="myrm.jpg" width="350"> </a> 
 </center>
 
-<center> <h3> Welcome <i><u><?php echo $fullname; ?></u></i> </h3> </center>
+<center> <h3> Welcome <i><u><?php echo $name; ?></u></i> </h3> </center>
 
 <br>
 
@@ -45,6 +45,17 @@
 <b>Edit profile</b><br>
 
 <hr><hr>
+
+<b>Name:  <?php echo $name;  ?> </b> <br>
+
+<form name="frm_change_name" method="post" action="change_name.php">
+<?php
+  echo "New name: <input type=\"text\" value=\"$name\" name=\"name\"><br>";
+?>
+<input type="submit" value="Change name" name="bt_change_name">
+</form>
+
+<br>
 
 <b>Email: <?php echo $email; ?> </b>
 
