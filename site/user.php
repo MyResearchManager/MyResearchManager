@@ -35,7 +35,7 @@
       $email  = "*** no email ***";
       $active = 0;
  
-      $sql = "SELECT name, email, active FROM Users WHERE idUser = $uid";
+      $sql = "SELECT name, email FROM Users WHERE idUser = $uid";
   
       $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
       if($exe != null)
@@ -43,14 +43,10 @@
           {
               $name   = $line['name'];
               $email  = $line['email'];
-              $active = $line['active'];
           }
 
       echo "<h2> $name </h2>";
       echo "<h3> $email </h3>";
-
-      if($active == 0)
-        echo "<h3>User not active!</h3>";
 ?>
 
 <br><br>

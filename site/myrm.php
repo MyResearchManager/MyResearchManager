@@ -184,9 +184,7 @@ print(mysql_error());
               echo "with ";
               $firstnocomma = 1;      
               
-              $sql = "SELECT U.idUser as uid, U.name as name, U.email as email, U.active as 
-active FROM Users as U, ResearchMembers as RM WHERE RM.idResearch = $rid and U.idUser = 
-RM.idUser order by U.name, U.email";
+              $sql = "SELECT U.idUser as uid, U.name as name, U.email as email FROM Users as U, ResearchMembers as RM WHERE RM.idResearch = $rid and U.idUser = RM.idUser order by U.name, U.email";
               $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
               if($exe != null)
                  while($line2 = mysql_fetch_array($exe))
@@ -194,18 +192,25 @@ RM.idUser order by U.name, U.email";
                     $uid    = $line2['uid'];
                     $name   = $line2['name'];
                     $email  = $line2['email'];
-                    $active = $line2['active'];
 
                     if($firstnocomma==1)
                        $firstnocomma = 0;
                     else
                        echo ", ";
 
-                    if($active==0)
-                       echo "$email";
-                    else
-                       echo "<a href=\"user.php?uid=$uid\">$name</a>";
+                    echo "<a href=\"user.php?uid=$uid\">$name</a>";
                  }
+
+                 if($edit==1)
+                 {
+                     echo "<form name=\"frm_research_add_user\" method=\"post\" action=\"research_add_user.php\">";
+                     echo "<input type=\"submit\" value=\"Add user to this research\" name=\"bt_research_add_user\">";
+                     echo "<input type=\"hidden\" value=\"$rid\" name=\"rid\">";
+                     echo "<input type=\"text\" value=\"a@b.com\" name=\"email\">";
+                     echo "<i>New users will have password '123456'</i>";
+                     echo "</form>";
+                 }
+
 
               // ========================================================================
               // begin sections

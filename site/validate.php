@@ -21,7 +21,7 @@
 
                $idUsuario = -1;
 
-               $sql = "SELECT idUser, name, password, email FROM Users WHERE active='1' and email= '$login' and password = MD5('$senha')" ;
+               $sql = "SELECT idUser, name, password, email FROM Users WHERE email = '$login' and password = MD5('$senha')" ;
 
                echo $sql;
 

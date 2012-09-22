@@ -1,5 +1,19 @@
 <?php
 
+function getUserIdByEmail($email)
+{
+      include "connection.php";
+
+      $uid = -1;
+      $sql = "SELECT idUser as uid FROM Users WHERE email = $email";
+      $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+      if($exe != null)
+          if($line = mysql_fetch_array($exe))
+              $uid = $line['uid'];
+
+      return $uid;
+}
+
 
 function getResearchIdBySectionId($sid)
 {
