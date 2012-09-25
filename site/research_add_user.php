@@ -13,24 +13,43 @@
    if(isset($_POST["email"]))
       $email = strtolower(trim($_POST["email"]));
 
-   if(($email == "") || ($email == "a@b.com")) // add more checks!
-      header("Location: myrm.php");
-
+   if((strcmp($email, "") == 0) || (strcmp($email, "a@b.com") == 0)) // add more checks!
+   {
+      echo "Invalid email address!<br>";
+      echo "<a href=\"myrm.php\">Back</a><br>";
+      die("");
+   }
+   
    include "util.php";
 
    $uid = getUserIdByEmail($email);
 
+   include "connection.php";
+
    if($uid < 0) // new user
    {
-      include "connection.php";
-
       $sql = "INSERT INTO Users (`name`, `email`, `password`) VALUES ('$email', '$email', MD5('123456'))";
       $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
       $uid = mysql_insert_id();
    }
 
-   $sql = "INSERT INTO ResearchMembers (`idResearch`, `idUser`) VALUES ('$rid', '$uid')";
-   $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
+   $rmcount = 0; 
 
-   header("Location: myrm.php");
+   $sql = "SELECT count(*) as c FROM ResearchMembers WHERE idResearch=$rid AND idUser=$uid";
+   $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
+   if($exe != null)
+      if($row = mysql_fetch_array($exe))
+         $rmcount = $row['c'];
+
+   if($rmcount < 1)
+   {
+      $sql = "INSERT INTO ResearchMembers (`idResearch`, `idUser`) VALUES ('$rid', '$uid')";
+      $exe =  mysql_query($sql, $myrmconn) or print(mysql_error());
+      header("Location: myrm.php");
+   }
+   else
+   {
+      echo "User already member of research!<br>";
+      echo "<a href=\"myrm.php\">Back</a><br>";
+   }
 ?>
