@@ -24,11 +24,6 @@
 
    include "util.php";
 
-   $gsname = getAreaNameByAreaId($area_id);
-
-   if ($gsname == "")
-        header("Location: myrm.php");
-
    include "connection.php";
 
    $filename = "";
@@ -50,7 +45,7 @@
 
    $rid = getResearchIdBySectionId($sid);
 
-   $deletefile = "./files/$gsname/r$rid/s$sid/$filename";
+   $deletefile = "./files/a$area_id/r$rid/s$sid/$filename";
 
    $ok = unlink($deletefile);
      

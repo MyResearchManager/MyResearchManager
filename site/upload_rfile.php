@@ -109,7 +109,7 @@ rar or zip";
 
          include "connection.php";
 
-         $filesize = $_UP['size']; 
+         $filesize = $_FILES['arquivo']['size']; 
          $sql = "INSERT INTO Files (`filename`, `size`, `uploadDateTime`, `uploadUser`, `public`, `idSection`) VALUES ('$finalname', 
 '$filesize', NOW(), '$id', '0', '$sid')";
          $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
