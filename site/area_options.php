@@ -32,6 +32,7 @@
 <html>
 <head>
  <title> MyResearchManager </title>
+ <link rel="shortcut icon" href="myrm.ico"/>
 </head>
 
 <body>

@@ -9,6 +9,7 @@
 <html>
 <head>
 <title>MyResearchManager - Login</title>
+<link rel="shortcut icon" href="myrm.ico"/>
 </head>
 
 <body>

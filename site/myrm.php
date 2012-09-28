@@ -41,6 +41,7 @@
 <html>
 <head>
  <title> MyResearchManager - Welcome! </title>
+ <link rel="shortcut icon" href="myrm.ico"/>
 
 <script type="text/javascript">
 <!--
