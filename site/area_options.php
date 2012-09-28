@@ -8,6 +8,25 @@
    $id  = $_SESSION['id'];
 
    $area_id = $_SESSION['gid'];
+
+   include "connection.php";
+
+   $fullname  = "*** no name ***";
+   $email     = "*** no email ***";
+
+   $sql = "SELECT name, email FROM Users WHERE idUser = $id";
+
+   $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+   if($exe != null)
+   {
+       if($linha = mysql_fetch_array($exe)) // should be while!
+       {
+           $fullname  = $linha['name'];
+           $email     = strtolower(trim($linha['email']));
+       }
+   }
+
+
 ?>
 
 <html>
@@ -17,7 +36,20 @@
 
 <body>
 
-<center> <h3> MyResearchManager - Research Area </h3> </center>
+<h3 align="right">
+  <?php echo $fullname; ?>
+  <a href="http://www.gravatar.com" target=_blank >
+    <img height="40" src="http://www.gravatar.com/avatar/<?php echo md5($email);?>">
+  </a>&nbsp;<br>
+
+  <a href="profile.php">edit profile</a>
+  <a href="logout.php">logout</a>
+</h3>
+
+
+<center>
+  <a target="_blank" href="https://github.com/MyResearchManager/MyResearchManager"><img src="myrm.jpg" width="350"></a><br><br>
+</center>
 
 <br>
 
