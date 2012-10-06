@@ -131,7 +131,9 @@ Title: <input type="text" value="Research Area" name="bname" size="60"><br>
 
 <br><br>
 
-<a href="logout.php">Logout</a>
+<center>
+   <a href="version.php"><?php include "version.php"; ?></a><br>
+</center>
 
 </body>
 
