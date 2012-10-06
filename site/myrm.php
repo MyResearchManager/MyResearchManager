@@ -261,7 +261,17 @@ print(mysql_error());
 
                     echo "<br>";
                     echo "<hr>";
-                    echo "<b>Section: </b> $stitle ";
+
+                    if($edit==0)
+                       echo "<b>Section:</b> $stitle ";
+                    else
+                    {
+                       echo "<form name=\"frm_section_rename\" method=\"post\" action=\"section_rename.php\">";
+                       echo "<input type=\"hidden\" value=\"$sid\" name=\"sid\">";
+                       echo "<b>Section:</b><input type=\"text\" value=\"$stitle\" name=\"title\">";
+                       echo "<input type=\"submit\" value=\"Rename\" name=\"bt_section_rename\">";
+                       echo "</form>";
+                    }
 
                     if($se == 0)
                        echo "[<a href=\"section_expand.php?sid=$sid\">expand</a>]";
