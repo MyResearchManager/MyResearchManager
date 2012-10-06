@@ -170,6 +170,12 @@ function deleteresearch(rid)
 
       $rexpanded = $_SESSION['rexpanded'];
 
+      if(!isset($_SESSION['sexpanded']))
+         $_SESSION['sexpanded'] = array();
+
+      $sexpanded = $_SESSION['sexpanded'];
+
+
       $sql_research = "SELECT R.idResearch as rid, R.title as title FROM 
 Users 
 as U, Researches as R, ResearchMembers as RM WHERE U.idUser = $id and R.idArea = $area_id and RM.idUser = U.idUser and 
@@ -222,7 +228,7 @@ print(mysql_error());
                     echo "<a href=\"user.php?uid=$uid\">$name</a>";
                  }
 
-                 if($edit==1)
+                 if(($re==1) && ($edit==1))
                  {
                      echo "<form name=\"frm_research_add_user\" method=\"post\" action=\"research_add_user.php\">";
                      echo "<input type=\"submit\" value=\"Add user to this research\" name=\"bt_research_add_user\">";
@@ -245,13 +251,30 @@ print(mysql_error());
                     $sid    = $line_sec['sid'];
                     $stitle = $line_sec['title'];
 
+                    $se = 0;
+
+                    foreach($sexpanded as $key=>$value)
+                    {
+               	       if( ($key == $sid) && ($value == 1) )
+                       $se = 1;
+                    }
+
                     echo "<br>";
                     echo "<hr>";
                     echo "<b>Section: </b> $stitle ";
+
+                    if($se == 0)
+                       echo "[<a href=\"section_expand.php?sid=$sid\">expand</a>]";
+                    else
+                       echo "[<a href=\"section_collapse.php?sid=$sid\">collapse</a>]";
+
                     if($edit==1)
                        echo "(<a href=\"#\" onclick=\"deletesection($sid)\">delete</a>)"; 
-                    echo "<br>";
 
+                    if($se==0)
+                       continue;
+
+                    echo "<br>";
 
                     // ------------------------------------------------------------------------
                     // IMPORTANT DATES
@@ -436,8 +459,10 @@ idSection = $sid";
 
                  } // end sections
 
-              echo "<br>\n";
-              if($edit==1)
+              if($re==1)
+                 echo "<br>\n";
+
+              if(($re==1) && ($edit==1))
               {
                  echo "<form name=\"frm_sec_create\" method=\"post\" action=\"section_create.php\">";
                  echo "<input type=\"submit\" value=\"Create a new section\" name=\"bt_sec_create\">";

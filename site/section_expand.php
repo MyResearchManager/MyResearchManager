@@ -7,18 +7,18 @@
 
    $id = $_SESSION['id'];
 
-   $rid = -1;
-   if(isset($_GET["rid"]))
-      $rid = $_GET["rid"];
+   $sid = -1;
+   if(isset($_GET["sid"]))
+      $sid = $_GET["sid"];
 
    // ========================================
    // incluir varias checagens de seguranca!!!
    // ========================================
 
-   if(!isset($_SESSION['rexpanded']))
-      $_SESSION['rexpanded'] = array();
+   if(!isset($_SESSION['sexpanded']))
+      $_SESSION['sexpanded'] = array();
 
-   $_SESSION['rexpanded'][$rid] = 1;
+   $_SESSION['sexpanded'][$sid] = 1;
 
    header("Location: myrm.php");
 ?>
