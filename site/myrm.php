@@ -178,7 +178,7 @@ print(mysql_error());
           while($line_research = mysql_fetch_array($exe_research))
           {
               $rid = $line_research['rid'];
-              echo "<li> <b>$line_research[title] (<a href=\"research.php?rid=$rid\">read more</a>) </b>";
+              echo "<li> <b> <a href=\"research.php?rid=$rid\"> $line_research[title]</a> </b>";
               if(($num_research > 1) && ($edit==1))
                  echo "(<a href=\"#\" onclick=\"deleteresearch($rid)\">delete</a>)";
               echo "<br>\n";
