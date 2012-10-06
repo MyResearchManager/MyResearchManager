@@ -165,6 +165,11 @@ function deleteresearch(rid)
 
 <?php
 
+      if(!isset($_SESSION['rexpanded']))
+         $_SESSION['rexpanded'] = array();
+
+      $rexpanded = $_SESSION['rexpanded'];
+
       $sql_research = "SELECT R.idResearch as rid, R.title as title FROM 
 Users 
 as U, Researches as R, ResearchMembers as RM WHERE U.idUser = $id and R.idArea = $area_id and RM.idUser = U.idUser and 
@@ -178,7 +183,22 @@ print(mysql_error());
           while($line_research = mysql_fetch_array($exe_research))
           {
               $rid = $line_research['rid'];
+
+              $re = 0;
+
+              foreach($rexpanded as $key=>$value)
+              {
+                 if( ($key == $rid) && ($value == 1) )
+                    $re = 1;
+              }
+
               echo "<li> <b> <a href=\"research.php?rid=$rid\"> $line_research[title]</a> </b>";
+
+              if($re == 0)
+                 echo "[<a href=\"research_expand.php?rid=$rid\">expand</a>]";
+              else
+                 echo "[<a href=\"research_collapse.php?rid=$rid\">collapse</a>]";
+
               if(($num_research > 1) && ($edit==1))
                  echo "(<a href=\"#\" onclick=\"deleteresearch($rid)\">delete</a>)";
               echo "<br>\n";
@@ -219,7 +239,7 @@ print(mysql_error());
 
               $sql_sec = "SELECT `idSection` as sid, `title` FROM Sections WHERE idResearch = $rid ORDER BY `title`";
               $exe_sec = mysql_query( $sql_sec, $myrmconn) or print(mysql_error());
-              if($exe_sec != null)
+              if(($re==1) && ($exe_sec != null) ) // if research is expanded!
                  while($line_sec = mysql_fetch_array($exe_sec))
                  { 
                     $sid    = $line_sec['sid'];
