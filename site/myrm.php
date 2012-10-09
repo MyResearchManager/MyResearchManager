@@ -131,6 +131,8 @@ function deleteresearch(rid)
       $sql = "SELECT I.`description` as description, S.`title` as title, I.`datetime` as dt FROM Researches as R, ResearchMembers as RM, Sections as S, ImportantDates as I  WHERE RM.idUser='$id' and R.idArea='$area_id' and RM.idResearch = R.idResearch and S.idResearch = R.idResearch and I.idSection = S.idSection and I.`datetime` > NOW() ORDER BY I.`datetime`";
 
       $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+      $num_remember = mysql_num_rows($exe);
+
       if($exe != null)
           while($line = mysql_fetch_array($exe)) // should be while!
           {
@@ -150,6 +152,10 @@ function deleteresearch(rid)
               else
                  echo "<b>$title</b> - $description (<i>In $days days</i>)";
           }
+
+     if($num_remember==0)
+         echo "<i>None</i>\n";
+
 ?>
 </ul>
 
@@ -290,14 +296,15 @@ print(mysql_error());
                     // IMPORTANT DATES
                     // ------------------------------------------------------------------------
 
-                    echo "<br><b>Important Dates</b><br>";
-                    echo "<ul>";
                     $sql_imp = "SELECT * FROM ImportantDates WHERE idSection = $sid order by `datetime` ASC";
                     $exe_imp = mysql_query( $sql_imp, $myrmconn) or print(mysql_error());
 
                     $num_impdates = mysql_num_rows($exe_imp);
-                    if($num_impdates==0)
-                       echo "<i>Empty</i><br>";
+                    if( ($num_impdates > 0) || ($edit==1) )
+                    {
+                       echo "<br><b>Important Dates</b><br>";
+                       echo "<ul>";
+                    }
 
                     if($exe_imp != null)
                        while($line_imp = mysql_fetch_array($exe_imp))
@@ -318,7 +325,9 @@ print(mysql_error());
                           if($edit==1)
                              echo "(<a href=\"important_delete.php?iid=$iid\">delete</a>)";
                        }
-                    echo "</ul>";
+
+                    if( ($num_impdates > 0) || ($edit==1) )
+                       echo "</ul>";
 
                     if($edit==1)
                     {
@@ -336,14 +345,15 @@ print(mysql_error());
                     // LINKS
                     // ------------------------------------------------------------------------
 
-                    echo "<br><b>Links</b><br>";
-                    echo "<ul>";
                     $sql_links = "SELECT `idLink`, `name`, `url`, `idSection` FROM Links WHERE idSection = $sid";
                     $exe_links = mysql_query( $sql_links, $myrmconn) or print(mysql_error());
 
                     $num_links = mysql_num_rows($exe_links);
-                    if($num_links==0)
-                       echo "<i>Empty</i><br>";
+                    if(($num_links > 0) || ($edit==1) )
+                    {
+                       echo "<br><b>Links</b><br>";
+                       echo "<ul>";
+                    }
 
                     if($exe_links != null)
                        while($line_links = mysql_fetch_array($exe_links))
@@ -368,23 +378,25 @@ print(mysql_error());
                        echo "</form>";
                     }
 
-                    echo "</ul>"; // Links
+                    if(($num_links > 0) || ($edit==1) )
+                       echo "</ul>"; // Links
 
 
               // ------------------------------------------------------------------------
               // FILES
               // ------------------------------------------------------------------------
 
-              echo "<br><b>Files</b><br>";
-              echo "<ul>";
               $sql = "SELECT `idFile` as fid, `filename`, SUBSTRING(MD5(`filename`),1,5) as `check`, `size`, `uploadDateTime` as 
 uploaddt, 
 `uploadUser` as uploadu, `public` FROM Files WHERE idSection = $sid ORDER BY `filename`";
               $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
 
               $num_files = mysql_num_rows($exe);
-       	      if($num_files==0)
-       	       	 echo "<i>Empty</i><br><br>";
+       	      if( ($num_files > 0) || ($edit==1) )
+              {
+                 echo "<br><b>Files</b><br>";
+                 echo "<ul>";
+              }
 
               if($exe != null)
                  while($linha2 = mysql_fetch_array($exe))
@@ -423,21 +435,23 @@ uploaddt,
                  echo "<input type=\"submit\" value=\"Send file\" name=\"bt_send_file\">"; 
                  echo "</form>";
               }
-              echo "</ul>"; // Files
+
+       	      if( ($num_files > 0) || ($edit==1) )
+                 echo "</ul>"; // Files
 
 
               // ------------------------------------------------------------------------
-         
 
-              echo "<b>Dynamic Tables</b><br>";
-              echo "<ul>";
               $sql = "SELECT `idDynamicTable`, `description`, `key`, `locked`, `idSection` FROM DynamicTables WHERE 
 idSection = $sid";
               $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
 
               $num_dyntables = mysql_num_rows($exe);
-              if($num_dyntables==0)
-                 echo "<i>Empty</i><br>";
+              if( ($num_dyntables > 0) || ($edit==1) )
+              {
+                 echo "<b>Dynamic Tables</b><br>";
+                 echo "<ul>";
+              }
 
               if($exe != null)
                  while($linha2 = mysql_fetch_array($exe))
@@ -466,7 +480,9 @@ idSection = $sid";
                  echo "<input type=\"text\" value=\"Description\" name=\"desc\">";
                  echo "</form>";
               }
-              echo "</ul>"; // Dynamic Tables
+
+              if( ($num_dyntables > 0) || ($edit==1) )
+                 echo "</ul>"; // Dynamic Tables
 
               // ------------------------------------------------------------------------
 
