@@ -1,8 +1,6 @@
 --
--- Banco de Dados MyResearchManager
+-- Banco de Dados: `myresearchmanager`
 --
-
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 -- --------------------------------------------------------
 
@@ -14,22 +12,7 @@ CREATE TABLE IF NOT EXISTS `Areas` (
   `idArea` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
   `description` text NOT NULL,
-  `smallName` varchar(30) NOT NULL,
   PRIMARY KEY (`idArea`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `Conferences`
---
-
-CREATE TABLE IF NOT EXISTS `Conferences` (
-  `idConference` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `url` varchar(255) NOT NULL,
-  `idResearch` int(11) NOT NULL,
-  PRIMARY KEY (`idConference`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -71,6 +54,7 @@ CREATE TABLE IF NOT EXISTS `DynamicTables` (
 CREATE TABLE IF NOT EXISTS `Files` (
   `idFile` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `filename` varchar(150) NOT NULL,
+  `size` int(10) unsigned NOT NULL,
   `uploadDateTime` datetime NOT NULL,
   `uploadUser` int(11) NOT NULL,
   `public` tinyint(1) NOT NULL,
@@ -87,10 +71,24 @@ CREATE TABLE IF NOT EXISTS `Files` (
 CREATE TABLE IF NOT EXISTS `ImportantDates` (
   `idImportantDate` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `description` varchar(100) NOT NULL,
-  `date` date NOT NULL,
-  `idConference` int(11) NOT NULL,
+  `datetime` datetime NOT NULL,
+  `idSection` int(11) NOT NULL,
   PRIMARY KEY (`idImportantDate`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `Links`
+--
+
+CREATE TABLE IF NOT EXISTS `Links` (
+  `idLink` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `idSection` int(11) NOT NULL,
+  PRIMARY KEY (`idLink`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
