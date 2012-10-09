@@ -28,7 +28,9 @@
 
    if($uid < 0) // new user
    {
-      $sql = "INSERT INTO Users (`name`, `email`, `password`) VALUES ('$email', '$email', MD5('123456'))";
+      $salt = substr(md5(uniqid(rand(), true)), 0, 4);
+      $sql = "INSERT INTO Users (`name`, `email`, `password`, `salt`) VALUES ('$email', '$email', MD5(CONCAT('12345','$salt')), 
+'$salt')";
       $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
       $uid = mysql_insert_id();
    }

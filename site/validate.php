@@ -21,7 +21,8 @@
 
                $idUsuario = -1;
 
-               $sql = "SELECT idUser, name, password, email FROM Users WHERE email = '$login' and password = MD5('$senha')" ;
+               $sql = "SELECT idUser, name, password, email FROM Users WHERE email = '$login' and password = 
+MD5(CONCAT('$senha',salt))" ;
 
                echo $sql;
 

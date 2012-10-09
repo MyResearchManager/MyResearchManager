@@ -26,7 +26,7 @@
 
    $idUser = -1;
 
-   $sql = "SELECT idUser FROM Users WHERE idUser = $id and password=MD5('$pwd_current')";
+   $sql = "SELECT idUser FROM Users WHERE idUser = $id and password=MD5(CONCAT('$pwd_current',salt))";
    $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
    if($exe != null)
       if($line = mysql_fetch_array($exe))
@@ -35,7 +35,7 @@
    if($idUser < 0)
       die("Wrong password!");
 
-   $sql = "UPDATE Users SET password = MD5('$pwd_new1') WHERE idUser = '$id'";
+   $sql = "UPDATE Users SET password = MD5(CONCAT('$pwd_new1',salt)) WHERE idUser = '$id'";
    $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
 
    echo "Password changed successfully!";

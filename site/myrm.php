@@ -232,6 +232,8 @@ print(mysql_error());
                        echo ", ";
 
                     echo "<a href=\"user.php?uid=$uid\">$name</a>";
+                    if( ($edit==1) && ($id != $uid) )
+                       echo "(<a href=\"research_remove_user.php?rid=$rid&uid=$uid\">X</a>)";
                  }
 
                  if(($re==1) && ($edit==1))
@@ -240,7 +242,7 @@ print(mysql_error());
                      echo "<input type=\"submit\" value=\"Add user to this research\" name=\"bt_research_add_user\">";
                      echo "<input type=\"hidden\" value=\"$rid\" name=\"rid\">";
                      echo "<input type=\"text\" value=\"a@b.com\" name=\"email\">";
-                     echo "<i>New users will have password '123456'</i>";
+                     echo "<i>New users will have password '12345'</i>";
                      echo "</form>";
                  }
 
