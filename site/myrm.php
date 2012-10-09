@@ -68,6 +68,14 @@ function deleteresearch(rid)
       window.location = "research_delete.php?rid="+rid;
 }
 //-->
+<!--
+function removeuserfromresearch(rid, uid)
+{
+   var answer = confirm("Removing user from this research. Are you sure?")
+   if(answer)
+      window.location = "research_remove_user.php?rid="+rid+"&uid="+uid;
+}
+//-->
 </script>
 
 </head>
@@ -233,7 +241,7 @@ print(mysql_error());
 
                     echo "<a href=\"user.php?uid=$uid\">$name</a>";
                     if( ($edit==1) && ($id != $uid) )
-                       echo "(<a href=\"research_remove_user.php?rid=$rid&uid=$uid\">X</a>)";
+                       echo "(<a href=\"#\" onclick=\"removeuserfromresearch($rid, '$uid')\">X</a>)";
                  }
 
                  if(($re==1) && ($edit==1))
