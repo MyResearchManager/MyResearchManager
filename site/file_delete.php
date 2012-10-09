@@ -17,6 +17,9 @@
    if ($fid < 1)
         header("Location: myrm.php");
 
+   $check = 0;
+   if(isset($_GET["check"]))
+      $check = $_GET["check"];
 
    // =========================
    // add more security checks!
@@ -29,7 +32,7 @@
    $filename = "";
    $sid = -1;
 
-   $sql = "SELECT filename, idSection as sid FROM Files WHERE idFile=$fid";
+   $sql = "SELECT filename, idSection as sid FROM Files WHERE idFile=$fid and SUBSTRING(MD5(`filename`),1,5)='$check'";
    $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
    if($exe != null)
    {

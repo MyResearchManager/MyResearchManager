@@ -45,11 +45,11 @@
 
 <script type="text/javascript">
 <!--
-function deletefile(fid)
+function deletefile(fid, check)
 {
    var answer = confirm("Deleting file. Are you sure?")
    if(answer)
-      window.location = "file_delete.php?fid="+fid;
+      window.location = "file_delete.php?fid="+fid+"&check="+check;
 }
 //-->
 <!--
@@ -377,7 +377,9 @@ print(mysql_error());
 
               echo "<br><b>Files</b><br>";
               echo "<ul>";
-              $sql = "SELECT `idFile` as fid, `filename`, `size`, `uploadDateTime` as uploaddt, `uploadUser` as uploadu, `public` FROM Files WHERE idSection = $sid ORDER BY `filename`";
+              $sql = "SELECT `idFile` as fid, `filename`, SUBSTRING(MD5(`filename`),1,5) as `check`, `size`, `uploadDateTime` as 
+uploaddt, 
+`uploadUser` as uploadu, `public` FROM Files WHERE idSection = $sid ORDER BY `filename`";
               $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
 
               $num_files = mysql_num_rows($exe);
@@ -393,10 +395,11 @@ print(mysql_error());
                     $uploaddt = $linha2['uploaddt'];
                     $uploadu  = $linha2['uploadu'];
                     $public   = $linha2['public'];
+                    $check    = $linha2['check'];
 
                     echo "<li> <a href=\"./files/a$area_id/r$rid/s$sid/$filename\">$filename</a> - <i>$filesize bytes</i> ";
                     if($edit==1)
-                       echo "(<a href=\"#\" onclick=\"deletefile($fid)\">delete</a>)";
+                       echo "(<a href=\"#\" onclick=\"deletefile($fid, '$check')\">delete</a>)";
                     echo "<br>";
 
                     $numdatetime = strtotime($uploaddt);
