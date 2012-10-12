@@ -7,11 +7,9 @@
 
    $id = $_SESSION['id'];
 
-   $rid = -1;
-   if(isset($_POST["rid"]))
-   {
-      $rid = $_POST["rid"];
-   }
+   $sid = -1;
+   if(isset($_POST["sid"]))
+      $sid = $_POST["sid"];
 
    $desc = "";
    if(isset($_POST["desc"]))
@@ -25,7 +23,8 @@
 
    include "connection.php";
 
-   $sql = "INSERT INTO DynamicTables (`description`, `key`, `locked`, `idResearch`) VALUES ('$desc', MD5(RAND()), '0', $rid)";
+   $sql = "INSERT INTO DynamicTables (`description`, `key`, `locked`, `idSection`) VALUES ('$desc', MD5(RAND()), '0', 
+$sid)";
    $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
 
    header("Location: myrm.php");

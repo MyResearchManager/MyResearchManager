@@ -486,7 +486,7 @@ idSection = $sid";
               {
                  echo "<form name=\"frm_dtable_create\" method=\"post\" action=\"dtablecreate.php\">";
                  echo "<input type=\"submit\" value=\"Create table\" name=\"bt_dtable_create\">"; 
-                 echo "<input type=\"hidden\" value=\"$rid\" name=\"rid\">";
+                 echo "<input type=\"hidden\" value=\"$sid\" name=\"sid\">";
                  echo "<input type=\"text\" value=\"Description\" name=\"desc\">";
                  echo "</form>";
               }
