@@ -181,6 +181,9 @@ public class MyRMTable {
 				}
 			}
 
+			if(errors>0)
+				return errors; // do not jump to next line until the current one is done!
+
 			row++;
 		}
 		
