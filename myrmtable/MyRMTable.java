@@ -15,6 +15,14 @@ import java.util.Scanner;
 
 public class MyRMTable {
 
+	static String hostname = "";
+	static String key = "";
+	static String filename = "";
+	static int monitorTime = -1; // time in seconds
+		
+	static boolean automaticRowNumber = true;
+	static int row = 0;
+
 	public static String remote(String text)
 	{
 		String r = "";
@@ -34,15 +42,11 @@ public class MyRMTable {
 		return r;
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, InterruptedException {
 
-		String hostname = "";
-		String key = "";
-		String filename = "";
-		
-		boolean automaticRowNumber = true;
+		int parameters = args.length/2;
 
-		for(int i=0; i<3; i++)
+		for(int i=0; i<parameters; i++)
 			if((2*i+1)<args.length)
 			{
 				if(args[2*i].equals("--host"))
@@ -53,11 +57,19 @@ public class MyRMTable {
 
 				if(args[2*i].equals("--file"))
 					filename = args[2*i+1];
+
+				if(args[2*i].equals("--monitor"))
+					monitorTime = Integer.parseInt(args[2*i+1]);
 			}
 
 		if(hostname.equals("") || key.equals("") || filename.equals(""))
 		{
-			System.out.println("Usage: MyRMTable --file table.txt --host http://website/myrm/ --key bb631e6b8f17c8c658f42706be558550");
+			System.out.println("Usage: MyRMTable [--monitor timelimit] --file table.txt --host http://website/myrm/ --key bb631e6b8f17c8c658f42706be558550");
+			System.out.println("found "+args.length+" arguments");
+			System.out.println("file=\""+filename+"\"");
+			System.out.println("key=\""+key+"\"");
+			System.out.println("host=\""+hostname+"\"");
+			System.out.println("monitor=\""+monitorTime+"\"");
 			System.out.println("Missing arguments... aborting!");
 			return;
 		}	
@@ -86,9 +98,45 @@ public class MyRMTable {
 		log.write("automatic row numbering = " + automaticRowNumber+'\n');
 		System.out.println("=======================================================");
 
+
+		row = 1;
+
+		if(monitorTime<=0) // no monitor
+		{
+			errors += sendFile(log);
+			errors += lockTable(log);
+		}
+		
+		if(monitorTime>0) // monitoring file (time in seconds)
+			while(true)
+			{
+				errors += sendFile(log);
+				System.out.println("Waiting for more "+monitorTime+" seconds...");
+				Thread.sleep(monitorTime*1000); // 'monitorTime' seconds
+			}
+
+		System.out.println("=======================");
+		System.out.println("Finished with "+errors+" errors!");
+		System.out.println("=======================");
+		
+		log.write("Finished with "+errors+" errors!\n");
+
+		log.close();
+	}
+
+
+	public static int sendFile(BufferedWriter log) throws IOException {
+
+		int errors = 0;
+
 		Scanner table = new Scanner(new File(filename));
 
-		int row = 1;
+                int drop_row = row-1;
+                while((drop_row>0) && (table.hasNextLine()))
+                {
+                    System.out.println("ignoring line: "+table.nextLine());
+                    drop_row--;
+                }
 
 		while(table.hasNextLine())
 		{
@@ -136,6 +184,14 @@ public class MyRMTable {
 			row++;
 		}
 		
+		return errors;
+	}
+
+
+	public static int lockTable(BufferedWriter log) throws IOException {
+
+		int errors = 0;
+
 		String url = hostname+"dtablelock.php?key="+key;
 		for(int i=1; i<=3; i++)
 		{
@@ -160,19 +216,9 @@ public class MyRMTable {
 				}
 			}
 		}
-		
 
-		System.out.println("=======================");
-		System.out.println("Finished with "+errors+" errors!");
-		System.out.println("=======================");
-		
-		log.write("Finished with "+errors+" errors!\n");
-
-		log.close();
+		return errors;
 	}
-
-
-
 }
 
 
