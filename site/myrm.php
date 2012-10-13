@@ -452,8 +452,7 @@ uploaddt,
 
               // ------------------------------------------------------------------------
 
-              $sql = "SELECT `idDynamicTable`, `description`, `key`, `locked`, `idSection` FROM DynamicTables WHERE 
-idSection = $sid";
+              $sql = "SELECT `idDynamicTable`, `description`, `key`, `locked`, `idSection` FROM DynamicTables WHERE idSection = $sid ORDER BY description";
               $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
 
               $num_dyntables = mysql_num_rows($exe);
