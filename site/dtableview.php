@@ -35,7 +35,7 @@
       $key = "*** no key ***";
       $locked = 1;
 
-      $sql = "SELECT `description`, `key`, `locked` FROM `DynamicTables` WHERE idDynamicTable = $tid";
+      $sql = "SELECT `description`, `key`, `locked`, `lastUpdate` FROM `DynamicTables` WHERE idDynamicTable = $tid";
       $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
       if($exe != null)
           if($line = mysql_fetch_array($exe))
@@ -43,10 +43,12 @@
               $description = $line['description'];
               $key = $line['key'];
               $locked = $line['locked'];
+              $lastUpdate = $line['lastUpdate'];
           }
 
       echo "<b>Description:</b> $description <br>";
       echo "<b>Key:</b> $key <br>";
+      echo "<b>Last update:</b> $lastUpdate <br>";
 
       if($locked == 0)
         echo "<b>Status:</b> unlocked <br>";

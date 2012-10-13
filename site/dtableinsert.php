@@ -92,7 +92,12 @@
    }
 
    if($ok == 1)
+   {
+      $sql = "UPDATE DynamicTables SET lastUpdate=NOW() WHERE idDynamicTable = $idTable";
+      $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
+
       echo "OK";
+   }
    else
       echo "ERROR";
 ?>
