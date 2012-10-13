@@ -471,13 +471,22 @@ idSection = $sid";
                     $key    = $linha2['key'];
                     $locked = $linha2['locked'];
 
-                    echo "<li> <a href=\"dtableview.php?tid=$tid\">$desc</a> (key: $key)";
+                    echo "<li> <a href=\"dtableview.php?tid=$tid\">$desc</a> - <b>key:</b> <i>$key</i> ";
+
+                    if($edit==1)
+                       echo "(delete) ";
+
+                    if($locked!=0)
+                       echo "<i><b>locked</b></i> ";
+                    else
+                       echo "<i><b>unlocked</b></i> ";
+
                     if($edit==1)
                     {
                        if($locked!=0)
-                          echo " locked (<a href=\"dtablesafeunlock.php?tid=$tid\">unlock</a>)"; // needs session security
+                          echo "(<a href=\"dtablesafeunlock.php?tid=$tid\">unlock</a>)"; // needs session security
                        else
-                          echo " unlocked (<a href=\"dtablesafelock.php?tid=$tid\">lock</a>)";   // needs only key value
+                          echo "(<a href=\"dtablesafelock.php?tid=$tid\">lock</a>)";     // needs only key value
                     }
                     echo "<br>";
                  }
