@@ -171,9 +171,7 @@ function removeuserfromresearch(rid, uid)
 
 <b>Researches</b>
 
-<br><br>
-
-<hr><hr>
+<br>
 
 <ul>
 
@@ -222,7 +220,7 @@ print(mysql_error());
               if(($num_research > 1) && ($edit==1))
                  echo "(<a href=\"#\" onclick=\"deleteresearch($rid)\">delete</a>)";
               echo "<br>\n";
-              echo "with ";
+              echo "<i><b>with</b></i> ";
               $firstnocomma = 1;      
               
               $sql = "SELECT U.idUser as uid, U.name as name, U.email as email FROM Users as U, ResearchMembers as RM WHERE RM.idResearch = $rid and U.idUser = RM.idUser order by U.name, U.email";
@@ -244,6 +242,9 @@ print(mysql_error());
                        echo "(<a href=\"#\" onclick=\"removeuserfromresearch($rid, '$uid')\">X</a>)";
                  }
 
+                 if($re==0)
+                    echo "<br>(...)";
+
                  if(($re==1) && ($edit==1))
                  {
                      echo "<form name=\"frm_research_add_user\" method=\"post\" action=\"research_add_user.php\">";
@@ -253,6 +254,8 @@ print(mysql_error());
                      echo "<i>New users will have password '12345'</i>";
                      echo "</form>";
                  }
+                 else
+                    echo "<br>";
 
 
               // ========================================================================
@@ -275,32 +278,44 @@ print(mysql_error());
                        $se = 1;
                     }
 
-                    echo "<br>";
                     echo "<hr>";
 
                     if($edit==0)
+                    {
                        echo "<b>Section:</b> $stitle ";
+
+                       if($se == 0)
+                          echo "[<a href=\"section_expand.php?sid=$sid\">expand</a>]";
+                       else
+                          echo "[<a href=\"section_collapse.php?sid=$sid\">collapse</a>]";
+                    }
                     else
                     {
                        echo "<form name=\"frm_section_rename\" method=\"post\" action=\"section_rename.php\">";
                        echo "<input type=\"hidden\" value=\"$sid\" name=\"sid\">";
                        echo "<b>Section:</b><input type=\"text\" value=\"$stitle\" name=\"title\">";
                        echo "<input type=\"submit\" value=\"Rename\" name=\"bt_section_rename\">";
+
+                       if($se == 0)
+                          echo "[<a href=\"section_expand.php?sid=$sid\">expand</a>]";
+                       else
+                          echo "[<a href=\"section_collapse.php?sid=$sid\">collapse</a>]";
+
+                       echo "(<a href=\"#\" onclick=\"deletesection($sid)\">delete</a>)";
+
                        echo "</form>";
                     }
 
-                    if($se == 0)
-                       echo "[<a href=\"section_expand.php?sid=$sid\">expand</a>]";
-                    else
-                       echo "[<a href=\"section_collapse.php?sid=$sid\">collapse</a>]";
-
-                    if($edit==1)
-                       echo "(<a href=\"#\" onclick=\"deletesection($sid)\">delete</a>)"; 
+                    if($edit==0)
+                       echo "<br>";
 
                     if($se==0)
+                    {
+                       echo "(...) <br>";
+                       if($edit==1)
+                          echo "<br>";
                        continue;
-
-                    echo "<br>";
+                    }
 
                     // ------------------------------------------------------------------------
                     // IMPORTANT DATES
@@ -504,10 +519,12 @@ uploaddt,
 
               // ------------------------------------------------------------------------
 
+              //echo "<hr>";
+
                  } // end sections
 
-              if($re==1)
-                 echo "<br>\n";
+              //if($re==1)
+              //   echo "<br>\n";
 
               if(($re==1) && ($edit==1))
               {
@@ -518,10 +535,15 @@ uploaddt,
                  echo "<i> (create a new section for a conference, journal or group of technical reports)</i>";
                  echo "</form>\n";
               }
+
+              echo "<hr>\n";
+
               // end sections
               // ========================================================================
 
-              echo "\n</ul><hr><hr><ul>\n"; // space for new research
+              echo "</ul>\n";
+              echo "<br style=\"margin-bottom: -2em;\" />";
+              echo "<ul>\n"; // space for new research
           }
 
       }
