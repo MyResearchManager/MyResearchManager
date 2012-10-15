@@ -280,7 +280,12 @@ print(mysql_error());
 
                     echo "<hr>";
 
-                    if($edit==0)
+                    $edit_this = $edit;
+
+                    if($se==0)
+                       $edit_this=0;
+
+                    if($edit_this==0)
                     {
                        echo "<b>Section:</b> $stitle ";
 
@@ -306,13 +311,13 @@ print(mysql_error());
                        echo "</form>";
                     }
 
-                    if($edit==0)
+                    if($edit_this==0)
                        echo "<br>";
 
                     if($se==0)
                     {
                        echo "(...) <br>";
-                       if($edit==1)
+                       if($edit_this==1)
                           echo "<br>";
                        continue;
                     }
