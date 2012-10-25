@@ -17,6 +17,8 @@
    $edit = $edit + 1; // turn integer
    $edit = $edit - 1; // turn integer
 
+   $autoexpandresearch = true; // put in configuration file later
+
    include "util.php";
 
    include "connection.php";
@@ -203,12 +205,20 @@ print(mysql_error());
               $rid = $line_research['rid'];
 
               $re = 0;
+              $rdefined = false;
 
               foreach($rexpanded as $key=>$value)
               {
-                 if( ($key == $rid) && ($value == 1) )
-                    $re = 1;
+                 if($key == $rid)
+                 {
+                    $rdefined = true;
+                    if($value == 1) 
+                       $re = 1;
+                 }
               }
+
+              if(!$rdefined && $autoexpandresearch)
+                 $re=1;
 
               echo "<li> <b> <a href=\"research.php?rid=$rid\"> $line_research[title]</a> </b>";
 
