@@ -451,11 +451,11 @@ uploaddt,
 
                     echo "<li> <a href=\"./files/a$area_id/r$rid/s$sid/$filename\">$filename</a> - <i>";
                     if($filesize > 1024*1024)
-                       printf("%.1f Mbytes", ($filesize/(1024*1024)));
+                       printf("%.1f MB", ($filesize/(1024*1024)));
                     else if($filesize > 1024)
-                       printf("%.1f Kbytes", ($filesize/1024));
+                       printf("%.1f KB", ($filesize/1024));
                     else
-                       echo $filesize;
+                       echo "$filesize bytes";
                     echo "</i> ";
 
                     if($edit==1)
