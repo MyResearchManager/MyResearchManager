@@ -449,7 +449,15 @@ uploaddt,
                     $public   = $linha2['public'];
                     $check    = $linha2['check'];
 
-                    echo "<li> <a href=\"./files/a$area_id/r$rid/s$sid/$filename\">$filename</a> - <i>$filesize bytes</i> ";
+                    echo "<li> <a href=\"./files/a$area_id/r$rid/s$sid/$filename\">$filename</a> - <i>";
+                    if($filesize > 1024*1024)
+                       printf("%.1f Mbytes", ($filesize/(1024*1024)));
+                    else if($filesize > 1024)
+                       printf("%.1f Kbytes", ($filesize/1024));
+                    else
+                       echo $filesize;
+                    echo "</i> ";
+
                     if($edit==1)
                        echo "(<a href=\"#\" onclick=\"deletefile($fid, '$check')\">delete</a>)";
                     echo "<br>";
