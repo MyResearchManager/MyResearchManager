@@ -288,7 +288,8 @@ print(mysql_error());
                        $se = 1;
                     }
 
-                    echo "<hr>";
+
+                    echo "<a name=\"s$sid\"><hr></a>";
 
                     $edit_this = $edit;
 
@@ -300,9 +301,9 @@ print(mysql_error());
                        echo "<b>Section:</b> $stitle ";
 
                        if($se == 0)
-                          echo "[<a name=\"s$sid\" href=\"section_expand.php?sid=$sid\">expand</a>]";
+                          echo "[<a href=\"section_expand.php?sid=$sid\">expand</a>]";
                        else
-                          echo "[<a name=\"s$sid\" href=\"section_collapse.php?sid=$sid\">collapse</a>]";
+                          echo "[<a href=\"section_collapse.php?sid=$sid\">collapse</a>]";
                     }
                     else
                     {
@@ -312,9 +313,9 @@ print(mysql_error());
                        echo "<input type=\"submit\" value=\"Rename\" name=\"bt_section_rename\">";
 
                        if($se == 0)
-                          echo "[<a name=\"s$sid\" href=\"section_expand.php?sid=$sid\">expand</a>]";
+                          echo "[<a href=\"section_expand.php?sid=$sid\">expand</a>]";
                        else
-                          echo "[<a name=\"s$sid\" href=\"section_collapse.php?sid=$sid\">collapse</a>]";
+                          echo "[<a href=\"section_collapse.php?sid=$sid\">collapse</a>]";
 
                        echo "(<a href=\"#\" onclick=\"deletesection($sid)\">delete</a>)";
 
