@@ -20,5 +20,5 @@
 
    $_SESSION['rexpanded'][$rid] = 1;
 
-   header("Location: myrm.php");
+   header("Location: myrm.php#r$rid");
 ?>

@@ -20,5 +20,5 @@
 
    $_SESSION['sexpanded'][$sid] = 0;
 
-   header("Location: myrm.php");
+   header("Location: myrm.php#s$sid");
 ?>

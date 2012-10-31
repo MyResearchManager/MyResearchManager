@@ -223,9 +223,9 @@ print(mysql_error());
               echo "<li> <b> <a href=\"research.php?rid=$rid\"> $line_research[title]</a> </b>";
 
               if($re == 0)
-                 echo "[<a href=\"research_expand.php?rid=$rid\">expand</a>]";
+                 echo "[<a name=\"r$rid\" href=\"research_expand.php?rid=$rid\">expand</a>]";
               else
-                 echo "[<a href=\"research_collapse.php?rid=$rid\">collapse</a>]";
+                 echo "[<a name=\"r$rid\" href=\"research_collapse.php?rid=$rid\">collapse</a>]";
 
               if(($num_research > 1) && ($edit==1))
                  echo "(<a href=\"#\" onclick=\"deleteresearch($rid)\">delete</a>)";
@@ -300,9 +300,9 @@ print(mysql_error());
                        echo "<b>Section:</b> $stitle ";
 
                        if($se == 0)
-                          echo "[<a href=\"section_expand.php?sid=$sid\">expand</a>]";
+                          echo "[<a name=\"s$sid\" href=\"section_expand.php?sid=$sid\">expand</a>]";
                        else
-                          echo "[<a href=\"section_collapse.php?sid=$sid\">collapse</a>]";
+                          echo "[<a name=\"s$sid\" href=\"section_collapse.php?sid=$sid\">collapse</a>]";
                     }
                     else
                     {
@@ -312,9 +312,9 @@ print(mysql_error());
                        echo "<input type=\"submit\" value=\"Rename\" name=\"bt_section_rename\">";
 
                        if($se == 0)
-                          echo "[<a href=\"section_expand.php?sid=$sid\">expand</a>]";
+                          echo "[<a name=\"s$sid\" href=\"section_expand.php?sid=$sid\">expand</a>]";
                        else
-                          echo "[<a href=\"section_collapse.php?sid=$sid\">collapse</a>]";
+                          echo "[<a name=\"s$sid\" href=\"section_collapse.php?sid=$sid\">collapse</a>]";
 
                        echo "(<a href=\"#\" onclick=\"deletesection($sid)\">delete</a>)";
 
