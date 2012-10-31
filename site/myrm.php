@@ -547,8 +547,8 @@ uploaddt,
 
                  } // end sections
 
-              //if($re==1)
-              //   echo "<br>\n";
+              if($edit==1)
+                 echo "<br>\n";
 
               if(($re==1) && ($edit==1))
               {
