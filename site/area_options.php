@@ -65,8 +65,9 @@
       $areaoptions = "";
       $selecionado = "SELECTED"; // select first
  
-      $sql = "SELECT DISTINCT A.idArea as aid, A.name as name FROM Areas as A, Researches as R, ResearchMembers as RM 
-WHERE R.idResearch = RM.idResearch and RM.idUser = $id and R.idArea = A.idArea ORDER BY name";
+      $sql = "SELECT DISTINCT A.idArea as aid, A.name as name FROM Areas as A, Researches as R, ResearchMembers as RM, 
+SectionMembers as SM, Sections as S WHERE (R.idResearch = RM.idResearch and RM.idUser = $id and R.idArea = A.idArea) OR 
+(R.idResearch = S.idResearch and S.idSection = SM.idSection and SM.idUser = $id and R.idArea = A.idArea) ORDER BY name";
       $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
       if($exe != null)
       {

@@ -78,6 +78,14 @@ function removeuserfromresearch(rid, uid)
       window.location = "research_remove_user.php?rid="+rid+"&uid="+uid;
 }
 //-->
+<!--
+function removeuserfromsection(sid, uid)
+{
+   var answer = confirm("Removing user from this section. Are you sure?")
+   if(answer)
+      window.location = "section_remove_user.php?sid="+sid+"&uid="+uid;
+}
+//-->
 </script>
 
 </head>
@@ -190,15 +198,24 @@ function removeuserfromresearch(rid, uid)
       $sexpanded = $_SESSION['sexpanded'];
 
 
-      $sql_research = "SELECT R.idResearch as rid, R.title as title FROM 
-Users 
-as U, Researches as R, ResearchMembers as RM WHERE U.idUser = $id and R.idArea = $area_id and RM.idUser = U.idUser and 
-RM.idResearch = R.idResearch ORDER BY title";
-      $exe_research = mysql_query( $sql_research, $myrmconn) or 
-print(mysql_error());
+      $sql_research = "SELECT R.idResearch as rid, R.title as title FROM Users as U, Researches as R, ResearchMembers as RM WHERE U.idUser = $id and R.idArea = $area_id and RM.idUser = U.idUser and RM.idResearch = R.idResearch ORDER BY title";
+      $exe_research = mysql_query( $sql_research, $myrmconn) or print(mysql_error());
       if($exe_research != null)
       {
           $num_research = mysql_num_rows($exe_research);
+
+          $userInResearch = true;
+          if($num_research == 0)
+             $userInResearch = false;
+
+          if(!$userInResearch) // look for users in sections only
+          {
+             $sql_research = "SELECT R.idResearch as rid, R.title as title FROM Users as U, Researches as R, Sections as S, SectionMembers as SM WHERE
+U.idUser = $id and R.idArea = $area_id and SM.idUser = U.idUser and SM.idSection = S.idSection and S.idResearch = R.idResearch ORDER 
+BY title";
+             $exe_research = mysql_query( $sql_research, $myrmconn) or print(mysql_error());
+             $num_research = mysql_num_rows($exe_research);
+          }
 
           while($line_research = mysql_fetch_array($exe_research))
           {
@@ -227,7 +244,7 @@ print(mysql_error());
               else
                  echo "[<a name=\"r$rid\" href=\"research_collapse.php?rid=$rid\">collapse</a>]";
 
-              if(($num_research > 1) && ($edit==1))
+              if(($num_research > 1) && ($edit==1) && $userInResearch)
                  echo "(<a href=\"#\" onclick=\"deleteresearch($rid)\">delete</a>)";
               echo "<br>\n";
               echo "<i><b>with</b></i> ";
@@ -248,14 +265,14 @@ print(mysql_error());
                        echo ", ";
 
                     echo "<a href=\"user.php?uid=$uid\">$name</a>";
-                    if( ($edit==1) && ($id != $uid) )
+                    if( ($edit==1) && ($id != $uid) && $userInResearch )
                        echo "(<a href=\"#\" onclick=\"removeuserfromresearch($rid, '$uid')\">X</a>)";
                  }
 
                  if($re==0)
                     echo "<br>(...)";
 
-                 if(($re==1) && ($edit==1))
+                 if(($re==1) && ($edit==1) && $userInResearch)
                  {
                      echo "<form name=\"frm_research_add_user\" method=\"post\" action=\"research_add_user.php\">";
                      echo "<input type=\"submit\" value=\"Add user to this research\" name=\"bt_research_add_user\">";
@@ -272,7 +289,12 @@ print(mysql_error());
               // begin sections
               // ========================================================================
 
-              $sql_sec = "SELECT `idSection` as sid, `title` FROM Sections WHERE idResearch = $rid ORDER BY `title`";
+              $sql_sec = "";
+              if($userInResearch)
+                 $sql_sec = "SELECT `idSection` as sid, `title` FROM Sections WHERE idResearch = $rid ORDER BY `title`";
+              else
+                 $sql_sec = "SELECT S.`idSection` as sid, S.`title` as title FROM Sections as S, SectionMembers as SM WHERE S.idResearch = $rid and SM.idSection = S.idSection and SM.idUser = $id ORDER BY `title`";
+            
               $exe_sec = mysql_query( $sql_sec, $myrmconn) or print(mysql_error());
               if(($re==1) && ($exe_sec != null) ) // if research is expanded!
                  while($line_sec = mysql_fetch_array($exe_sec))
@@ -325,14 +347,50 @@ print(mysql_error());
                     if($edit_this==0)
                        echo "<br>";
 
+                    $firstnocomma = 1;
+                    $sql_s_u = "SELECT U.idUser as uid, U.name as name, U.email as email FROM Users as U, SectionMembers as SM WHERE SM.idSection = $sid and U.idUser = SM.idUser order by U.name, U.email";
+                    $exe_s_u = mysql_query( $sql_s_u, $myrmconn) or print(mysql_error());
+                    if($exe_s_u != null)
+                       while($line3 = mysql_fetch_array($exe_s_u))
+                       {
+                          $uid_sec    = $line3['uid'];
+                          $name_sec   = $line3['name'];
+                          $email_sec  = $line3['email'];
+
+                          if($firstnocomma==1)
+                          {
+                             echo "<i>Other users: </i>";
+                             $firstnocomma = 0;
+                          }
+                          else
+                             echo ", ";
+
+                          echo "<a href=\"user.php?uid=$uid_sec\">$name_sec</a>";
+  
+                          if( ($edit_this==1) && ($id != $uid_sec) )
+                          echo "(<a href=\"#\" onclick=\"removeuserfromsection($sid, '$uid_sec')\">X</a>)";
+                       }
+
                     if($se==0)
                     {
-                       echo "(...) <br>";
+                       echo " (...)<br>";
                        if($edit_this==1)
                           echo "<br>";
                        continue;
                     }
 
+                    if(($se==1) && ($edit_this==1))
+                    {
+                       echo "<form name=\"frm_section_add_user\" method=\"post\" action=\"section_add_user.php\">";
+                       echo "<input type=\"submit\" value=\"Add user to this section\" name=\"bt_section_add_user\">";
+                       echo "<input type=\"hidden\" value=\"$sid\" name=\"sid\">";
+                       echo "<input type=\"text\" value=\"a@b.com\" name=\"email\">";
+                       echo "<i>New users will have password '12345'</i>";
+                       echo "</form>";
+                    }
+                    else
+                       echo "<br>";
+                        
                     // ------------------------------------------------------------------------
                     // IMPORTANT DATES
                     // ------------------------------------------------------------------------
@@ -550,7 +608,7 @@ uploaddt,
               if($edit==1)
                  echo "<br>\n";
 
-              if(($re==1) && ($edit==1))
+              if(($re==1) && ($edit==1) && $userInResearch)
               {
                  echo "<form name=\"frm_sec_create\" method=\"post\" action=\"section_create.php\">";
                  echo "<input type=\"submit\" value=\"Create a new section\" name=\"bt_sec_create\">";
