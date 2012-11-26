@@ -55,8 +55,9 @@
 
       readfile($zipfile);
 
-      exit();
       unlink($zipfile);
+
+      exit();
    }
    else
       exit("Error: $zipfile not created!");
