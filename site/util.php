@@ -76,5 +76,19 @@ function getAreaIdByAreaName($area_sname)
       return $area_id;
 }
 
+function getSectionNameBySectionId($sid)
+{
+      include "connection.php";
+
+      $sname = "no-name";
+      $sql = "SELECT title FROM Sections WHERE idSection = $sid";
+      $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+      if($exe != null)
+          if($line = mysql_fetch_array($exe))
+              $sname = $line['title'];
+
+      return $sname;
+}
+
 
 ?>

@@ -110,10 +110,11 @@ rar or zip";
          include "connection.php";
 
          $filesize = $_FILES['arquivo']['size']; 
-         $sql = "INSERT INTO Files (`filename`, `size`, `uploadDateTime`, `uploadUser`, `public`, `idSection`) VALUES ('$finalname', 
-'$filesize', NOW(), '$id', '0', '$sid')";
+         $sql = "INSERT INTO Files (`filename`, `size`, `creation`, `visible`, `idSection`) VALUES ('$finalname', '$filesize', NOW(), '0', '$sid')";
          $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
 
+         $sql = "INSERT INTO Logs (`idUser`, `when`, `what`) VALUES ('$id', NOW(), 'File $filename created.')";
+         $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
       }
       else // Possibly wrong directory!
       {

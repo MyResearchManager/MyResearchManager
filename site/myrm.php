@@ -320,7 +320,7 @@ BY title";
 
                     if($edit_this==0)
                     {
-                       echo "<b>Section:</b> $stitle ";
+                       echo "<b>Section:</b> $stitle (<a href=\"section_backup.php?sid=$sid\">BACKUP</a>)";
 
                        if($se == 0)
                           echo "[<a href=\"section_expand.php?sid=$sid\">expand</a>]";
@@ -485,9 +485,7 @@ BY title";
               // FILES
               // ------------------------------------------------------------------------
 
-              $sql = "SELECT `idFile` as fid, `filename`, SUBSTRING(MD5(`filename`),1,5) as `check`, `size`, `uploadDateTime` as 
-uploaddt, 
-`uploadUser` as uploadu, `public` FROM Files WHERE idSection = $sid ORDER BY `filename`";
+              $sql = "SELECT `idFile` as fid, `filename`, SUBSTRING(MD5(`filename`),1,5) as `check`, `size`, `creation`, `visible` FROM Files WHERE idSection = $sid ORDER BY `filename`";
               $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
 
               $num_files = mysql_num_rows($exe);
@@ -503,19 +501,23 @@ uploaddt,
                     $fid      = $linha2['fid'];
                     $filename = $linha2['filename'];
                     $filesize = $linha2['size'];
-                    $uploaddt = $linha2['uploaddt'];
-                    $uploadu  = $linha2['uploadu'];
-                    $public   = $linha2['public'];
+                    $creation = $linha2['creation'];
+                    $visible  = $linha2['visible']; // -1 is public, 0 is section visible, other values are private user id
                     $check    = $linha2['check'];
 
-                    echo "<li> <a href=\"./files/a$area_id/r$rid/s$sid/$filename\">$filename</a> - <i>";
-                    if($filesize > 1024*1024)
-                       printf("%.1f MB", ($filesize/(1024*1024)));
-                    else if($filesize > 1024)
-                       printf("%.1f KB", ($filesize/1024));
-                    else
-                       echo "$filesize bytes";
-                    echo "</i> ";
+                    echo "<li> <a href=\"./files/a$area_id/r$rid/s$sid/$filename\">$filename</a> ";
+                    if (file_exists("./files/a$area_id/r$rid/s$sid/$filename"))
+                    {
+                       echo "- <i><b>last modified:</b> " . date("F d Y H:i", strtotime($creation)) . " <b>size:</b> ";
+                    
+                       if($filesize > 1024*1024)
+                         printf("%.1f MB", ($filesize/(1024*1024)));
+                       else if($filesize > 1024)
+                         printf("%.1f KB", ($filesize/1024));
+                       else
+                         echo "$filesize bytes";
+                       echo "</i> ";
+                    }
 
                     if($edit==1)
                        echo "(<a href=\"#\" onclick=\"deletefile($fid, '$check')\">delete</a>)";
@@ -524,12 +526,15 @@ uploaddt,
                     $numdatetime = strtotime($uploaddt);
                     $fdtime = date("Y-m-d H:i", $numdatetime);
 
-                    echo "<i>Uploaded by <b>".getUserNameByUserId($uploadu)."</b> on <b>$fdtime</b></i> (";
-                    if($public==1)
-                      echo "<b>public</b>";
+                    //echo "<i>Uploaded by <b>".getUserNameByUserId($uploadu)."</b> on <b>$fdtime</b></i> (";
+                    echo "<i><b>visible to:</b> ";
+                    if($visible==-1)
+                      echo "public";
+                    else if($visible==0)
+                      echo "members";
                     else
-                      echo "<b>not public</b>";
-                    echo ") ";
+                      echo "user $visible";
+                    echo "</i>";
                     echo "<br style=\"margin-bottom: 1em;\" />";
                  }
 
@@ -572,10 +577,12 @@ uploaddt,
                     if($edit==1)
                        echo "(delete) ";
 
+                    echo "<br>";
+
                     if($locked!=0)
-                       echo "<i><b>locked</b></i> ";
+                       echo "<i><b>Status:</b> locked</i> ";
                     else
-                       echo "<i><b>unlocked</b></i> ";
+                       echo "<i><b>Status:</b> unlocked</i> ";
 
                     if($edit==1)
                     {
