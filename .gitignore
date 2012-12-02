@@ -1,2 +1,6 @@
-*~
-*.class
+.gitignore
+connection.php
+files
+*.backup
+tmp-backup
+*.zip
