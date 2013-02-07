@@ -4,3 +4,4 @@ files
 *.backup
 tmp-backup
 *.zip
+*~
