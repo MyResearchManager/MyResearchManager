@@ -32,11 +32,11 @@
    $_UP['dir'] = "./files/a$area_id/r$rid/s$sid/";
 
    // Max file size (Bytes)
-   $_UP['size'] = 1024 * 1024 * 12; // 12 MB
+   $_UP['size'] = 1024 * 1024 * 25; // 25 MB
 
    // Allowed extensions
    $_UP['extensions'] = array('jpg', 'png', 'gif', 'pdf', 'zip', 
-'rar', 'xls', 'doc', 'ppt', 'pps');
+'rar', 'xls', 'doc', 'ppt', 'pps', 'tar', 'gz', 'tar.gz');
 
    // Rename file?
    $_UP['rename'] = false;
@@ -62,12 +62,14 @@
    $extension = strtolower(end(explode('.', $_FILES['arquivo']['name'])));
    if (array_search($extension, $_UP['extensions']) === false) // File extension verification
    {
-      echo "Allowed extensions: jpg, png, gif, pdf, xls, doc, ppt, pps, 
-rar or zip";
+      //echo "Allowed extensions: jpg, png, gif, pdf, xls, doc, ppt, pps, rar or zip";
+      echo "Allowed extensions: ";
+      for($i=0; $i<sizeof($_UP['extensions']); $i++)
+         echo $_UP['extensions'][$i]." - ";
    }
    else if ($_UP['size'] < $_FILES['arquivo']['size']) // File size verification
    {
-      echo "File too big! Limit is 12MB.";
+      echo "File too big! Limit is 25MB.";
    }
    else // file ok! check name and try to move!!
    {
@@ -112,8 +114,9 @@ rar or zip";
          $filesize = $_FILES['arquivo']['size']; 
          $sql = "INSERT INTO Files (`filename`, `size`, `creation`, `visible`, `idSection`) VALUES ('$finalname', '$filesize', NOW(), '0', '$sid')";
          $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
+         $fid = mysql_insert_id();
 
-         $sql = "INSERT INTO Logs (`idUser`, `when`, `what`) VALUES ('$id', NOW(), 'File $filename created.')";
+         $sql = "INSERT INTO Logs (`when`, `what`) VALUES (NOW(), 'uid=$id added fid=$fid in sid=$sid of rid=$rid of aid=$area_id.')";
          $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
       }
       else // Possibly wrong directory!

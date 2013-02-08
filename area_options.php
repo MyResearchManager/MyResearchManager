@@ -11,6 +11,8 @@
 
    include "connection.php";
 
+   include "util.php";
+
    $fullname  = "*** no name ***";
    $email     = "*** no email ***";
 
@@ -129,6 +131,71 @@ Title: <input type="text" value="Research Area" name="bname" size="60"><br>
 <input type="submit" value="Create research area" name="bt_area_create">
 </form>
 
+
+<br><br>
+<b>User log</b>
+<?php
+   $limit = 10;
+   echo " (<i>LIMIT=$limit</i>)<br>";
+?>
+<table>
+<tr><td><b>Date</b></td><td><b>What</b></td></tr>
+<?php
+
+   $sql = "SELECT `when`, `what` FROM Logs WHERE what LIKE '%uid=$id%' ORDER BY `when` DESC LIMIT $limit";
+   $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+   if($exe != null)
+   {
+       while($line = mysql_fetch_array($exe)) // should be while!
+       {
+           echo "<tr>";
+           $when  = $line['when'];
+           echo "<td>$when</td>";
+           $what  = $line['what'];
+
+           $uid   = preg_replace('/(.*)(uid)=(\d+)(.*)/i', '${3}', $what); // uid
+           $uid++; $uid--; // test number
+           if($uid != 0)
+           {
+              $u_name = getUserNameByUserId($uid);
+              $what  = preg_replace("/(uid)=($uid)/i", "<a href=\"user.php?uid=$uid\">User:$u_name</a>", $what); // sid
+           }
+
+           $fid   = preg_replace('/(.*)(fid)=(\d+)(.*)/i', '${3}', $what); // fid
+           $fid++; $fid--; // test number
+           if($fid != 0)
+           {
+              //$f_name = getUserNameByUserId($fid);
+              $what  = preg_replace("/(fid)=($fid)/i", "FILE=$fid", $what); // fid
+           }
+
+           $sid   = preg_replace('/(.*)(sid)=(\d+)(.*)/i', '${3}', $what); // sid
+           $sid++; $sid--; // test number
+           if($sid != 0)
+           {
+              $s_name = getSectionNameBySectionId($sid);
+              $what  = preg_replace("/(sid)=($sid)/i", "<a href=\"myrm.php#sid=$sid\">Section:$s_name</a>", $what); // sid
+           }
+           $rid   = preg_replace('/(.*)(rid)=(\d+)(.*)/i', '${3}', $what); // rid
+           $rid++; $rid--; // test number
+           if($rid != 0)
+           {
+              $r_name = getResearchNameByResearchId($rid);
+              $what  = preg_replace("/(rid)=($rid)/i", "<a href=\"myrm.php#rid=$rid\">Research:$r_name</a>", $what); // rid
+           }
+           $aid   = preg_replace('/(.*)(aid)=(\d+)(.*)/i', '${3}', $what); // aid
+           $aid++; $aid--; // test number
+           if($aid != 0)
+           {
+              $a_name = getAreaNameByAreaId($aid);
+              $what  = preg_replace("/(aid)=($aid)/i", "<a href=\"myrm.php#aid=$aid\">Area:$a_name</a>", $what); // rid
+           }
+           echo "<td>$what</td>";
+           echo "</tr>";
+       }
+   }
+?>
+</table>
 
 <br><br>
 

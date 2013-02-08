@@ -91,4 +91,33 @@ function getSectionNameBySectionId($sid)
 }
 
 
+function getResearchNameByResearchId($rid)
+{
+      include "connection.php";
+
+      $rname = "no-name";
+      $sql = "SELECT title FROM Researches WHERE idResearch = $rid";
+      $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+      if($exe != null)
+          if($line = mysql_fetch_array($exe))
+              $rname = $line['title'];
+
+      return $rname;
+}
+
+
+function getAreaNameByAreaId($aid)
+{
+      include "connection.php";
+
+      $aname = "no-name";
+      $sql = "SELECT name FROM Areas WHERE idArea = $aid";
+      $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+      if($exe != null)
+          if($line = mysql_fetch_array($exe))
+              $aname = $line['name'];
+
+      return $aname;
+}
+
 ?>

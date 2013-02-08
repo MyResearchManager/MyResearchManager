@@ -244,7 +244,7 @@ BY title";
               else
                  echo "[<a name=\"r$rid\" href=\"research_collapse.php?rid=$rid\">collapse</a>]";
 
-              if(($num_research > 1) && ($edit==1) && $userInResearch)
+              if(($edit==1) && $userInResearch) // if(($num_research > 1) && ($edit==1) && $userInResearch)
                  echo "(<a href=\"#\" onclick=\"deleteresearch($rid)\">delete</a>)";
               echo "<br>\n";
               echo "<i><b>with</b></i> ";
