@@ -1,5 +1,10 @@
 <?php
 
+//if(function_exists('getUserIdByEmail'))
+//{
+//   exit;
+//}
+
 function getUserIdByEmail($email)
 {
       include "connection.php";
@@ -45,7 +50,19 @@ function getAreaIdByResearchId($rid)
       return $area_id;
 }
 
+function getSectionIdByPublicationId($pid)
+{
+      include "connection.php"; 
 
+      $sid = -1;
+      $sql = "SELECT idSection as sid FROM Publications WHERE idPublication = $pid";
+      $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+      if($exe != null)
+          if($line = mysql_fetch_array($exe))
+              $sid = $line['sid'];
+
+      return $sid;
+}
 
 function getUserNameByUserId($user_id)
 {

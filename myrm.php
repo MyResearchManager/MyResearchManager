@@ -46,7 +46,7 @@
  <link rel="shortcut icon" href="myrm.ico"/>
 
 <script type="text/javascript">
-<!--
+//<!--
 function deletefile(fid, check)
 {
    var answer = confirm("Deleting file. Are you sure?")
@@ -54,7 +54,7 @@ function deletefile(fid, check)
       window.location = "file_delete.php?fid="+fid+"&check="+check;
 }
 //-->
-<!--
+//<!--
 function deletesection(sid)
 {
    var answer = confirm("Deleting section. Are you sure?")
@@ -62,7 +62,7 @@ function deletesection(sid)
       window.location = "section_delete.php?sid="+sid;
 }
 //-->
-<!--
+//<!--
 function deleteresearch(rid)
 {
    var answer = confirm("Deleting research. Are you sure?")
@@ -70,7 +70,23 @@ function deleteresearch(rid)
       window.location = "research_delete.php?rid="+rid;
 }
 //-->
-<!--
+//<!--
+function deletepublication(pid)
+{
+   var answer = confirm("Deleting publication. Are you sure?")
+   if(answer)
+      window.location = "publication_delete.php?pid="+pid;
+}
+//-->
+//<!--
+function removeuserfrompublication(pid, uid)
+{
+   var answer = confirm("Removing user from publication. Are you sure?")
+   if(answer)
+      window.location = "publication_remove_user.php?pid="pid+"&uid="+uid;
+}
+//-->
+//<!--
 function removeuserfromresearch(rid, uid)
 {
    var answer = confirm("Removing user from this research. Are you sure?")
@@ -78,7 +94,7 @@ function removeuserfromresearch(rid, uid)
       window.location = "research_remove_user.php?rid="+rid+"&uid="+uid;
 }
 //-->
-<!--
+//<!--
 function removeuserfromsection(sid, uid)
 {
    var answer = confirm("Removing user from this section. Are you sure?")
@@ -479,6 +495,92 @@ BY title";
 
                     if(($num_links > 0) || ($edit==1) )
                        echo "</ul>"; // Links
+
+
+              // ------------------------------------------------------------------------
+              // PUBLICATIONS
+              // ------------------------------------------------------------------------
+
+              $sql = "SELECT `idPublication` as pid, `title`, `date`, `visible` FROM Publications WHERE idSection = $sid ORDER BY `date`";
+              $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+
+              $num_publications = mysql_num_rows($exe);
+       	      if( ($num_publications > 0) || ($edit==1) )
+              {
+                 echo "<br><b>Publications</b><br>";
+                 echo "<ul>";
+              }
+
+              if($exe != null)
+                 while($line2 = mysql_fetch_array($exe))
+                 { 
+                    $pid     = $line2['pid'];
+                    $title   = $line2['title'];
+                    $pdate   = $line2['date'];
+                    $ndt = strtotime($pdate);
+                    $fdtime = date("F d Y", $ndt);
+                    $visible = $line2['visible']; // -1 is public, 0 is section visible, other values are private user id
+
+                    echo "<li> $title ($fdtime) ";
+                    if($edit==1)
+                       echo "(<a href=\"#\" onclick=\"deletepublication($pid)\">delete</a>)";
+
+                    echo "<br><b>Authors:</b> ";
+
+                    $sql2 = "SELECT `idPublicationMember`, `order`, `idUser`, `idPublication` FROM PublicationMembers WHERE idPublication = $pid ORDER BY `order`";
+                    $exe2 = mysql_query( $sql2, $myrmconn) or print(mysql_error());
+
+                    $num_authors = mysql_num_rows($exe2);
+  
+                    if($exe2 != null)
+                       while($lauthors = mysql_fetch_array($exe2))
+                       {
+                          $uid1  = $lauthors['idUser'];
+                          $uname = getUserNameByUserId($uid1);
+                          $order = $lauthors['order'];
+                          echo "$uname(#$order) ";
+                          if(($edit==1) && ($order==$num_authors))
+                             echo "(<a href=\"#\" onclick=\"removeuserfrompublication($pid, $uid1)\">delete</a>)";
+                       }
+
+                    if($edit==1)
+                    {
+                        echo "<form method=\"post\" action=\"publication_add_user.php\">";
+                        $num_authors++;
+                        echo "<label>add author #$num_authors (email):</label>";
+                        echo "<input type=\"hidden\" value=\"$num_authors\" name=\"order\">";
+                        echo "<input type=\"hidden\" value=\"$pid\" name=\"pid\">";
+                        echo "<input type=\"text\" name=\"email\">";
+                        echo "<input type=\"submit\" value=\"Add user\" name=\"bt_publication_add_user\">"; 
+                        echo "</form>";
+                    }
+
+                    echo "<br>";
+
+                    echo "<i><b>visible to:</b> ";
+                    if($visible==-1)
+                      echo "public";
+                    else if($visible==0)
+                      echo "members";
+                    else
+                      echo "user $visible";
+                    echo "</i>";
+                    echo "<br style=\"margin-bottom: 1em;\" />";
+                 }
+
+              if($edit==1)
+              {
+                 echo "<form method=\"post\" action=\"publication_create.php\">";
+                 echo "<label>Create publication:</label>";
+                 echo "<input type=\"hidden\" value=\"$sid\" name=\"sid\">";
+                 echo "<input type=\"text\" name=\"title\" value=\"Title\">";
+                 echo "<input type=\"text\" name=\"date\" value=\"".time()."\">";
+                 echo "<input type=\"submit\" value=\"Create publication\" name=\"bt_publication_create\">"; 
+                 echo "</form>";
+              }
+
+       	      if( ($num_publications > 0) || ($edit==1) )
+                 echo "</ul>"; // Files
 
 
               // ------------------------------------------------------------------------
