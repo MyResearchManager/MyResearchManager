@@ -174,21 +174,21 @@ Title: <input type="text" value="Research Area" name="bname" size="60"><br>
            if($sid != 0)
            {
               $s_name = getSectionNameBySectionId($sid);
-              $what  = preg_replace("/(sid)=($sid)/i", "<a href=\"myrm.php#sid=$sid\">Section:$s_name</a>", $what); // sid
+              $what  = preg_replace("/(sid)=($sid)/i", "<a href=\"myrm.php#s$sid\">Section:$s_name</a>", $what); // sid
            }
            $rid   = preg_replace('/(.*)(rid)=(\d+)(.*)/i', '${3}', $what); // rid
            $rid++; $rid--; // test number
            if($rid != 0)
            {
               $r_name = getResearchNameByResearchId($rid);
-              $what  = preg_replace("/(rid)=($rid)/i", "<a href=\"myrm.php#rid=$rid\">Research:$r_name</a>", $what); // rid
+              $what  = preg_replace("/(rid)=($rid)/i", "<a href=\"myrm.php#r$rid\">Research:$r_name</a>", $what); // rid
            }
            $aid   = preg_replace('/(.*)(aid)=(\d+)(.*)/i', '${3}', $what); // aid
            $aid++; $aid--; // test number
            if($aid != 0)
            {
               $a_name = getAreaNameByAreaId($aid);
-              $what  = preg_replace("/(aid)=($aid)/i", "<a href=\"myrm.php#aid=$aid\">Area:$a_name</a>", $what); // rid
+              $what  = preg_replace("/(aid)=($aid)/i", "<a href=\"myrm.php#a$aid\">Area:$a_name</a>", $what); // rid
            }
            echo "<td>$what</td>";
            echo "</tr>";

@@ -501,7 +501,7 @@ BY title";
               // PUBLICATIONS
               // ------------------------------------------------------------------------
 
-              $sql = "SELECT `idPublication` as pid, `title`, `date`, `visible` FROM Publications WHERE idSection = $sid ORDER BY `date`";
+              $sql = "SELECT `idPublication` as pid, `title`, `date`, `journal`, `visible` FROM Publications WHERE idSection = $sid ORDER BY `date`";
               $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
 
               $num_publications = mysql_num_rows($exe);
@@ -516,12 +516,13 @@ BY title";
                  { 
                     $pid     = $line2['pid'];
                     $title   = $line2['title'];
+                    $journal = $line2['journal'];
                     $pdate   = $line2['date'];
                     $ndt = strtotime($pdate);
                     $fdtime = date("F d Y", $ndt);
                     $visible = $line2['visible']; // -1 is public, 0 is section visible, other values are private user id
 
-                    echo "<li> $title ($fdtime) ";
+                    echo "<li> $title ($fdtime) - <i>$journal</i> ";
                     if($edit==1)
                        echo "(<a href=\"#\" onclick=\"deletepublication($pid)\">delete</a>)";
 
@@ -538,9 +539,13 @@ BY title";
                           $uid1  = $lauthors['idUser'];
                           $uname = getUserNameByUserId($uid1);
                           $order = $lauthors['order'];
-                          echo "$uname(#$order) ";
+                          echo "<a href=\"user.php?uid=$uid1\">$uname</a>";
+                          if($edit==1)
+                             echo " (#$order)";
+                          if($order != $num_authors)
+                             echo ", ";
                           if(($edit==1) && ($order==$num_authors))
-                             echo "(<a href=\"#\" onclick=\"removeuserfrompublication($pid, $uid1)\">delete</a>)";
+                             echo "(<a href=\"#\" onclick=\"removeuserfrompublication($pid, $uid1)\">delete last</a>)";
                        }
 
                     if($edit==1)
@@ -574,6 +579,7 @@ BY title";
                  echo "<label>Create publication:</label>";
                  echo "<input type=\"hidden\" value=\"$sid\" name=\"sid\">";
                  echo "<input type=\"text\" name=\"title\" value=\"Title\">";
+                 echo "<input type=\"text\" name=\"journal\" value=\"Journal\">";
                  echo "<input type=\"text\" name=\"date\" value=\"".date("Y-m-d")."\">";
                  echo "<input type=\"submit\" value=\"Create publication\" name=\"bt_publication_create\">"; 
                  echo "</form>";
