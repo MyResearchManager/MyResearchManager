@@ -83,7 +83,7 @@ function removeuserfrompublication(pid, uid)
 {
    var answer = confirm("Removing user from publication. Are you sure?")
    if(answer)
-      window.location = "publication_remove_user.php?pid="pid+"&uid="+uid;
+      window.location = "publication_remove_user.php?pid="+pid+"&uid="+uid;
 }
 //-->
 //<!--
@@ -574,7 +574,7 @@ BY title";
                  echo "<label>Create publication:</label>";
                  echo "<input type=\"hidden\" value=\"$sid\" name=\"sid\">";
                  echo "<input type=\"text\" name=\"title\" value=\"Title\">";
-                 echo "<input type=\"text\" name=\"date\" value=\"".time()."\">";
+                 echo "<input type=\"text\" name=\"date\" value=\"".date("Y-m-d")."\">";
                  echo "<input type=\"submit\" value=\"Create publication\" name=\"bt_publication_create\">"; 
                  echo "</form>";
               }
