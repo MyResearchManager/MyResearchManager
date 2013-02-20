@@ -4,6 +4,8 @@
 
    if ($_SESSION['logado'] == 1)
         header("Location: myrm.php");
+
+   require_once("connection.php");
 ?>
 
 <html>
@@ -24,6 +26,12 @@
 <table>
    <tr> <td>email: </td><td><input type="text" value="" name="login"></td> </tr>
    <tr> <td>password:</td><td><input type="password" value="" name="senha"></td></tr>
+   <tr> <td>challenge:</td><td>
+   <?php
+          require_once('captcha/recaptchalib.php');
+          echo recaptcha_get_html($recaptcha_public_key);
+   ?>
+   </td></tr>
    <tr> <td colspan='2' align="center"> <input type="submit" value="Login" name="bt_entrar"> </td></tr> 
 </table>
 </form>   
