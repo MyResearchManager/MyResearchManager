@@ -29,12 +29,13 @@
 
 <?php
 
-      include "connection.php";
+      require_once("connection.php");
+      require_once("captcha/recaptchalib.php");
 
       // incluir checagens!!
 
       $name   = "*** no title ***";
-      $email  = "*** no email ***";
+      $email  = "a@b.com";
       $active = 0;
  
       $sql = "SELECT name, email FROM Users WHERE idUser = $uid";
@@ -48,7 +49,7 @@
           }
 
       echo "<h2> $name </h2>";
-      echo "<h3> $email </h3>";
+      echo "<h3> " . recaptcha_mailhide_html($mailhide_public_key, $mailhide_private_key, $email) . " </h3>";
       echo "<br><br>";
       echo "<b>Publications</b><br>";
 
