@@ -758,12 +758,13 @@ BY title";
 
 </ul>
 
-<a href="https://github.com/MyResearchManager/MyResearchManager/blob/master/myrmtable/MyRMTable.java">Download 
-MyRMTable.java</a> (to work with dynamic tables)<br>
 <br>
 <br>
 <center>
    <i>Install MyResearchManager on your own server: </i> <a href="https://github.com/MyResearchManager/MyResearchManager/archive/master.zip">download latest version</a><br><br>
+   <a target=_blank href="https://github.com/MyResearchManager/MyResearchManager/blob/master/myrmtable/MyRMTable.java">Download 
+MyRMTable.java</a> (to work with dynamic tables)<br><br><br>
+
    <a href="version.php"><?php include "version.php"; ?></a><br>
 </center>
 
