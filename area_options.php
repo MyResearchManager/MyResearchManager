@@ -16,15 +16,16 @@
    $fullname  = "*** no name ***";
    $email     = "*** no email ***";
 
-   $sql = "SELECT name, email FROM Users WHERE idUser = $id";
+   $sql = "SELECT name, email, checkedEmail FROM Users WHERE idUser = $id";
 
    $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
    if($exe != null)
    {
        if($linha = mysql_fetch_array($exe)) // should be while!
        {
-           $fullname  = $linha['name'];
-           $email     = strtolower(trim($linha['email']));
+            $fullname  = $linha['name'];
+            $email     = strtolower(trim($linha['email']));
+            $checkedEmail = $linha['checkedEmail'];
        }
    }
 
@@ -44,6 +45,19 @@
   <a href="http://www.gravatar.com" target=_blank >
     <img height="40" src="http://www.gravatar.com/avatar/<?php echo md5($email);?>">
   </a>&nbsp;<br>
+
+  <?php
+    if(!$checkedEmail)
+    {
+        echo "<font color=#FF0000>Your email was not validated!</font><br>";
+        echo "<form name=\"frm_send_email\" method=\"post\" action=\"send_confirmation_email.php\">
+              <input type=\"hidden\" value=\"$email\" name=\"email\">";
+        require_once('captcha/recaptchalib.php');
+        echo recaptcha_get_html($recaptcha_public_key);
+        echo "<input type=\"submit\" value=\"Send confirmation email\" name=\"bt_send_email\">
+              </form>";
+    }
+  ?>
 
   <a href="profile.php">edit profile</a>
   <a href="logout.php">logout</a>

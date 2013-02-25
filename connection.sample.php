@@ -5,6 +5,14 @@
    $user = "user";
    $pass = "pwd";
 
+   $myrm_domain_name = "host.com.br";
+
+   // smtp data
+   $myrm_smtp_server = "mail.$myrm_domain_name";
+   $myrm_smtp_port   = 26;
+   $myrm_originmail = "noreply@$myrm_domain_name";
+   $myrm_originmailpwd = "0000000000";
+
    $recaptcha_public_key  = "blablabla1"; // (public) reCAPTCHA public key for your domain
    $recaptcha_private_key = "blablabla2"; // (secret) reCAPTCHA private key for your domain
 
