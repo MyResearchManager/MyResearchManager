@@ -37,7 +37,7 @@
         if(mysql_affected_rows()==1)
         {
             echo "Password changed!";
-            $sql = "UPDATE Users SET confirmationCode = 'MD5(RAND())' WHERE email = '$email'";
+            $sql = "UPDATE Users SET checkedEmail = '1', confirmationCode = 'MD5(RAND())' WHERE email = '$email'";
             $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
         }
         else
