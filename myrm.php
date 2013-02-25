@@ -294,7 +294,6 @@ BY title";
                      echo "<input type=\"submit\" value=\"Add user to this research\" name=\"bt_research_add_user\">";
                      echo "<input type=\"hidden\" value=\"$rid\" name=\"rid\">";
                      echo "<input type=\"text\" value=\"a@b.com\" name=\"email\">";
-                     echo "<i>New users will have password '12345'</i>";
                      echo "</form>";
                  }
                  else
@@ -401,7 +400,6 @@ BY title";
                        echo "<input type=\"submit\" value=\"Add user to this section\" name=\"bt_section_add_user\">";
                        echo "<input type=\"hidden\" value=\"$sid\" name=\"sid\">";
                        echo "<input type=\"text\" value=\"a@b.com\" name=\"email\">";
-                       echo "<i>New users will have password '12345'</i>";
                        echo "</form>";
                     }
                     else
