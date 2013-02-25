@@ -32,7 +32,7 @@
           echo recaptcha_get_html($recaptcha_public_key);
    ?>
    </td></tr>
-   <tr> <td colspan='2' align="center"> <input type="submit" value="Login" name="bt_entrar"> </td></tr> 
+   <tr> <td colspan='2' align="center"> <input type="submit" value="Login" name="bt_login"> <input type="submit" value="Forgot password" name="bt_forgot"> </td></tr> 
 </table>
 </form>   
 
