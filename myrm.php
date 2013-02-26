@@ -253,7 +253,18 @@ BY title";
               if(!$rdefined && $autoexpandresearch)
                  $re=1;
 
-              echo "<li> <b> <a href=\"research.php?rid=$rid\"> $line_research[title]</a> </b>";
+
+              if(($re==1) && ($edit==1))
+              {
+                   echo "<li>";
+                   echo "<form name=\"frm_research_rename\" method=\"post\" action=\"research_rename.php\">";
+                   echo "<input type=\"hidden\" value=\"$rid\" name=\"rid\">";
+                   echo "<input type=\"text\" value=\"".$line_research['title']."\" name=\"title\">";
+                   echo "<input type=\"submit\" value=\"Rename\" name=\"bt_research_rename\">";
+              }
+              else
+                  echo "<li> <b> <a href=\"research.php?rid=$rid\"> $line_research[title]</a> </b>";
+
 
               if($re == 0)
                  echo "[<a name=\"r$rid\" href=\"research_expand.php?rid=$rid\">expand</a>]";
