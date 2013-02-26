@@ -39,7 +39,8 @@
        while($line = mysql_fetch_array($exe))
        {
            $filename  = $line['filename'];
-           $zip->addFile($dir.$filename, $filename);
+           if(!$zip->addFile($dir.$filename, $filename))
+                die("Error adding file $filename to zip!");
            //$zip->addFromString("testfilephp.txt" . time(), "#1 This is a test string added as testfilephp.txt.\n");
        }
       

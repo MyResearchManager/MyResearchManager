@@ -5,16 +5,19 @@
    if ($_SESSION['logado'] != 1)
         header("Location: login.php");
 
-   include "util.php";
+   require_once("util.php");
 
    $id = $_SESSION['id'];
 
    $uid = -1;
 
-   if(isset($_GET["uid"]))
-   {
-      $uid = $_GET["uid"];
-   }
+   $uhash = "";
+
+   if(isset($_GET["uhash"]))
+      $uhash = $_GET["uhash"];
+
+   $uid = getUserIdByHash($uhash);
+   //echo "UID: $uid";
 ?>
 
 <html>
@@ -29,7 +32,7 @@
 
 <?php
 
-      require_once("connection.php");
+      include "connection.php";
       require_once("captcha/recaptchalib.php");
 
       // incluir checagens!!

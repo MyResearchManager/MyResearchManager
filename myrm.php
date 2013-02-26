@@ -266,12 +266,13 @@ BY title";
               echo "<i><b>with</b></i> ";
               $firstnocomma = 1;      
               
-              $sql = "SELECT U.idUser as uid, U.name as name, U.email as email FROM Users as U, ResearchMembers as RM WHERE RM.idResearch = $rid and U.idUser = RM.idUser order by U.name, U.email";
+              $sql = "SELECT U.idUser as uid, MD5(U.email) as uhash, U.name as name, U.email as email FROM Users as U, ResearchMembers as RM WHERE RM.idResearch = $rid and U.idUser = RM.idUser order by U.name, U.email";
               $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
               if($exe != null)
                  while($line2 = mysql_fetch_array($exe))
                  {
                     $uid    = $line2['uid'];
+                    $uhash  = $line2['uhash'];
                     $name   = $line2['name'];
                     $email  = $line2['email'];
 
@@ -280,7 +281,7 @@ BY title";
                     else
                        echo ", ";
 
-                    echo "<a href=\"user.php?uid=$uid\">$name</a>";
+                    echo "<a href=\"user.php?uhash=$uhash\">$name</a>";
                     if( ($edit==1) && ($id != $uid) && $userInResearch )
                        echo "(<a href=\"#\" onclick=\"removeuserfromresearch($rid, '$uid')\">X</a>)";
                  }
@@ -363,12 +364,13 @@ BY title";
                        echo "<br>";
 
                     $firstnocomma = 1;
-                    $sql_s_u = "SELECT U.idUser as uid, U.name as name, U.email as email FROM Users as U, SectionMembers as SM WHERE SM.idSection = $sid and U.idUser = SM.idUser order by U.name, U.email";
+                    $sql_s_u = "SELECT U.idUser as uid, MD5(U.email) as uhash, U.name as name, U.email as email FROM Users as U, SectionMembers as SM WHERE SM.idSection = $sid and U.idUser = SM.idUser order by U.name, U.email";
                     $exe_s_u = mysql_query( $sql_s_u, $myrmconn) or print(mysql_error());
                     if($exe_s_u != null)
                        while($line3 = mysql_fetch_array($exe_s_u))
                        {
                           $uid_sec    = $line3['uid'];
+                          $uhash_sec  = $line3['uhash'];
                           $name_sec   = $line3['name'];
                           $email_sec  = $line3['email'];
 
@@ -380,7 +382,7 @@ BY title";
                           else
                              echo ", ";
 
-                          echo "<a href=\"user.php?uid=$uid_sec\">$name_sec</a>";
+                          echo "<a href=\"user.php?uhash=$uhash_sec\">$name_sec</a>";
   
                           if( ($edit_this==1) && ($id != $uid_sec) )
                           echo "(<a href=\"#\" onclick=\"removeuserfromsection($sid, '$uid_sec')\">X</a>)";
@@ -534,10 +536,11 @@ BY title";
                     if($exe2 != null)
                        while($lauthors = mysql_fetch_array($exe2))
                        {
-                          $uid1  = $lauthors['idUser'];
-                          $uname = getUserNameByUserId($uid1);
-                          $order = $lauthors['order'];
-                          echo "<a href=\"user.php?uid=$uid1\">$uname</a>";
+                          $uid1   = $lauthors['idUser'];
+                          $uhash1 = getUserHashById($uid1);
+                          $uname  = getUserNameByUserId($uid1);
+                          $order  = $lauthors['order'];
+                          echo "<a href=\"user.php?uhash=$uhash1\">$uname</a>";
                           if($edit==1)
                              echo " (#$order)";
                           if($order != $num_authors)
