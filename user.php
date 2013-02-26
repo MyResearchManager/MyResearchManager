@@ -87,7 +87,7 @@
                              echo ", ";
                        }
 
-            $sql2 = "SELECT `idFile`, `filename`, `idSection` FROM Files WHERE idPublication = $pid ORDER BY `filename`";
+            $sql2 = "SELECT F.`filename` as filename, F.`idSection` as idSection FROM PublicationFiles as PF, Files as F WHERE PF.idPublication = $pid AND PF.idFile = F.idFile ORDER BY F.`filename`";
             $exe2 = mysql_query( $sql2, $myrmconn) or print(mysql_error());
 
             $num_files = mysql_num_rows($exe2);

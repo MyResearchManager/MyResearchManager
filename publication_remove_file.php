@@ -10,14 +10,18 @@
    $pid = "";
    if(isset($_GET["pid"]))
       $pid = $_GET["pid"];
+   $pid++;
+   $pid--;
 
    $fid = "";
    if(isset($_GET["fid"]))
       $fid = $_GET["fid"];
+   $fid++;
+   $fid--;
 
    include "connection.php";
 
-   $sql = "UPDATE Files SET idPublication = 0 WHERE idFile = $fid";
+   $sql = "DELETE FROM PublicationFiles WHERE idPublication = '$pid' AND idFile = '$fid'";
    $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
  
    //echo $sql;

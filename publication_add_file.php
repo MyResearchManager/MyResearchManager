@@ -10,14 +10,18 @@
    $pid = "";
    if(isset($_POST["pid"]))
       $pid = $_POST["pid"];
+   $pid++;
+   $pid--;
 
    $fid = "";
    if(isset($_POST["fid"]))
       $fid = $_POST["fid"];
+   $fid++;
+   $fid--;
 
    include "connection.php";
 
-   $sql = "UPDATE Files SET idPublication = $pid WHERE idFile = $fid";
+   $sql = "INSERT INTO PublicationFiles (`idPublication`, `idFile`) VALUES ('$pid', '$fid')";
    $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
  
    //echo $sql;

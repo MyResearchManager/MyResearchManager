@@ -111,10 +111,10 @@ CREATE TABLE IF NOT EXISTS `Logs` (
 
 CREATE TABLE IF NOT EXISTS `PublicationFiles` (
   `idPublicationFile` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `description` varchar(100) NOT NULL,
-  `filename` varchar(50) NOT NULL,
+  `idPublication` int(10) unsigned NOT NULL,
+  `idFile` int(10) unsigned NOT NULL,
   PRIMARY KEY (`idPublicationFile`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -218,7 +218,7 @@ CREATE TABLE IF NOT EXISTS `Users` (
   `salt` char(4) NOT NULL,
   `email` varchar(100) NOT NULL,
   `confirmationCode` varchar(32) NOT NULL,
-  `checkedEmail` tinyint(1) NOT NULL,
+  `uhash` varchar(10) NOT NULL,
   `active` tinyint(1) NOT NULL,
   PRIMARY KEY (`idUser`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;

@@ -652,7 +652,7 @@ BY title";
                         echo "</form>";
                     }
 
-                    $sql_pub_files = "SELECT `idFile`, `filename`, `idPublication` FROM Files WHERE idPublication = $pid ORDER BY filename";
+                    $sql_pub_files = "SELECT F.`idFile` as idFile, F.`filename` as filename FROM PublicationFiles as PF, Files as F WHERE PF.idPublication = '$pid' AND PF.idFile = F.idFile ORDER BY F.filename";
                     $exe_pub_files = mysql_query( $sql_pub_files, $myrmconn) or print(mysql_error());
                     $num_pub_files = mysql_num_rows($exe_pub_files);
 
