@@ -87,7 +87,7 @@
                              echo ", ";
                        }
 
-            $sql2 = "SELECT `idFile`, `filename` FROM Files WHERE idPublication = $pid ORDER BY `filename`";
+            $sql2 = "SELECT `idFile`, `filename`, `idSection` FROM Files WHERE idPublication = $pid ORDER BY `filename`";
             $exe2 = mysql_query( $sql2, $myrmconn) or print(mysql_error());
 
             $num_files = mysql_num_rows($exe2);
@@ -98,7 +98,10 @@
                        while($lfiles = mysql_fetch_array($exe2))
                        {
                           $filename = $lfiles['filename'];
-                          echo "$filename";
+                          $sid = $lfiles['idSection'];
+                          $rid = getResearchIdBySectionId($sid);
+                          $aid = getAreaIdByResearchId($rid);
+                          echo "<a href=\"files/a$aid/r$rid/s$sid/$filename\">$filename</a>";
                           $count++;
                           if($count != $num_files)
                              echo ", ";
