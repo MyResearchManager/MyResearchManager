@@ -1,13 +1,13 @@
 <?php
-   ob_start();
-   session_start();
+//   ob_start();
+//   session_start();
 
-   if ($_SESSION['logado'] != 1)
-        header("Location: login.php");
+//   if ($_SESSION['logado'] != 1)
+//        header("Location: login.php");
 
    require_once("util.php");
 
-   $id = $_SESSION['id'];
+//   $id = $_SESSION['id'];
 
    $uid = -1;
 
@@ -93,9 +93,6 @@
 
 <br><br>
 
-<a href="myrm.php">Back</a>
-
 </body>
-
 
 </html>
