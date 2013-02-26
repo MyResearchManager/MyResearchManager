@@ -37,7 +37,7 @@ function getUserHashById($uid)
 {
       include "connection.php";
 
-      $uid = -1;
+      $uhash = "";
       $sql = "SELECT MD5(email) as uhash FROM Users WHERE idUser = '$uid'";
       $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
       if($exe != null)

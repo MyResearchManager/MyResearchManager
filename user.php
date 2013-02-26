@@ -86,6 +86,26 @@
                           if($order != $num_authors)
                              echo ", ";
                        }
+
+            $sql2 = "SELECT `idFile`, `filename` FROM Files WHERE idPublication = $pid ORDER BY `filename`";
+            $exe2 = mysql_query( $sql2, $myrmconn) or print(mysql_error());
+
+            $num_files = mysql_num_rows($exe2);
+            if($num_files>0)
+                echo "<br><b>Files:</b> ";
+            $count = 0;
+            if($exe2 != null)
+                       while($lfiles = mysql_fetch_array($exe2))
+                       {
+                          $filename = $lfiles['filename'];
+                          echo "$filename";
+                          $count++;
+                          if($count != $num_files)
+                             echo ", ";
+                       }
+            if($num_files>0)
+                echo "<br>";
+
           }
       echo "</ul>\n";
 

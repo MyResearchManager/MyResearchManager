@@ -85,6 +85,13 @@ function removeuserfrompublication(pid, uid)
    if(answer)
       window.location = "publication_remove_user.php?pid="+pid+"&uid="+uid;
 }
+//<!--
+function removefilefrompublication(pid, fid)
+{
+   var answer = confirm("Removing file from publication. Are you sure?")
+   if(answer)
+      window.location = "publication_remove_file.php?pid="+pid+"&fid="+fid;
+}
 //-->
 //<!--
 function removeuserfromresearch(rid, uid)
@@ -509,114 +516,21 @@ BY title";
 
 
               // ------------------------------------------------------------------------
-              // PUBLICATIONS
-              // ------------------------------------------------------------------------
-
-              $sql = "SELECT `idPublication` as pid, `title`, `date`, `journal`, `visible` FROM Publications WHERE idSection = $sid ORDER BY `date`";
-              $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
-
-              $num_publications = mysql_num_rows($exe);
-       	      if( ($num_publications > 0) || ($edit==1) )
-              {
-                 echo "<br><b>Publications</b><br>";
-                 echo "<ul>";
-              }
-
-              if($exe != null)
-                 while($line2 = mysql_fetch_array($exe))
-                 { 
-                    $pid     = $line2['pid'];
-                    $title   = $line2['title'];
-                    $journal = $line2['journal'];
-                    $pdate   = $line2['date'];
-                    $ndt = strtotime($pdate);
-                    $fdtime = date("F d Y", $ndt);
-                    $visible = $line2['visible']; // -1 is public, 0 is section visible, other values are private user id
-
-                    echo "<li> $title ($fdtime) - <i>$journal</i> ";
-                    if($edit==1)
-                       echo "(<a href=\"#\" onclick=\"deletepublication($pid)\">delete</a>)";
-
-                    echo "<br><b>Authors:</b> ";
-
-                    $sql2 = "SELECT `idPublicationMember`, `order`, `idUser`, `idPublication` FROM PublicationMembers WHERE idPublication = $pid ORDER BY `order`";
-                    $exe2 = mysql_query( $sql2, $myrmconn) or print(mysql_error());
-
-                    $num_authors = mysql_num_rows($exe2);
-  
-                    if($exe2 != null)
-                       while($lauthors = mysql_fetch_array($exe2))
-                       {
-                          $uid1   = $lauthors['idUser'];
-                          $uhash1 = getUserHashById($uid1);
-                          $uname  = getUserNameByUserId($uid1);
-                          $order  = $lauthors['order'];
-                          echo "<a href=\"user.php?uhash=$uhash1\">$uname</a>";
-                          if($edit==1)
-                             echo " (#$order)";
-                          if($order != $num_authors)
-                             echo ", ";
-                          if(($edit==1) && ($order==$num_authors))
-                             echo "(<a href=\"#\" onclick=\"removeuserfrompublication($pid, $uid1)\">delete last</a>)";
-                       }
-
-                    if($edit==1)
-                    {
-                        echo "<form method=\"post\" action=\"publication_add_user.php\">";
-                        $num_authors++;
-                        echo "<label>add author #$num_authors (email):</label>";
-                        echo "<input type=\"hidden\" value=\"$num_authors\" name=\"order\">";
-                        echo "<input type=\"hidden\" value=\"$pid\" name=\"pid\">";
-                        echo "<input type=\"text\" name=\"email\">";
-                        echo "<input type=\"submit\" value=\"Add user\" name=\"bt_publication_add_user\">"; 
-                        echo "</form>";
-                    }
-
-                    echo "<br>";
-
-                    echo "<i><b>visible to:</b> ";
-                    if($visible==-1)
-                      echo "public";
-                    else if($visible==0)
-                      echo "members";
-                    else
-                      echo "user $visible";
-                    echo "</i>";
-                    echo "<br style=\"margin-bottom: 1em;\" />";
-                 }
-
-              if($edit==1)
-              {
-                 echo "<form method=\"post\" action=\"publication_create.php\">";
-                 echo "<label>Create publication:</label>";
-                 echo "<input type=\"hidden\" value=\"$sid\" name=\"sid\">";
-                 echo "<input type=\"text\" name=\"title\" value=\"Title\">";
-                 echo "<input type=\"text\" name=\"journal\" value=\"Journal\">";
-                 echo "<input type=\"text\" name=\"date\" value=\"".date("Y-m-d")."\">";
-                 echo "<input type=\"submit\" value=\"Create publication\" name=\"bt_publication_create\">"; 
-                 echo "</form>";
-              }
-
-       	      if( ($num_publications > 0) || ($edit==1) )
-                 echo "</ul>"; // Files
-
-
-              // ------------------------------------------------------------------------
               // FILES
               // ------------------------------------------------------------------------
 
-              $sql = "SELECT `idFile` as fid, `filename`, SUBSTRING(MD5(`filename`),1,5) as `check`, `size`, `creation`, `visible` FROM Files WHERE idSection = $sid ORDER BY `filename`";
-              $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+              $sql_files = "SELECT `idFile` as fid, `filename`, SUBSTRING(MD5(`filename`),1,5) as `check`, `size`, `creation`, `visible` FROM Files WHERE idSection = $sid ORDER BY `filename`";
+              $exe_files = mysql_query( $sql_files, $myrmconn) or print(mysql_error());
 
-              $num_files = mysql_num_rows($exe);
+              $num_files = mysql_num_rows($exe_files);
        	      if( ($num_files > 0) || ($edit==1) )
               {
                  echo "<br><b>Files</b><br>";
                  echo "<ul>";
               }
 
-              if($exe != null)
-                 while($linha2 = mysql_fetch_array($exe))
+              if($exe_files != null)
+                 while($linha2 = mysql_fetch_array($exe_files))
                  { 
                     $fid      = $linha2['fid'];
                     $filename = $linha2['filename'];
@@ -672,6 +586,145 @@ BY title";
                  echo "</ul>"; // Files
 
 
+
+              // ------------------------------------------------------------------------
+              // PUBLICATIONS
+              // ------------------------------------------------------------------------
+
+              $sql = "SELECT `idPublication` as pid, `title`, `date`, `journal`, `visible` FROM Publications WHERE idSection = $sid ORDER BY `date`";
+              $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+
+              $num_publications = mysql_num_rows($exe);
+       	      if( ($num_publications > 0) || ($edit==1) )
+              {
+                 echo "<br><b>Publications</b><br>";
+                 echo "<ul>";
+              }
+
+              if($exe != null)
+                 while($line2 = mysql_fetch_array($exe))
+                 { 
+                    $pid     = $line2['pid'];
+                    $title   = $line2['title'];
+                    $journal = $line2['journal'];
+                    $pdate   = $line2['date'];
+                    $ndt = strtotime($pdate);
+                    $fdtime = date("F d Y", $ndt);
+                    $visible = $line2['visible']; // -1 is public, 0 is section visible, other values are private user id
+
+                    echo "<li> $title ($fdtime) - <i>$journal</i> ";
+                    if($edit==1)
+                       echo "(<a href=\"#\" onclick=\"deletepublication($pid)\">delete</a>)";
+
+                    echo "<br><b>Authors:</b> ";
+
+                    $sql2 = "SELECT `idPublicationMember`, `order`, `idUser`, `idPublication` FROM PublicationMembers WHERE idPublication = $pid ORDER BY `order`";
+                    $exe2 = mysql_query( $sql2, $myrmconn) or print(mysql_error());
+
+                    $num_authors = mysql_num_rows($exe2);
+  
+                    if($exe2 != null)
+                       while($lauthors = mysql_fetch_array($exe2))
+                       {
+                          $uid1   = $lauthors['idUser'];
+                          $uhash1 = getUserHashById($uid1);
+                          $uname  = getUserNameByUserId($uid1);
+                          $order  = $lauthors['order'];
+                          echo "<a href=\"user.php?uhash=$uhash1\">$uname</a>";
+                          if($edit==1)
+                             echo " (#$order)";
+                          if($order != $num_authors)
+                             echo ", ";
+                          if(($edit==1) && ($order==$num_authors))
+                             echo "(<a href=\"#\" onclick=\"removeuserfrompublication($pid, $uid1)\">delete last</a>)";
+
+                       }
+
+                    if($edit==1)
+                    {
+                        echo "<form method=\"post\" action=\"publication_add_user.php\">";
+                        $num_authors++;
+                        echo "<label>add author #$num_authors (email):</label>";
+                        echo "<input type=\"hidden\" value=\"$num_authors\" name=\"order\">";
+                        echo "<input type=\"hidden\" value=\"$pid\" name=\"pid\">";
+                        echo "<input type=\"text\" name=\"email\">";
+                        echo "<input type=\"submit\" value=\"Add user\" name=\"bt_publication_add_user\">"; 
+                        echo "</form>";
+                    }
+
+                    $sql_pub_files = "SELECT `idFile`, `filename`, `idPublication` FROM Files WHERE idPublication = $pid ORDER BY filename";
+                    $exe_pub_files = mysql_query( $sql_pub_files, $myrmconn) or print(mysql_error());
+                    $num_pub_files = mysql_num_rows($exe_pub_files);
+
+                    if($num_pub_files > 0)
+                                echo "<ul>"; 
+                    if($exe_pub_files)
+                           while($row_pf = mysql_fetch_array($exe_pub_files))
+                           {
+                                    $filename = $row_pf['filename'];
+                                    $fid      = $row_pf['idFile'];
+
+                                    echo "<li>$filename";
+                                    if($edit==1)
+                                        echo "(<a href=\"#\" onclick=\"removefilefrompublication($pid, $fid)\">remove file</a>)";
+                            }
+   
+                    if($num_pub_files > 0)
+                            echo "</ul>";
+
+
+                    if($edit==1)
+                    {
+                                echo "<form method=\"post\" action=\"publication_add_file.php\">";
+                                echo "<label>add file:</label>";
+                                echo "<SELECT name=\"fid\">\n";
+                                $sql_files = "SELECT `idFile` as fid, `filename` FROM Files WHERE idSection = $sid ORDER BY `filename`";
+                                $exe_files = mysql_query( $sql_files, $myrmconn) or print(mysql_error());
+                                while($row_f = mysql_fetch_array($exe_files))
+                                {
+                                    $filename = $row_f['filename'];
+                                    $fid2     = $row_f['fid'];
+                                    echo "<OPTION value=\"$fid2\">$filename</OPTION>\n";
+                                }
+                                echo "</SELECT>\n";
+                                echo "<input type=\"hidden\" value=\"$pid\" name=\"pid\">";
+                                echo "<input type=\"submit\" value=\"Add file\" name=\"bt_publication_add_file\">"; 
+                                echo "</form>";
+                    }
+
+
+                    echo "<br>";
+
+                    echo "<i><b>visible to:</b> ";
+                    if($visible==-1)
+                      echo "public";
+                    else if($visible==0)
+                      echo "members";
+                    else
+                      echo "user $visible";
+                    echo "</i>";
+                    echo "<br style=\"margin-bottom: 1em;\" />";
+                 }
+
+              if($edit==1)
+              {
+                 echo "<form method=\"post\" action=\"publication_create.php\">";
+                 echo "<label>Create publication:</label>";
+                 echo "<input type=\"hidden\" value=\"$sid\" name=\"sid\">";
+                 echo "<input type=\"text\" name=\"title\" value=\"Title\">";
+                 echo "<input type=\"text\" name=\"journal\" value=\"Journal\">";
+                 echo "<input type=\"text\" name=\"date\" value=\"".date("Y-m-d")."\">";
+                 echo "<input type=\"submit\" value=\"Create publication\" name=\"bt_publication_create\">"; 
+                 echo "</form>";
+              }
+
+       	      if( ($num_publications > 0) || ($edit==1) )
+                 echo "</ul>"; // Publications
+
+
+
+              // ------------------------------------------------------------------------
+              // DYNAMIC TABLES
               // ------------------------------------------------------------------------
 
               $sql = "SELECT `idDynamicTable`, `description`, `key`, `locked`, `idSection` FROM DynamicTables WHERE idSection = $sid ORDER BY description";
