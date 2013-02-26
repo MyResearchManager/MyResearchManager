@@ -165,4 +165,35 @@ function getAreaNameByAreaId($aid)
       return $aname;
 }
 
+
+function getFilenameByFileId($fid)
+{
+      include "connection.php";
+
+      $filename = "no-name";
+      $sql = "SELECT filename FROM Files WHERE idFile = $fid";
+      $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+      if($exe != null)
+          if($line = mysql_fetch_array($exe))
+              $filename = $line['filename'];
+
+      return $filename;
+}
+
+
+function getTitleByPublicationId($pid)
+{
+      include "connection.php";
+
+      $title = "no-name";
+      $sql = "SELECT title FROM Publications WHERE idPublication = $pid";
+      $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+      if($exe != null)
+          if($line = mysql_fetch_array($exe))
+              $title = $line['title'];
+
+      return $title;
+}
+
+
 ?>
