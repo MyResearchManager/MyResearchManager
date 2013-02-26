@@ -7,10 +7,12 @@
 
    $id  = $_SESSION['id'];
 
+/*
    $area_id = $_SESSION['gid'];
 
    if ($area_id < 1)
         header("Location: area_options.php");
+*/
 
    include "connection.php";
 

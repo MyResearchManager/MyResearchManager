@@ -24,7 +24,7 @@ function getUserIdByHash($hash)
       include "connection.php";
 
       $uid = -1;
-      $sql = "SELECT idUser as uid FROM Users WHERE MD5(email) = '$hash'";
+      $sql = "SELECT idUser as uid FROM Users WHERE uhash = '$hash'";
       $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
       if($exe != null)
           if($line = mysql_fetch_array($exe))
@@ -38,7 +38,7 @@ function getUserHashById($uid)
       include "connection.php";
 
       $uhash = "";
-      $sql = "SELECT MD5(email) as uhash FROM Users WHERE idUser = '$uid'";
+      $sql = "SELECT uhash FROM Users WHERE idUser = '$uid'";
       $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
       if($exe != null)
           if($line = mysql_fetch_array($exe))

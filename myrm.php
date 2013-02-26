@@ -284,7 +284,7 @@ BY title";
               echo "<i><b>with</b></i> ";
               $firstnocomma = 1;      
               
-              $sql = "SELECT U.idUser as uid, MD5(U.email) as uhash, U.name as name, U.email as email FROM Users as U, ResearchMembers as RM WHERE RM.idResearch = $rid and U.idUser = RM.idUser order by U.name, U.email";
+              $sql = "SELECT U.idUser as uid, uhash, U.name as name, U.email as email FROM Users as U, ResearchMembers as RM WHERE RM.idResearch = $rid and U.idUser = RM.idUser order by U.name, U.email";
               $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
               if($exe != null)
                  while($line2 = mysql_fetch_array($exe))
@@ -382,7 +382,7 @@ BY title";
                        echo "<br>";
 
                     $firstnocomma = 1;
-                    $sql_s_u = "SELECT U.idUser as uid, MD5(U.email) as uhash, U.name as name, U.email as email FROM Users as U, SectionMembers as SM WHERE SM.idSection = $sid and U.idUser = SM.idUser order by U.name, U.email";
+                    $sql_s_u = "SELECT U.idUser as uid, uhash, U.name as name, U.email as email FROM Users as U, SectionMembers as SM WHERE SM.idSection = $sid and U.idUser = SM.idUser order by U.name, U.email";
                     $exe_s_u = mysql_query( $sql_s_u, $myrmconn) or print(mysql_error());
                     if($exe_s_u != null)
                        while($line3 = mysql_fetch_array($exe_s_u))
