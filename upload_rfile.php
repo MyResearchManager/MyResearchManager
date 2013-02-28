@@ -36,7 +36,7 @@
 
    // Allowed extensions
    $_UP['extensions'] = array('jpg', 'png', 'gif', 'pdf', 'zip', 
-'rar', 'xls', 'doc', 'ppt', 'pps', 'tar', 'gz', 'tar.gz');
+'rar', 'xls', 'doc', 'ppt', 'pps', 'txt', 'tar', 'gz', 'tar.gz');
 
    // Rename file?
    $_UP['rename'] = false;
@@ -111,8 +111,11 @@
 
          include "connection.php";
 
-         $filesize = $_FILES['arquivo']['size']; 
-         $sql = "INSERT INTO Files (`filename`, `size`, `creation`, `visible`, `idSection`) VALUES ('$finalname', '$filesize', NOW(), '0', '$sid')";
+         $filesize = $_FILES['arquivo']['size'];
+         $fullfile = $_UP['dir'].$finalname;
+         $md5 = md5_file($fullfile);
+
+         $sql = "INSERT INTO Files (`filename`, `size`, `checksum`, `creation`, `visible`, `idSection`) VALUES ('$finalname', '$filesize', '$md5', NOW(), '0', '$sid')";
          $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
          $fid = mysql_insert_id();
 

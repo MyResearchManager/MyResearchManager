@@ -61,7 +61,7 @@
         $rid = getResearchIdBySectionId($sid);
         $aid = getAreaIdByResearchId($rid);
 
-        $sql = "SELECT filename FROM Files WHERE idSection='$sid'";
+        $sql = "SELECT filename, checksum FROM Files WHERE idSection='$sid'";
         $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
         $nfiles = mysql_num_rows($exe);
 
@@ -70,7 +70,9 @@
         while($row = mysql_fetch_array($exe))
         {
             $filename = $row['filename']; 
+            $md5 = $row['checksum']; 
             echo "$myrm_domain_name/myrm/files/a$aid/r$rid/s$sid/$filename\n";
+            echo "$md5\n";
         }
     }
     else if(isset($_GET["rid"]) && isset($_GET["usercode"]))
