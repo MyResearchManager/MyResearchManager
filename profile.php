@@ -18,8 +18,9 @@
 
    $name     = "*** no name ***";
    $email    = "*** no email ***";
+   $usercode = "no-code";
 
-   $sql = "SELECT name, email FROM Users WHERE idUser = $id";
+   $sql = "SELECT name, email, confirmationCode FROM Users WHERE idUser = $id";
   
    $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
    if($exe != null)
@@ -27,6 +28,7 @@
        {
           $name      = $line['name'];
           $email     = $line['email'];
+          $usercode  = $line['confirmationCode'];
        }
 ?>
 
@@ -60,7 +62,9 @@
 <br>
 
 <b>Email: <?php echo $email; ?> </b>
+<br><br>
 
+<b>User code (keep it secret!):</b> <i><?php echo $usercode; ?> </i> (<a href="change_code.php">Change code</a>)
 <br><br>
 
 <b>Change password:</b>
