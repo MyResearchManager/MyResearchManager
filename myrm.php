@@ -829,7 +829,7 @@ BY title";
 <br>
 <center>
    <i>Install MyResearchManager on your own server: </i> <a href="https://github.com/MyResearchManager/MyResearchManager/archive/master.zip">download latest version</a><br><br>
-   Dowload script to synchronize your researches (<i>for Linux only</i>): <a target=_blank href="myrm-sync-all.sh">Part1</a>, <a target=_blank href="myrm-sync-research.sh">Part2</a> and <a target=_blank href="myrm-sync-section.sh">Part3</a><br>
+   Download script to synchronize your researches (<i>for Linux only</i>): <a target=_blank href="myrm-sync-all.sh">Part1</a>, <a target=_blank href="myrm-sync-research.sh">Part2</a> and <a target=_blank href="myrm-sync-section.sh">Part3</a><br>
   (get your <i>usercode</i> at <a target=_blank href="profile.php">profile</a> and use this link to the server: <i><?php echo "\"$myrm_domain_name/myrm\""; ?></i>)<br><br>
    <a target=_blank href="https://github.com/MyResearchManager/MyResearchManager/blob/master/myrmtable/MyRMTable.java">Download 
 MyRMTable.java</a> (to work with dynamic tables)<br><br><br>
