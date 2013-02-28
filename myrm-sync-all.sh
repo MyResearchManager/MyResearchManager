@@ -3,6 +3,8 @@
 usercode=$1
 myrmserver=$2
 
+version="0.2"
+
 if [ "$usercode" == "" ]
 then
    echo "Missing usercode! Aborting..."
@@ -23,12 +25,21 @@ alldata=all-data.txt
 
 wget -O $alldata "$myrmserver/sync.php?usercode=$usercode"
 
-nresearches=$(head -n 1 $alldata | tail -1)
+serverversion=$(head -n 1 $alldata | tail -1)
+if [ "$serverversion" == "$version" ]
+then
+   echo "CORRECT VERSION $version";
+else
+   echo "ERROR! DIFFERENT VERSIONS, PLEASE DOWNLOAD A NEW ONE! (CLIENT='$version'; SERVER='$serverversion')";
+   exit 1;
+fi
+
+nresearches=$(head -n 2 $alldata | tail -1)
 
 echo "Found $nresearches researches."
 
 for ((i=1; i<=$nresearches; i++)); do
-  rid=$(head -n $((1+$i)) $alldata | tail -1)
+  rid=$(head -n $((2+$i)) $alldata | tail -1)
   ./myrm-sync-research.sh $rid $usercode $myrmserver
 done
 

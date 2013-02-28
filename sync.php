@@ -3,6 +3,8 @@
 
     require_once("util.php");
 
+    $version = "0.2";
+
     $rid = "";
     $sid = "";
     $code = "";
@@ -55,7 +57,7 @@
         // OK! Displaying section data
         // ================================================
 
-        echo "$sid\n";
+        echo "$version\n";
         echo "$sname\n";
 
         $rid = getResearchIdBySectionId($sid);
@@ -126,7 +128,7 @@
         $aid = getAreaIdByResearchId($rid);
         $aname = getAreaNameByAreaId($aid);
 
-        echo "$rid\n";
+        echo "$version\n";
         echo "$aname-$rname\n";
 
 
@@ -172,6 +174,7 @@
         $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
         $nresearches = mysql_num_rows($exe);
 
+        echo "$version\n";
         echo "$nresearches\n";
 
         while($row = mysql_fetch_array($exe))

@@ -4,6 +4,8 @@ rid=$1
 usercode=$2
 myrmserver=$3
 
+version="0.2"
+
 if [ "$rid" == "" ]
 then
    echo "Missing research id! Aborting..."
@@ -30,7 +32,15 @@ researchdata=research-data.txt
 
 wget -O $researchdata "$myrmserver/sync.php?usercode=$usercode&rid=$rid"
 
-researchid=$(head -n 1 $researchdata | tail -1)
+serverversion=$(head -n 1 $researchdata | tail -1)
+if [ "$serverversion" == "$version" ]
+then
+   echo "CORRECT VERSION $version";
+else
+   echo "ERROR! DIFFERENT VERSIONS, PLEASE DOWNLOAD A NEW ONE! (CLIENT=$version; SERVER=$serverversion)";
+   exit 1;
+fi
+
 rname=$(head -n 2 $researchdata | tail -1)
 mkdir "$rname"
 nsections=$(head -n 3 $researchdata | tail -1)

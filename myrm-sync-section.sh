@@ -4,6 +4,8 @@ sid=$1
 usercode=$2
 myrmserver=$3
 
+version="0.2"
+
 if [ "$sid" == "" ]
 then
    echo "Missing section id! Aborting..."
@@ -31,16 +33,26 @@ logfile=myrm-sync.log
 echo ""
 echo "============================"
 echo "Get section data from server"
+date +"%c"
 echo "============================"
 
 echo "" >> $logfile
 echo "============================" >> $logfile
 echo "Get section data from server" >> $logfile
+date +"%c" >> $logfile
 echo "============================" >> $logfile
 
 wget -O $sectiondata "$myrmserver/sync.php?usercode=$usercode&sid=$sid" 
 
-sectionid=$(head -n 1 $sectiondata | tail -1)
+serverversion=$(head -n 1 $sectiondata | tail -1)
+if [ "$serverversion" == "$version" ]
+then
+   echo "CORRECT VERSION $version";
+else
+   echo "ERROR! DIFFERENT VERSIONS, PLEASE DOWNLOAD A NEW ONE! (CLIENT=$version; SERVER=$serverversion)";
+   exit 1;
+fi
+
 sname=$(head -n 2 $sectiondata | tail -1)
 
 if [ "$sname" == "" ]
