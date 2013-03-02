@@ -72,7 +72,7 @@
 
    echo "Finished configuration with email: '$email' and password '$pwd'<br>";
 
-   echo "<h1>PLEASE, install.php FROM YOUR SERVER!</h1>";
+   echo "<h1>PLEASE REMOVE \"install.php\" FROM YOUR SERVER!</h1>";
 ?>
 
 </body>
