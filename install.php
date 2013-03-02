@@ -26,16 +26,40 @@
 
 
    $newdir = "files";
-   $allok = mkdir($newdir, 0777, true); 
+   $allok = true;
+   if (!file_exists($newdir))
+      $allok = mkdir($newdir, 0777, true); 
+
    if (!$allok)
       die("Error (3)! Failed to create folder: $newdir");
 
+   echo "<br><b>Okay! Will create tables</b><br>";
 
-   $sql = file_get_contents("./database/myrm.sql");
-   $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
-   if(!$exe)
-      die("Error (4) in MySQL Connection: first configure connection.php (copy from connection.sample.php)!");
+   // Temporary variable, used to store current query
+   $templine = '';
+   // Read in entire file
+   $lines = file("./database/myrm.sql");
+   // Loop through each line
+   foreach ($lines as $line)
+   {
+      // Skip it if it's a comment
+      if (substr($line, 0, 2) == '--' || $line == '')
+          continue;
+ 
+      // Add this line to the current segment
+      $templine .= $line;
+      // If it has a semicolon at the end, it's the end of the query
+      if (substr(trim($line), -1, 1) == ';')
+      {
+          // Perform the query
+          mysql_query($templine, $myrmconn) or print('Error performing query \'<strong>' . $templine . '\': ' . mysql_error() . '<br /><br />');
+          // Reset temp variable to empty
+          $templine = '';
+      }
+   }
 
+
+   echo "<br><b>Okay! Will add a admin user</b><br>";
 
    $salt = substr(md5(uniqid(rand(), true)), 0, 4);
    $email = "admin@local";

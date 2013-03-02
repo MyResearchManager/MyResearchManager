@@ -4,6 +4,7 @@
    $host = "localhost";
    $user = "user";
    $pass = "pwd";
+   $myrm_database = "myrm";
 
    $myrm_domain_name = "host.com.br";
 
@@ -20,5 +21,5 @@
    $mailhide_private_key  = "9abcdef012";
 
    $myrmconn = mysql_connect($host, $user, $pass) or die ("Error connecting server");
-   $db = mysql_select_db("myrm", $myrmconn) or mysql_close($myrmconn) and die ("Error selecting database");
+   $db = mysql_select_db($myrm_database, $myrmconn) or mysql_close($myrmconn) and die ("Error selecting database");
  ?>
