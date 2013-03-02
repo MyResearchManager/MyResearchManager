@@ -27,9 +27,9 @@
 
    include "connection.php";
 
-   $sql = "SELECT A.idArea as aid FROM Areas as A, Researches as R, ResearchMembers as RM, SectionMembers as SM, Sections as S WHERE 
-A.idArea = R.idArea AND ((R.idResearch = RM.idResearch and RM.idUser = '$id' and R.idArea = '$idArea') OR
- (R.idResearch = S.idResearch and S.idSection = SM.idSection and SM.idUser = '$id' and R.idArea = '$idArea')) ORDER BY name";
+   $sql = "SELECT A.idArea as aid FROM Areas as A, Researches as R, ResearchMembers as RM WHERE 
+A.idArea = R.idArea AND R.idResearch = RM.idResearch AND RM.idUser = '$id' AND R.idArea = '$idArea' UNION
+           SELECT A.idArea as aid FROM Areas as A, Researches as R, ResearchMembers as RM, SectionMembers as SM, Sections as S WHERE A.idArea = R.idArea AND R.idResearch = S.idResearch AND S.idSection = SM.idSection AND SM.idUser = '$id' AND R.idArea = '$idArea'";
 
    $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
    if($exe != null)
