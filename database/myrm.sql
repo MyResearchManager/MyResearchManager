@@ -201,6 +201,7 @@ CREATE TABLE IF NOT EXISTS `SectionMembers` (
 
 CREATE TABLE IF NOT EXISTS `Sections` (
   `idSection` int(11) NOT NULL AUTO_INCREMENT,
+  `shash` varchar(10) NOT NULL,
   `title` varchar(250) NOT NULL,
   `idResearch` int(11) NOT NULL,
   PRIMARY KEY (`idSection`)

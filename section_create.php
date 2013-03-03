@@ -25,7 +25,7 @@
 
    include "connection.php";
 
-   $sql = "INSERT INTO Sections (`idResearch`, `title`) VALUES ('$rid', '$stitle')";
+   $sql = "INSERT INTO Sections (`idResearch`, `shash`, `title`) VALUES ('$rid', SUBSTR(MD5(RAND()),1,10), '$stitle')";
    $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
    $sid = mysql_insert_id();
 

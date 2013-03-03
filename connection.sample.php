@@ -7,6 +7,7 @@
    $myrm_database = "myrm";
 
    $myrm_domain_name = "host.com.br";
+   $myrm_site = "$myrm_domain_name/myrm";
 
    // smtp data
    $myrm_smtp_server = "mail.$myrm_domain_name";

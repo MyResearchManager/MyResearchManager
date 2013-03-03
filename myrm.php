@@ -325,9 +325,9 @@ BY title";
 
               $sql_sec = "";
               if($userInResearch)
-                 $sql_sec = "SELECT `idSection` as sid, `title` FROM Sections WHERE idResearch = $rid ORDER BY `title`";
+                 $sql_sec = "SELECT `idSection` as sid, `title`, `shash` FROM Sections WHERE idResearch = $rid ORDER BY `title`";
               else
-                 $sql_sec = "SELECT S.`idSection` as sid, S.`title` as title FROM Sections as S, SectionMembers as SM WHERE S.idResearch = $rid and SM.idSection = S.idSection and SM.idUser = $id ORDER BY `title`";
+                 $sql_sec = "SELECT S.`idSection` as sid, S.`title` as title, S.shash as shash FROM Sections as S, SectionMembers as SM WHERE S.idResearch = $rid and SM.idSection = S.idSection and SM.idUser = $id ORDER BY `title`";
             
               $exe_sec = mysql_query( $sql_sec, $myrmconn) or print(mysql_error());
               if(($re==1) && ($exe_sec != null) ) // if research is expanded!
@@ -335,6 +335,7 @@ BY title";
                  { 
                     $sid    = $line_sec['sid'];
                     $stitle = $line_sec['title'];
+                    $shash  = $line_sec['shash'];
 
                     $se = 0;
 
@@ -354,7 +355,7 @@ BY title";
 
                     if($edit_this==0)
                     {
-                       echo "<b>Section:</b> $stitle (<a href=\"section_backup.php?sid=$sid\">BACKUP</a>)";
+                       echo "<b>Section:</b> $stitle (<a href=\"section_backup.php?sid=$sid\">BACKUP</a>) <a href=\"javascript:alert(prompt('Section $stitle sync is:', '$myrm_site/sync.php?shash=$shash&usercode=YOUR-CODE'));\">get sync</a> ";
 
                        if($se == 0)
                           echo "[<a href=\"section_expand.php?sid=$sid\">expand</a>]";
