@@ -538,9 +538,15 @@ BY title";
                     $creation = $linha2['creation'];
                     $visible  = $linha2['visible']; // -1 is public, 0 is section visible, other values are private user id
                     $check    = $linha2['check'];
-                    $details  = $linha2['description'];
+                    $description  = $linha2['description'];
 
-                    echo "<li> <a href=\"./files/a$area_id/r$rid/s$sid/$filename\">$filename</a> ";
+                    echo "<li> <a href=\"./files/a$area_id/r$rid/s$sid/$filename\">";
+                    if($description != "")
+                       echo "$description";
+                    else
+                       echo "$filename";
+                    echo "</a> ";
+ 
                     if (file_exists("./files/a$area_id/r$rid/s$sid/$filename"))
                     {
                        echo "- <i><b>last modified:</b> " . date("F d Y H:i", strtotime($creation)) . " <b>size:</b> ";
@@ -562,7 +568,10 @@ BY title";
                     $fdtime = date("Y-m-d H:i", $numdatetime);
 
                     //echo "<i>Uploaded by <b>".getUserNameByUserId($uploadu)."</b> on <b>$fdtime</b></i> (";
-                    echo "<b>description:</b><i>\"$details\"</i> ";                       
+                    if($description != "")
+                       echo "<b>filename:</b><i>$filename</i> ";
+                    else
+                       echo "<b>description:</b><i>\"$description\"</i> ";                       
                     echo "<i><b>visible to:</b> ";
                     if($visible==-1)
                       echo "public";
