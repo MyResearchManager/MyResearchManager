@@ -519,7 +519,7 @@ BY title";
               // FILES
               // ------------------------------------------------------------------------
 
-              $sql_files = "SELECT `idFile` as fid, `filename`, SUBSTRING(MD5(`filename`),1,5) as `check`, `size`, `creation`, `visible` FROM Files WHERE idSection = $sid ORDER BY `filename`";
+              $sql_files = "SELECT `idFile` as fid, `filename`, SUBSTRING(MD5(`filename`),1,5) as `check`, `size`, `creation`, `visible`, `description` FROM Files WHERE idSection = $sid ORDER BY `filename`";
               $exe_files = mysql_query( $sql_files, $myrmconn) or print(mysql_error());
 
               $num_files = mysql_num_rows($exe_files);
@@ -538,6 +538,7 @@ BY title";
                     $creation = $linha2['creation'];
                     $visible  = $linha2['visible']; // -1 is public, 0 is section visible, other values are private user id
                     $check    = $linha2['check'];
+                    $details  = $linha2['description'];
 
                     echo "<li> <a href=\"./files/a$area_id/r$rid/s$sid/$filename\">$filename</a> ";
                     if (file_exists("./files/a$area_id/r$rid/s$sid/$filename"))
@@ -561,6 +562,7 @@ BY title";
                     $fdtime = date("Y-m-d H:i", $numdatetime);
 
                     //echo "<i>Uploaded by <b>".getUserNameByUserId($uploadu)."</b> on <b>$fdtime</b></i> (";
+                    echo "<b>description:</b><i>\"$details\"</i> ";                       
                     echo "<i><b>visible to:</b> ";
                     if($visible==-1)
                       echo "public";
@@ -578,6 +580,7 @@ BY title";
                  echo "<label>Send File:</label>";
                  echo "<input type=\"hidden\" value=\"$sid\" name=\"sid\">";
                  echo "<input type=\"file\" name=\"arquivo\">";
+                 echo "<input type=\"text\" value=\"description\" name=\"description\">";
                  echo "<input type=\"submit\" value=\"Send file\" name=\"bt_send_file\">"; 
                  echo "</form>";
               }

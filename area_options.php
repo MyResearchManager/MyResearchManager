@@ -139,7 +139,7 @@ Title: <input type="text" value="Research Area" name="bname" size="60"><br>
    $limit = 10;
    echo " (<i>LIMIT=$limit</i>)<br>";
 ?>
-<table>
+<table border="1">
 <tr><td><b>Date</b></td><td><b>What</b></td></tr>
 <?php
 

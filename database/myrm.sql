@@ -55,6 +55,7 @@ CREATE TABLE IF NOT EXISTS `DynamicTables` (
 CREATE TABLE IF NOT EXISTS `Files` (
   `idFile` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `filename` varchar(150) NOT NULL,
+  `description` varchar(255) NOT NULL,
   `size` int(10) unsigned NOT NULL,
   `creation` datetime NOT NULL,
   `visible` int(1) NOT NULL,

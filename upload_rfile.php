@@ -18,6 +18,10 @@
    if ($sid < 1)
         header("Location: myrm.php");
 
+   $description = "";
+   if(isset($_POST["description"]))
+      $description = $_POST["description"];
+
    include "util.php";
 
    $rid = getResearchIdBySectionId($sid);
@@ -115,7 +119,7 @@
          $fullfile = $_UP['dir'].$finalname;
          $md5 = md5_file($fullfile);
 
-         $sql = "INSERT INTO Files (`filename`, `size`, `checksum`, `creation`, `visible`, `idSection`) VALUES ('$finalname', '$filesize', '$md5', NOW(), '0', '$sid')";
+         $sql = "INSERT INTO Files (`filename`, `description`, `size`, `checksum`, `creation`, `visible`, `idSection`) VALUES ('$finalname', '$description', '$filesize', '$md5', NOW(), '0', '$sid')";
          $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
          $fid = mysql_insert_id();
 
