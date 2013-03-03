@@ -13,6 +13,11 @@
 <?php
    include "connection.php";
 
+   if(!isset($_GET["email"])
+      die("ERROR: installation script should be run informing the email address \"$myrm_site/install.php?email=user_email\"");
+
+   $email = $_GET["email"];
+
    $sql = "CREATE TABLE IF NOT EXISTS Testes ( idTeste varchar(255) )";
    $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
    if(!$exe)
@@ -62,8 +67,7 @@
    echo "<br><b>Okay! Will add a admin user</b><br>";
 
    $salt = substr(md5(uniqid(rand(), true)), 0, 4);
-   $email = "admin@local";
-   $pwd   = "12345";
+   $pwd  = md5(uniqid(rand(), true));
    $sql = "INSERT INTO Users (`name`, `email`, `password`, `salt`, `confirmationCode`) VALUES ('$email', '$email', MD5(CONCAT('$pwd','$salt')), '$salt', MD5(RAND()))";
    $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
 
