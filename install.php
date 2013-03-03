@@ -76,7 +76,11 @@
 
    echo "Finished configuration with email: '$email' and password '$pwd'<br>";
 
-   echo "<h1>PLEASE REMOVE \"install.php\" FROM YOUR SERVER!</h1>";
+   if(!unlink("install.php"))
+      echo "<h1>PLEASE REMOVE \"install.php\" FROM YOUR SERVER!</h1>";
+   else
+      echo "<h1>Everything fine! Good luck!</h1>";
+
 ?>
 
 </body>
