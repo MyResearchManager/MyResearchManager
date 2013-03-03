@@ -3,15 +3,15 @@
 
     require_once("util.php");
 
-    $version = "0.2";
+    $version = "0.3";
 
     $rid = "";
-    $sid = "";
-    $code = "";
+    $shash = "";
+    $usercode = "";
  
-    if(isset($_GET["sid"]) && isset($_GET["usercode"]))
+    if(isset($_GET["shash"]) && isset($_GET["usercode"]))
     {
-        $sid = $_GET["sid"];
+        $shash = $_GET["shash"];
         $usercode = $_GET["usercode"];
         
         //echo $usercode;
@@ -38,7 +38,7 @@
         // ================================================
 
         $sql = "SELECT S.`idSection` as sid, S.`title` as sname FROM Sections as S, SectionMembers as SM, Researches as R, ResearchMembers as RM WHERE 
-                   S.idSection=$sid AND ((SM.idUser=$uid AND S.idSection=SM.idSection) OR (RM.idUser=$uid AND R.idResearch=RM.idResearch AND S.idResearch=R.idResearch))";
+                   S.shash='$shash' AND ((SM.idUser=$uid AND S.idSection=SM.idSection) OR (RM.idUser=$uid AND R.idResearch=RM.idResearch AND S.idResearch=R.idResearch))";
         $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
 
         $sid_auth = -1;
@@ -60,10 +60,10 @@
         echo "$version\n";
         echo "$sname\n";
 
-        $rid = getResearchIdBySectionId($sid);
+        $rid = getResearchIdBySectionId($sid_auth);
         $aid = getAreaIdByResearchId($rid);
 
-        $sql = "SELECT filename, checksum FROM Files WHERE idSection='$sid'";
+        $sql = "SELECT filename, checksum FROM Files WHERE idSection='$sid_auth'";
         $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
         $nfiles = mysql_num_rows($exe);
 
@@ -73,7 +73,7 @@
         {
             $filename = $row['filename']; 
             $md5 = $row['checksum']; 
-            echo "$myrm_domain_name/myrm/files/a$aid/r$rid/s$sid/$filename\n";
+            echo "$myrm_site/files/a$aid/r$rid/s$sid_auth/$filename\n";
             echo "$md5\n";
         }
     }
@@ -132,7 +132,7 @@
         echo "$aname-$rname\n";
 
 
-        $sql = "SELECT S.`idSection` as sid FROM Sections as S WHERE S.idResearch=$rid";
+        $sql = "SELECT S.`shash` as shash FROM Sections as S WHERE S.idResearch=$rid";
         $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
 
         $nsections = mysql_num_rows($exe);
@@ -141,8 +141,8 @@
 
         while($row = mysql_fetch_array($exe))
         {
-            $sid = $row['sid']; 
-            echo "$sid\n";
+            $shash = $row['shash']; 
+            echo "$shash\n";
         }
     }
     else if(isset($_GET["usercode"])) // GET ALL RESEARCHES

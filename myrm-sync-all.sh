@@ -3,7 +3,7 @@
 usercode=$1
 myrmserver=$2
 
-version="0.2"
+version="0.3"
 
 if [ "$usercode" == "" ]
 then
@@ -42,5 +42,7 @@ for ((i=1; i<=$nresearches; i++)); do
   rid=$(head -n $((2+$i)) $alldata | tail -1)
   ./myrm-sync-research.sh $rid $usercode $myrmserver
 done
+
+rm $alldata
 
 echo "Finished All Sync from MyResearchManager"

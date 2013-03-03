@@ -1,14 +1,14 @@
 #!/bin/bash
 
-sid=$1
+shash=$1
 usercode=$2
 myrmserver=$3
 
-version="0.2"
+version="0.3"
 
-if [ "$sid" == "" ]
+if [ "$shash" == "" ]
 then
-   echo "Missing section id! Aborting..."
+   echo "Missing section hash! Aborting..."
    exit 1
 fi
 
@@ -42,7 +42,7 @@ echo "Get section data from server" >> $logfile
 date +"%c" >> $logfile
 echo "============================" >> $logfile
 
-wget -O $sectiondata "$myrmserver/sync.php?usercode=$usercode&sid=$sid" 
+wget -O $sectiondata "$myrmserver/sync.php?usercode=$usercode&shash=$shash" 
 
 serverversion=$(head -n 1 $sectiondata | tail -1)
 if [ "$serverversion" == "$version" ]
@@ -95,6 +95,8 @@ for ((i=0; i<$nfiles; i++)); do
      mv "$localfile" "$sname/$localfile"
   fi
 done
+
+rm $sectiondata
 
 echo "================"
 echo "Finished Section"

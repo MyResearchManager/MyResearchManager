@@ -4,7 +4,7 @@ rid=$1
 usercode=$2
 myrmserver=$3
 
-version="0.2"
+version="0.3"
 
 if [ "$rid" == "" ]
 then
@@ -48,11 +48,13 @@ nsections=$(head -n 3 $researchdata | tail -1)
 echo "Research id: $rid with name: \"$rname\" and $nsections sections."
 
 for ((i=1; i<=$nsections; i++)); do
-  sid=$(head -n $((3+$i)) $researchdata | tail -1)
+  shash=$(head -n $((3+$i)) $researchdata | tail -1)
   echo "Entering directory \"$rname\""
   cd "$rname"
-  ../myrm-sync-section.sh $sid $usercode $myrmserver
+  ../myrm-sync-section.sh $shash $usercode $myrmserver
   cd ..
 done
+
+rm $researchdata
 
 echo "Finished Research"

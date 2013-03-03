@@ -1,5 +1,13 @@
 README -- My Research Manager
 
+This is MyResearchManager, license AGPLv3.
+
+Known bugs:
+* After creating a new research, the user has to create and delete one section if he wishes to delete the research;
+* Linux sync won't synchronize sections where user doesn't belong to the research.
+
+===========
+
 English:
 MyResearchManager is a distributed Web platform for research data management. 
 
