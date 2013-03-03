@@ -807,6 +807,7 @@ BY title";
                  echo "<input type=\"submit\" value=\"Create a new section\" name=\"bt_sec_create\">";
                  echo "<input type=\"hidden\" value=\"$rid\" name=\"rid\">";
                  echo "<input type=\"text\" value=\"Title\" name=\"stitle\">";
+                 echo "Sync path:<input type=\"text\" value=\"\" name=\"ssync\">";
                  echo "<i> (create a new section for a conference, journal or group of technical reports)</i>";
                  echo "</form>\n";
               }
