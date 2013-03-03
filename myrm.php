@@ -467,7 +467,7 @@ BY title";
                        echo "<form name=\"frm_impdate_create\" method=\"post\" action=\"important_create.php\">";
                        echo "<input type=\"submit\" value=\"Create important date\" name=\"bt_impdate_create\">";
                        echo "<input type=\"hidden\" value=\"$sid\" name=\"sid\">";
-                       echo "<input type=\"text\" value=\"Remember\" name=\"description\">";
+                       echo "Description:<input type=\"text\" value=\"Remember\" name=\"description of file\">";
                        echo "Date: <input type=\"text\" value=\"".date("Y-m-d")."\"name=\"idate\" size='10'>";
                        echo "Time: <input type=\"text\" value=\"23:59\" name=\"itime\" size='8'>";
                        echo "</form>";
