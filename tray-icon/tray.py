@@ -1,14 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
-
-# [SNIPPET_NAME: Systray icon]
-# [SNIPPET_CATEGORIES: PyGTK]
-# [SNIPPET_DESCRIPTION: Shows a system tray icon with a menu  ]
-# [SNIPPET_AUTHOR: João Pinto <joao.pinto@getdeb.net>]
-# [SNIPPET_LICENSE: GPL]
-#
-
-
 import gtk
 import pycurl
 import cStringIO
