@@ -71,6 +71,22 @@ function deleteresearch(rid)
 }
 //-->
 //<!--
+function deleteschedule(hid)
+{
+   var answer = confirm("Deleting schedule. Are you sure?")
+   if(answer)
+      window.location = "schedule_delete.php?hid="+hid;
+}
+//-->
+//<!--
+function deletetask(tid)
+{
+   var answer = confirm("Deleting task. Are you sure?")
+   if(answer)
+      window.location = "task_delete.php?tid="+tid;
+}
+//-->
+//<!--
 function deletepublication(pid)
 {
    var answer = confirm("Deleting publication. Are you sure?")
@@ -354,7 +370,7 @@ BY title";
                        }
 
                        echo "<table border=\"1\">\n";
-                       echo "<tr><td><b>Title</b><td><td><b>Period</b></td></tr>\n";
+                       echo "<tr><td><b>Title</b></td> <td><b>#Messages</b></td> <td><b>Period</b></td></tr>\n";
                        $sql_task = "SELECT `idTask` as tid, `title`, `begin`, `end` FROM Tasks WHERE idSchedule = $hid ORDER BY `begin`";
                        $exe_task = mysql_query( $sql_task, $myrmconn) or print(mysql_error());
 
@@ -367,7 +383,12 @@ BY title";
                              $begin  = $line_task['begin'];
                              $end    = $line_task['end'];
 
-                             echo "<tr><td><a href=\"task_view.php?tid=$tid\">$ttitle</a><td><td>$begin - $end</td></tr>\n";
+                             require_once("util.php");
+
+                             echo "<tr><td><a href=\"task_view.php?tid=$tid\">$ttitle</a>";
+                             if($edit==1)
+                                echo " (<a href=\"#\" onclick=\"deletetask($tid)\">delete</a>) ";
+                             echo "</td> <td>".getNumMessagesByTaskId($tid)."</td> <td>$begin - $end</td></tr>\n";
                           }
                        }
                        echo "</table><br>\n";

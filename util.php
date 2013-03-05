@@ -195,5 +195,62 @@ function getTitleByPublicationId($pid)
       return $title;
 }
 
+// ==================
+//     Schedules
+// ==================
+
+function getScheduleIdByTaskId($tid)
+{
+      include "connection.php"; 
+
+      $hid = -1;
+      $sql = "SELECT idSchedule as hid FROM Tasks WHERE idTask = $tid";
+      $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+      if($exe != null)
+          if($line = mysql_fetch_array($exe))
+              $hid = $line['hid'];
+      return $hid;
+}
+
+function getResearchIdByScheduleId($hid)
+{
+      include "connection.php"; 
+
+      $rid = -1;
+      $sql = "SELECT idResearch as hid FROM Schedules WHERE idSchedule = $hid";
+      $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+      if($exe != null)
+          if($line = mysql_fetch_array($exe))
+              $rid = $line['rid'];
+      return $rid;
+}
+
+
+function getTaskIdByMessageId($mid)
+{
+      include "connection.php"; 
+
+      $tid = -1;
+      $sql = "SELECT idTask as tid FROM TaskMessages WHERE idTaskMessage = $mid";
+      $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+      if($exe != null)
+          if($line = mysql_fetch_array($exe))
+              $tid = $line['tid'];
+      return $tid;
+}
+
+
+function getNumMessagesByTaskId($tid)
+{
+      include "connection.php"; 
+
+      $count = 0;
+      $sql = "SELECT count(*) as `count` FROM TaskMessages WHERE idTask = $tid";
+      $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+      if($exe != null)
+          if($line = mysql_fetch_array($exe))
+              $count = $line['count'];
+      return $count;
+}
 
 ?>

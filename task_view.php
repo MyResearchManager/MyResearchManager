@@ -50,7 +50,7 @@
       echo "<b>End:</b> $end <br>";
 
       echo "<b>Messages:</b>";
-      $sql = "SELECT TM.`when` as `when`, TM.message as message, U.name as name, U.uhash as uhash FROM TaskMessages as TM, Users as U WHERE TM.idTask = $tid AND TM.idUser = U.idUser ORDER BY `when`";
+      $sql = "SELECT TM.idTaskMessage as mid, TM.`when` as `when`, TM.message as message, U.name as name, U.uhash as uhash FROM TaskMessages as TM, Users as U WHERE TM.idTask = $tid AND TM.idUser = U.idUser ORDER BY `when`";
       $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
       $nmsg = mysql_num_rows($exe);
 
@@ -59,12 +59,16 @@
       if($exe != null)
           while($line = mysql_fetch_array($exe))
           {
+              $mid     = $line['mid'];
               $when    = $line['when'];
               $message = $line['message'];
               $name    = $line['name'];
               $uhash   = $line['uhash'];
 
-              echo "<br>User <a href=\"user.php?uhash=$uhash\">$name</a> wrote in $when: <br>";
+              echo "<br>User <a href=\"user.php?uhash=$uhash\">$name</a> wrote in $when:";
+              if($edit==1)
+                  echo " (<a href=\"message_delete.php?mid=$mid\">delete</a>) ";
+              echo "<br>";
               echo nl2br($message);
               echo "<br><hr>";
           }
