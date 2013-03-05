@@ -320,6 +320,88 @@ BY title";
 
 
               // ========================================================================
+              // begin schedules
+              // ========================================================================
+
+              if($userInResearch)
+              {
+                 $sql_sch = "SELECT `idSchedule` as hid, `title`, `description` FROM Schedules WHERE idResearch = $rid ORDER BY `title`";
+                 $exe_sch = mysql_query( $sql_sch, $myrmconn) or print(mysql_error());
+                 if(($re==1) && ($exe_sch != null) ) // if research is expanded!
+                 {
+                    while($line_sch = mysql_fetch_array($exe_sch))
+                    { 
+                       $hid    = $line_sch['hid'];
+                       $htitle = $line_sch['title'];
+                       $hdesc  = $line_sch['description'];
+
+                       echo "<a name=\"h$hid\"><hr></a>";
+
+                       if($edit==0)
+                       {
+                          echo "<b>Schedule:</b> $htitle ";
+                       }
+                       else
+                       {
+                          echo "<form name=\"frm_schedule_rename\" method=\"post\" action=\"schedule_rename.php\">";
+                          echo "<input type=\"hidden\" value=\"$hid\" name=\"hid\">";
+                          echo "<b>Schedule:</b><input type=\"text\" value=\"$htitle\" name=\"title\">";
+                          echo "<input type=\"submit\" value=\"Rename\" name=\"bt_schedule_rename\">";
+
+                          echo "(<a href=\"#\" onclick=\"deleteschedule($hid)\">delete</a>)";
+
+                          echo "</form>";
+                       }
+
+                       echo "<table border=\"1\">\n";
+                       echo "<tr><td><b>Title</b><td><td><b>Period</b></td></tr>\n";
+                       $sql_task = "SELECT `idTask` as tid, `title`, `begin`, `end` FROM Tasks WHERE idSchedule = $hid ORDER BY `begin`";
+                       $exe_task = mysql_query( $sql_task, $myrmconn) or print(mysql_error());
+
+                       if($exe_task)
+                       {
+                          while($line_task = mysql_fetch_array($exe_task))
+                          {
+                             $tid    = $line_task['tid'];
+                             $ttitle = $line_task['title'];
+                             $begin  = $line_task['begin'];
+                             $end    = $line_task['end'];
+
+                             echo "<tr><td><a href=\"task_view.php?tid=$tid\">$ttitle</a><td><td>$begin - $end</td></tr>\n";
+                          }
+                       }
+                       echo "</table><br>\n";
+
+
+                       if($edit==1)
+                       {
+                          echo "<form name=\"frm_task_create\" method=\"post\" action=\"task_create.php\">";
+                          echo "<input type=\"submit\" value=\"Create a new task\" name=\"bt_task_create\">";
+                          echo "<input type=\"hidden\" value=\"$hid\" name=\"hid\">";
+                          echo "<input type=\"text\" value=\"Title\" name=\"ttitle\">";
+                          echo "begin: <input type=\"text\" value=\"".date("Y-m-d")."\"name=\"begin\" size='10'>";
+                          echo "end: <input type=\"text\" value=\"".date("Y-m-d")."\"name=\"end\" size='10'>";
+                          echo "</form>\n";
+                       }
+
+
+                    } 
+                 }
+
+
+
+                 if($edit==1)
+                 {
+                    echo "<form name=\"frm_sch_create\" method=\"post\" action=\"schedule_create.php\">";
+                    echo "<input type=\"submit\" value=\"Create a new schedule\" name=\"bt_sch_create\">";
+                    echo "<input type=\"hidden\" value=\"$rid\" name=\"rid\">";
+                    echo "<input type=\"text\" value=\"Title\" name=\"htitle\">";
+                    echo "</form>\n";
+                 }
+
+              } // finish schedules
+
+              // ========================================================================
               // begin sections
               // ========================================================================
 
