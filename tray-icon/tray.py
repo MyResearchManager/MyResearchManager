@@ -4,14 +4,25 @@ import cStringIO
 import md5
 
 
+class MyDial(gtk.MessageDialog):
+    def __init__(self, window, message_type, title, message):
+         dial = gtk.MessageDialog(window, gtk.DIALOG_DESTROY_WITH_PARENT,message_type,gtk.BUTTONS_OK,title)
+         dial.format_secondary_text(message)
+         dial.run()
+         dial.destroy()           
+
 class PreferencesDialog(gtk.Window):
     def on_cancel_clicked(self,widget,window):
             window.destroy()
 
     def on_apply_clicked(self,widget,window,avatar,url,userCode,location,time):
         
-        if userCode.get_text() == "":
-            gtk.MessageDialog("The user code has to be filled",window).run()
+        if url.get_text() == "":
+            MyDial(window, gtk.MESSAGE_ERROR, "Error", "Invalid url")
+            url.grab_focus()
+        elif userCode.get_text() == "":
+            MyDial(window, gtk.MESSAGE_ERROR, "Error", "The user code has to be filled")
+            userCode.grab_focus()
         else:
             # get the home directory
             from os.path import expanduser
@@ -47,6 +58,9 @@ class PreferencesDialog(gtk.Window):
                 config.write(userCode.get_text()+"\n")
                 config.write(location.get_text()+"\n")
                 config.write(str(time.get_value()))
+
+                MyDial(window, gtk.MESSAGE_INFO, "OK", "Preferences saved")
+                window.destroy()
             except:
                 dial = gtk.MessageDialog(window, gtk.DIALOG_DESTROY_WITH_PARENT,gtk.MESSAGE_ERROR,gtk.BUTTONS_OK,"Error")
                 dial.format_secondary_text("Invalid url")
@@ -76,10 +90,6 @@ class PreferencesDialog(gtk.Window):
         preference_window.set_icon_from_file("myrm.ico");
         cancel_button = preference_window.add_button(gtk.STOCK_CANCEL,gtk.RESPONSE_CANCEL)
         apply_button = preference_window.add_button(gtk.STOCK_APPLY,gtk.RESPONSE_ACCEPT) 
-        #cancel_button = gtk.Button(gtk.STOCK_CANCEL)
-        #cancel_button.set_use_stock(True)
-        #apply_button = gtk.Button(gtk.STOCK_APPLY)
-        #apply_button.set_use_stock(True)
 
         #get the home directory
         from os.path import expanduser
@@ -167,12 +177,8 @@ class PreferencesDialog(gtk.Window):
         table.attach(time_button,2,3,4,5)
         table.attach(time_min_label,3,4,4,5)
 
-        #buttons
-        #table.attach(cancel_button,5,6,5,6)
-        #table.attach(apply_button,6,7,5,6)
         workspace.pack_start(table)                
 
-        #preference_window.add(table)
         preference_window.set_title("MyResearchManager Preferences")
         preference_window.show_all()
         preference_window.run()
@@ -194,6 +200,12 @@ class SystrayIconApp:
     def make_menu(self, event_button, event_time):
         menu = gtk.Menu()
 
+        # show update dialog
+        sync = gtk.ImageMenuItem(gtk.STOCK_REFRESH,"Synchronize")
+        sync.show()
+        menu.append(sync)
+        #sync.connect('activate', self.show_preferences)
+    
         # show preferences dialog
         preferences = gtk.ImageMenuItem(gtk.STOCK_PREFERENCES,"Preferences")
         preferences.show()
