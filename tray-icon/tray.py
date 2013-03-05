@@ -8,36 +8,51 @@ class PreferencesDialog(gtk.Window):
     def on_cancel_clicked(self,widget,window):
             window.destroy()
 
-    def on_apply_clicked(self,widget,avatar,url,userCode):
+    def on_apply_clicked(self,widget,window,avatar,url,userCode,location,time):
+        
         if userCode.get_text() == "":
-            MessageDialog("The user code has to be filled").run()
+            gtk.MessageDialog("The user code has to be filled",window).run()
         else:
+            # get the home directory
             from os.path import expanduser
             home = expanduser("~")
+
+            #get the e-mail using the usercode
             buf = cStringIO.StringIO()
- 
-            c = pycurl.Curl()
-            c.setopt(c.URL, url.get_text()+'/user_email.php?usercode='+userCode.get_text())
-            c.setopt(c.WRITEFUNCTION, buf.write)
-            c.perform()
- 
-            mail = buf.getvalue()
-            buf.close()
-            print mail
-            m = md5.new(mail).hexdigest()
-            print m
-
-            c2 = pycurl.Curl()
-            fp = open(home+"/.avatar", "wb")
-            c2 = pycurl.Curl()
-            c2.setopt(pycurl.URL, 'http://www.gravatar.com/avatar/'+m)
-            c2.setopt(pycurl.WRITEDATA, fp)
-            c2.perform()
-            c2.close()
-            fp.close()
-
-            avatar.set_from_file(home+"/.avatar")
-            print home
+            try:            
+                c = pycurl.Curl()
+                c.setopt(c.URL, url.get_text()+'/user_email.php?usercode='+userCode.get_text())
+                c.setopt(c.WRITEFUNCTION, buf.write)
+                c.perform()
+                #read e-mail
+                mail = buf.getvalue()
+                buf.close()
+                #get md5 from e-mail
+                m = md5.new(mail).hexdigest()
+                #get the gravatar avatar and write image file in home directory
+                c2 = pycurl.Curl()
+                fp = open(home+"/.avatar", "wb")
+                c2 = pycurl.Curl()
+                c2.setopt(pycurl.URL, 'http://www.gravatar.com/avatar/'+m)
+                c2.setopt(pycurl.WRITEDATA, fp)
+                c2.perform()
+                c2.close()
+                fp.close()
+                # update avatar image
+                avatar.set_from_file(home+"/.avatar")
+            
+                #write the configuration file
+                config = open(home+"/.myrm","w")
+                config.write(url.get_text()+"\n")
+                config.write(userCode.get_text()+"\n")
+                config.write(location.get_text()+"\n")
+                config.write(str(time.get_value()))
+            except:
+                dial = gtk.MessageDialog(window, gtk.DIALOG_DESTROY_WITH_PARENT,gtk.MESSAGE_ERROR,gtk.BUTTONS_OK,"Error")
+                dial.format_secondary_text("Invalid url")
+                dial.run()
+                dial.destroy()
+            
 
     def on_dir_clicked(self,widget,location_entry):
         dir_selection = gtk.FileChooserDialog("Directory choice", self, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
@@ -55,13 +70,18 @@ class PreferencesDialog(gtk.Window):
     def __init__(self):
         preference_window = gtk.Dialog()
         preference_window.set_destroy_with_parent (True)
-        preference_window.set_size_request(490, 200)
+        preference_window.set_size_request(550, 200)
         preference_window.set_resizable(False)
         preference_window.set_position(gtk.WIN_POS_CENTER)
         preference_window.set_icon_from_file("myrm.ico");
         cancel_button = preference_window.add_button(gtk.STOCK_CANCEL,gtk.RESPONSE_CANCEL)
         apply_button = preference_window.add_button(gtk.STOCK_APPLY,gtk.RESPONSE_ACCEPT) 
+        #cancel_button = gtk.Button(gtk.STOCK_CANCEL)
+        #cancel_button.set_use_stock(True)
+        #apply_button = gtk.Button(gtk.STOCK_APPLY)
+        #apply_button.set_use_stock(True)
 
+        #get the home directory
         from os.path import expanduser
         home = expanduser("~")
 
@@ -71,7 +91,7 @@ class PreferencesDialog(gtk.Window):
         workspace = preference_window.get_content_area()
 
         #table to align objects
-        table = gtk.Table(7,8,True)
+        table = gtk.Table(5,8,True)
             
         website_label = gtk.Label("<b>Url</b>")
         website_label.set_use_markup(True)
@@ -102,8 +122,30 @@ class PreferencesDialog(gtk.Window):
 
         #buttons actions
         cancel_button.connect("clicked",self.on_cancel_clicked,preference_window)
-        apply_button.connect("clicked",self.on_apply_clicked,avatar,website_entry,code_entry)
+        apply_button.connect("clicked",self.on_apply_clicked,preference_window,avatar,website_entry,code_entry,location_entry,time_button)
 
+        #read the configuration file
+        try:
+            config = open(home+"/.myrm","r")
+            url = config.readline()
+            url = url.rstrip('\n')
+            website_entry.set_text(url)
+            usercode = config.readline()
+            usercode = usercode.rstrip('\n')
+            code_entry.set_text(usercode)
+            directory = config.readline()
+            directory = directory.rstrip('\n')
+            location_entry.set_text(directory)
+            time = config.readline()
+            time = time.rstrip('\n')
+            time_button.set_value(float(time))
+        except IOError:
+            #writing default configuration
+            config = open(home+"/.myrm","w")
+            config.write("Put your url here\nPut your user code here\n"+home+"/myrm\n30")
+        finally:
+            config.close()
+        
         #add avatar image
         table.attach(avatar,6,7,0,3)
                     
@@ -125,7 +167,9 @@ class PreferencesDialog(gtk.Window):
         table.attach(time_button,2,3,4,5)
         table.attach(time_min_label,3,4,4,5)
 
-
+        #buttons
+        #table.attach(cancel_button,5,6,5,6)
+        #table.attach(apply_button,6,7,5,6)
         workspace.pack_start(table)                
 
         #preference_window.add(table)
