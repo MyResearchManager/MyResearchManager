@@ -4,16 +4,19 @@
 
    include "connection.php";
 
-   require_once('captcha/recaptchalib.php');
-   $resp = recaptcha_check_answer ($recaptcha_private_key,
+   if($use_recaptcha)
+   {
+      require_once('captcha/recaptchalib.php');
+      $resp = recaptcha_check_answer ($recaptcha_private_key,
                                 $_SERVER["REMOTE_ADDR"],
                                 $_POST["recaptcha_challenge_field"],
                                 $_POST["recaptcha_response_field"]);
 
-   if (!$resp->is_valid) 
-   {
-      die ("The reCAPTCHA wasn't entered correctly. <a href=\"login.php\">Go back</a> and try it again.");// . "(reCAPTCHA said: " . $resp->error . ")");
-      //header("Location: login.php");
+      if (!$resp->is_valid) 
+      {
+         die ("The reCAPTCHA wasn't entered correctly. <a href=\"login.php\">Go back</a> and try it again.");// . "(reCAPTCHA said: " . $resp->error . ")");
+         //header("Location: login.php");
+      }
    }
 
    $login = "";
