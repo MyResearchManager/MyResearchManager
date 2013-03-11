@@ -280,10 +280,11 @@ BY title";
               if(($re==1) && ($edit==1))
               {
                    echo "<li>";
-                   echo "<form name=\"frm_research_rename\" method=\"post\" action=\"research_rename.php\">";
+                   echo "<form style=\"display:inline\" name=\"frm_research_rename\" method=\"post\" action=\"research_rename.php\">";
                    echo "<input type=\"hidden\" value=\"$rid\" name=\"rid\">";
                    echo "<input type=\"text\" value=\"".$line_research['title']."\" name=\"title\">";
                    echo "<input type=\"submit\" value=\"Rename\" name=\"bt_research_rename\">";
+                   echo "</form>";
               }
               else
                   echo "<li> <b> <a href=\"research.php?rid=$rid\"> $line_research[title]</a> </b>";
@@ -325,11 +326,11 @@ BY title";
 
                  if(($re==1) && ($edit==1) && $userInResearch)
                  {
-                     echo "<form name=\"frm_research_add_user\" method=\"post\" action=\"research_add_user.php\">";
+                     echo "\n<form style=\"display:inline\" name=\"frm_research_add_user\" method=\"post\" action=\"research_add_user.php\">";
                      echo "<input type=\"submit\" value=\"Add user to this research\" name=\"bt_research_add_user\">";
                      echo "<input type=\"hidden\" value=\"$rid\" name=\"rid\">";
                      echo "<input type=\"text\" value=\"a@b.com\" name=\"email\">";
-                     echo "</form>";
+                     echo "</form>\n";
                  }
                  else
                     echo "<br>";
