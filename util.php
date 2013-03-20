@@ -106,6 +106,20 @@ function getUserNameByUserId($user_id)
       return $uname;
 }
 
+function getUserCitationByUserId($user_id)
+{
+      include "connection.php";
+
+      $ucitation = "no-citation";
+      $sql = "SELECT citation FROM Users WHERE idUser = $user_id";
+      $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+      if($exe != null)
+          if($line = mysql_fetch_array($exe))
+              $ucitation = $line['citation'];
+
+      return $ucitation;
+}
+
 
 function getAreaIdByAreaName($area_sname)
 {

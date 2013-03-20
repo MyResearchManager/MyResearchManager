@@ -11,9 +11,13 @@
    if(isset($_POST["name"]))
       $name = $_POST["name"];
 
+   $citation = "";
+   if(isset($_POST["citation"]))
+      $citation = $_POST["citation"];
+
    include "connection.php";
 
-   $sql = "UPDATE Users SET name = '$name' WHERE idUser = '$id'";
+   $sql = "UPDATE Users SET name='$name', citation='$citation' WHERE idUser = '$id'";
    $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
 
    header("Location: profile.php");

@@ -38,20 +38,22 @@
       // incluir checagens!!
 
       $name   = "*** no title ***";
+      $name   = "*** no citation ***";
       $email  = "a@b.com";
       $active = 0;
  
-      $sql = "SELECT name, email FROM Users WHERE idUser = $uid";
+      $sql = "SELECT name, citation, email FROM Users WHERE idUser = $uid";
   
       $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
       if($exe != null)
           if($line = mysql_fetch_array($exe))
           {
               $name   = $line['name'];
+              $citation = $line['citation'];
               $email  = $line['email'];
           }
 
-      echo "<h2> $name </h2>";
+      echo "<h2> $citation </h2>";
       echo "<h3> " . recaptcha_mailhide_html($mailhide_public_key, $mailhide_private_key, $email) . " </h3>";
       echo "<br><br>";
       echo "<b>Publications</b><br>";
@@ -80,11 +82,11 @@
                        while($lauthors = mysql_fetch_array($exe2))
                        {
                           $uid1  = $lauthors['idUser'];
-                          $uname = getUserNameByUserId($uid1);
+                          $ucitation = getUserCitationByUserId($uid1);
                           $order = $lauthors['order'];
-                          echo "$uname";
+                          echo "$ucitation";
                           if($order != $num_authors)
-                             echo ", ";
+                             echo " & ";
                        }
 
             $sql2 = "SELECT F.`filename` as filename, F.`idSection` as idSection FROM PublicationFiles as PF, Files as F WHERE PF.idPublication = $pid AND PF.idFile = F.idFile ORDER BY F.`filename`";

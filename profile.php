@@ -17,16 +17,18 @@
    include "connection.php";
 
    $name     = "*** no name ***";
+   $citation = "*** no citation ***";
    $email    = "*** no email ***";
    $usercode = "no-code";
 
-   $sql = "SELECT name, email, confirmationCode FROM Users WHERE idUser = $id";
+   $sql = "SELECT name, citation, email, confirmationCode FROM Users WHERE idUser = $id";
   
    $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
    if($exe != null)
        if($line = mysql_fetch_array($exe)) // should be while!
        {
           $name      = $line['name'];
+          $citation  = $line['citation'];
           $email     = $line['email'];
           $usercode  = $line['confirmationCode'];
        }
@@ -51,10 +53,12 @@
 <hr><hr>
 
 <b>Name:  <?php echo $name;  ?> </b> <br>
+<b>Citation:  <?php echo $citation;  ?> </b> <br>
 
 <form name="frm_change_name" method="post" action="change_name.php">
 <?php
   echo "New name: <input type=\"text\" value=\"$name\" name=\"name\"><br>";
+  echo "New citation: <input type=\"text\" value=\"$citation\" name=\"citation\"><br>";
 ?>
 <input type="submit" value="Change name" name="bt_change_name">
 </form>
