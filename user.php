@@ -80,6 +80,8 @@
               else
                   echo "ERROR-NO-PUBLICATION-TYPE ";
 
+              echo "(<a href=\"generate_bibtex.php?pid=$pid\">bibtex</a>)";
+
               echo "<br>\n";
               echo "<b>Authors:</b> ";
 
