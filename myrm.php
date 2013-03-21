@@ -714,7 +714,7 @@ BY title";
               $num_publications = mysql_num_rows($exe);
        	      if( ($num_publications > 0) || ($edit==1) )
               {
-                 echo "<br><b>Publications</b><br>";
+                 echo "<br><b>Journal Publications</b><br>";
                  echo "<ul>";
               }
 
