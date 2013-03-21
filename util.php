@@ -267,4 +267,35 @@ function getNumMessagesByTaskId($tid)
       return $count;
 }
 
+
+// =================
+//    Publication
+// =================
+
+function getConferencePublicationIdByPublicationId($pid)
+{
+      include "connection.php"; 
+
+      $cpid = -1;
+      $sql = "SELECT idConferencePublication as cpid FROM ConferencePublications WHERE idPublication = $pid";
+      $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+      if($exe != null)
+          if($line = mysql_fetch_array($exe))
+              $cpid = $line['cpid'];
+      return $cpid;
+}
+
+function getJournalPublicationIdByPublicationId($pid)
+{
+      include "connection.php"; 
+
+      $jpid = -1;
+      $sql = "SELECT idJournalPublication as jpid FROM JournalPublications WHERE idPublication = $pid";
+      $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+      if($exe != null)
+          if($line = mysql_fetch_array($exe))
+              $jpid = $line['jpid'];
+      return $jpid;
+}
+
 ?>

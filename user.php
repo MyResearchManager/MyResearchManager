@@ -58,7 +58,7 @@
       echo "<br><br>";
       echo "<b>Publications</b><br>";
 
-      $sql = "SELECT P.idPublication as pid, P.`title` as title, P.`date` as pdate, P.`journal` as journal FROM Publications as P, PublicationMembers as PM WHERE P.idPublication=PM.idPublication and PM.idUser = $uid ORDER BY pdate DESC";
+      $sql = "SELECT P.idPublication as pid, P.`title` as title, P.`year` as pyear FROM Publications as P, PublicationMembers as PM WHERE P.idPublication=PM.idPublication and PM.idUser = $uid ORDER BY pyear DESC";
 
       echo "<ul>\n";  
       $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
@@ -67,10 +67,20 @@
           {
               $pid     = $line['pid'];
               $title   = $line['title'];
-              $pdate   = $line['pdate'];
-              $journal = $line['journal'];
+              $pyear   = $line['pyear'];
+              $cpid = getConferencePublicationIdByPublicationId($pid);
+              $jpid = getJournalPublicationIdByPublicationId($pid);
 
-              echo "<li>$title ($pdate) - <i>$journal</i><br>\n";
+              echo "<li>$title (year: $pyear) - ";
+
+              if($cpid > 0)
+                  echo "Conference ";
+              else if($jpid > 0)
+                  echo "Journal ";
+              else
+                  echo "ERROR-NO-PUBLICATION-TYPE ";
+
+              echo "<br>\n";
               echo "<b>Authors:</b> ";
 
               $sql2 = "SELECT `idPublicationMember`, `order`, `idUser`, `idPublication` FROM PublicationMembers WHERE idPublication = $pid ORDER BY `order`";

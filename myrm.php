@@ -708,13 +708,13 @@ BY title";
               // PUBLICATIONS
               // ------------------------------------------------------------------------
 
-              $sql = "SELECT `idPublication` as pid, `title`, `date`, `journal`, `visible` FROM Publications WHERE idSection = $sid ORDER BY `date`";
+              $sql = "SELECT `idPublication` as pid, `title`, `year`, `visible` FROM Publications WHERE idSection = $sid ORDER BY `year`";
               $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
 
               $num_publications = mysql_num_rows($exe);
        	      if( ($num_publications > 0) || ($edit==1) )
               {
-                 echo "<br><b>Journal Publications</b><br>";
+                 echo "<br><b>Publications</b><br>";
                  echo "<ul>";
               }
 
@@ -723,13 +723,20 @@ BY title";
                  { 
                     $pid     = $line2['pid'];
                     $title   = $line2['title'];
-                    $journal = $line2['journal'];
-                    $pdate   = $line2['date'];
-                    $ndt = strtotime($pdate);
-                    $fdtime = date("F d Y", $ndt);
+                    $year    = $line2['year'];
                     $visible = $line2['visible']; // -1 is public, 0 is section visible, other values are private user id
 
-                    echo "<li> $title ($fdtime) - <i>$journal</i> ";
+                    $cpid = getConferencePublicationIdByPublicationId($pid);
+                    $jpid = getJournalPublicationIdByPublicationId($pid);
+
+                    echo "<li> $title (year: $year) - ";//"CPID:$cpid JPID:$jpid - ";
+                    if($cpid > 0)
+                       echo "Conference ";
+                    else if($jpid > 0)
+                       echo "Journal ";
+                    else
+                       echo "ERROR-NO-PUBLICATION-TYPE ";
+
                     if($edit==1)
                        echo "(<a href=\"#\" onclick=\"deletepublication($pid)\">delete</a>)";
 
@@ -829,14 +836,21 @@ BY title";
                  echo "<label>Create publication:</label>";
                  echo "<input type=\"hidden\" value=\"$sid\" name=\"sid\">";
                  echo "<input type=\"text\" name=\"title\" value=\"Title\">";
+                 echo "<input type=\"text\" name=\"year\" value=\"".date("Y")."\">";
+                 echo "<br><label>Journal:</label>";
                  echo "<input type=\"text\" name=\"journal\" value=\"Journal\">";
+                 echo "<input type=\"submit\" value=\"Create journal publication\" name=\"bt_journal_publication_create\">";
+                 echo "<br><label>Conference:</label>";
+                 echo "<input type=\"text\" name=\"conference\" value=\"Conference\">";
+                 echo "<input type=\"text\" name=\"location\" value=\"Location\">";
                  echo "<input type=\"text\" name=\"date\" value=\"".date("Y-m-d")."\">";
-                 echo "<input type=\"submit\" value=\"Create publication\" name=\"bt_publication_create\">"; 
+                 echo "<input type=\"submit\" value=\"Create conference publication\" name=\"bt_conference_publication_create\">"; 
                  echo "</form>";
               }
 
        	      if( ($num_publications > 0) || ($edit==1) )
                  echo "</ul>"; // Publications
+
 
 
 

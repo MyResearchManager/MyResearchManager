@@ -22,5 +22,11 @@
    $sql = "DELETE FROM Publications WHERE idPublication='$pid'";
    $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
 
+   $sql = "DELETE FROM ConferencePublications WHERE idPublication='$pid'";
+   $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
+
+   $sql = "DELETE FROM JournalPublications WHERE idPublication='$pid'";
+   $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
+
    header("Location: myrm.php");
 ?>
