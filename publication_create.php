@@ -18,6 +18,10 @@
    if(isset($_POST["title"]))
       $title = $_POST["title"];
 
+   $doi = "";
+   if(isset($_POST["doi"]))
+      $doi = $_POST["doi"];
+
    $year = "";
    if(isset($_POST["year"]))
       $year = $_POST["year"];
@@ -50,7 +54,7 @@
 
    include "util.php";
 
-   $sql = "INSERT INTO Publications (`idSection`, `title`, `year`) VALUES ('$sid', '$title', '$year')";
+   $sql = "INSERT INTO Publications (`idSection`, `title`, `year`, `doi`) VALUES ('$sid', '$title', '$year', '$doi')";
    $exe = mysql_query($sql, $myrmconn) or print(mysql_error());
    $pid = mysql_insert_id();
 

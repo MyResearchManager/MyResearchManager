@@ -836,6 +836,7 @@ BY title";
                  echo "<label>Create publication:</label>";
                  echo "<input type=\"hidden\" value=\"$sid\" name=\"sid\">";
                  echo "<input type=\"text\" name=\"title\" value=\"Title\">";
+                 echo "<label>doi:</label><input type=\"text\" name=\"doi\" value=\"\">";
                  echo "<input type=\"text\" name=\"year\" value=\"".date("Y")."\">";
                  echo "<br><label>Journal:</label>";
                  echo "<input type=\"text\" name=\"journal\" value=\"Journal\">";
