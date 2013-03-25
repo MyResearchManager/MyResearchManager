@@ -272,6 +272,41 @@ function getNumMessagesByTaskId($tid)
 //    Publication
 // =================
 
+require_once("Publication.php");
+
+function getConferencePublicationByPublicationId($pid)
+{
+      include "connection.php"; 
+
+      $cp = new ConferencePublication();
+
+      // get Publication values
+      $sql = "SELECT idPublication as pid, title, year, doi FROM Publications WHERE idPublication = $pid";
+      $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+      if($exe != null)
+          if($line = mysql_fetch_array($exe))
+          {
+              $cp->idPublication = $line['pid'];
+              $cp->title = $line['title'];
+              $cp->doi   = $line['doi'];
+              $cp->year  = $line['year'];
+          }
+
+      // get ConferencePublication values
+      $sql = "SELECT idConferencePublication as cpid, conference, `date`, location FROM ConferencePublications WHERE idPublication = $pid";
+      $exe = mysql_query( $sql, $myrmconn) or print(mysql_error());
+      if($exe != null)
+          if($line = mysql_fetch_array($exe))
+          {
+              $cp->idConferencePublication = $line['cpid'];
+              $cp->conference = $line['conference'];
+              $cp->date   = $line['date'];
+              $cp->location  = $line['location'];
+          }
+
+      return $cp;
+}
+
 function getConferencePublicationIdByPublicationId($pid)
 {
       include "connection.php"; 
